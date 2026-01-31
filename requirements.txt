@@ -1,0 +1,8 @@
+requests
+pandas
+numpy
+rasterio
+xarray
+geopandas
+python-dotenv
+urllib3
