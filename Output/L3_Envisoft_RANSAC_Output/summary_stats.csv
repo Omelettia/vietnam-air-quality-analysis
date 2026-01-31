@@ -1,0 +1,11 @@
+﻿Region,City,Station,Metric,Threshold,R2,Slope,Intercept,N_Inliers,N_Total,Inlier_Pct (%)
+North,Bắc Giang,Khu liên cơ quan tỉnh Bắc Giang - P. Ngô Quyền - TP. Bắc Giang (KK),AQI,ALL,0.727,239.243,53.585,30,51,58.8
+North,Bắc Giang,Khu liên cơ quan tỉnh Bắc Giang - P. Ngô Quyền - TP. Bắc Giang (KK),AQI,U05,0.738,249.938,50.38,26,44,59.1
+North,Hà Nam,Công Viên Nam Cao - P.Quang Trung - TP. Phủ Lý (KK),AQI,ALL,0.875,127.317,44.116,18,28,64.3
+North,Hà Nam,Công Viên Nam Cao - P.Quang Trung - TP. Phủ Lý (KK),AQI,U05,0.875,127.317,44.116,18,28,64.3
+North,Hà Nội,556 Nguyễn Văn Cừ (KK),AQI,ALL,0.719,154.665,73.313,35,45,77.8
+North,Hà Nội,556 Nguyễn Văn Cừ (KK),AQI,U05,0.678,131.265,82.232,24,33,72.7
+North,Hà Nội,Công viên Nhân Chính - Khuất Duy Tiến (KK),AQI,ALL,0.618,150.838,58.972,43,57,75.4
+North,Hà Nội,Công viên Nhân Chính - Khuất Duy Tiến (KK),AQI,U05,0.604,148.171,59.056,40,53,75.5
+North,Hà Nội,ĐHBK cổng Parabol đường Giải Phóng (KK),AQI,ALL,0.708,204.132,56.775,35,44,79.5
+North,Hà Nội,ĐHBK cổng Parabol đường Giải Phóng (KK),AQI,U05,0.718,220.508,42.625,33,42,78.6

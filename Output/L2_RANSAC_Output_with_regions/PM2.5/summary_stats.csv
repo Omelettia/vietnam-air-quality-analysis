@@ -1,0 +1,53 @@
+﻿Region,City,Station,Metric,Threshold,R2,Slope,Intercept,N_Inliers,N_Total,Inlier_Pct (%)
+North,Bắc Giang,Khu liên cơ quan tỉnh Bắc Giang - P. Ngô Quyền - TP. Bắc Giang (KK),PM2.5,ALL,0.199,17.077,50.409,168,324,51.9
+North,Bắc Giang,Khu liên cơ quan tỉnh Bắc Giang - P. Ngô Quyền - TP. Bắc Giang (KK),PM2.5,U05,0.231,24.216,48.941,127,245,51.8
+North,Bắc Giang,Khu liên cơ quan tỉnh Bắc Giang - P. Ngô Quyền - TP. Bắc Giang (KK),PM2.5,U10,0.192,17.288,50.032,153,295,51.9
+North,Bắc Giang,Khu liên cơ quan tỉnh Bắc Giang - P. Ngô Quyền - TP. Bắc Giang (KK),PM2.5,U15,0.209,18.074,49.808,160,309,51.8
+North,Hà Nam,Công Viên Nam Cao - P.Quang Trung - TP. Phủ Lý (KK),PM2.5,ALL,0.346,15.824,34.37,222,403,55.1
+North,Hà Nam,Công Viên Nam Cao - P.Quang Trung - TP. Phủ Lý (KK),PM2.5,U05,0.199,11.115,42.179,144,269,53.5
+North,Hà Nam,Công Viên Nam Cao - P.Quang Trung - TP. Phủ Lý (KK),PM2.5,U10,0.363,16.819,35.67,196,365,53.7
+North,Hà Nam,Công Viên Nam Cao - P.Quang Trung - TP. Phủ Lý (KK),PM2.5,U15,0.312,14.173,35.515,210,386,54.4
+North,Hà Nội,556 Nguyễn Văn Cừ (KK),PM2.5,ALL,0.001,-0.872,70.303,201,386,52.1
+North,Hà Nội,556 Nguyễn Văn Cừ (KK),PM2.5,U05,0.143,-21.149,89.206,74,141,52.5
+North,Hà Nội,556 Nguyễn Văn Cừ (KK),PM2.5,U10,0.154,-18.288,79.262,120,232,51.7
+North,Hà Nội,556 Nguyễn Văn Cừ (KK),PM2.5,U15,0.007,2.689,71.25,160,308,51.9
+North,Hà Nội,Công viên Nhân Chính - Khuất Duy Tiến (KK),PM2.5,ALL,0.006,2.403,45.248,174,325,53.5
+North,Hà Nội,Công viên Nhân Chính - Khuất Duy Tiến (KK),PM2.5,U05,0.185,18.417,44.599,98,175,56.0
+North,Hà Nội,Công viên Nhân Chính - Khuất Duy Tiến (KK),PM2.5,U10,0.039,5.773,46.112,140,259,54.1
+North,Hà Nội,Công viên Nhân Chính - Khuất Duy Tiến (KK),PM2.5,U15,0.091,10.68,48.004,158,289,54.7
+North,Hà Nội,ĐHBK cổng Parabol đường Giải Phóng (KK),PM2.5,ALL,0.014,-4.25,73.629,143,276,51.8
+North,Hà Nội,ĐHBK cổng Parabol đường Giải Phóng (KK),PM2.5,U05,0.434,30.758,57.785,63,120,52.5
+North,Hà Nội,ĐHBK cổng Parabol đường Giải Phóng (KK),PM2.5,U10,0.077,10.751,71.498,84,160,52.5
+North,Hà Nội,ĐHBK cổng Parabol đường Giải Phóng (KK),PM2.5,U15,0.027,7.241,70.878,108,200,54.0
+North,Phú Thọ,đường Hùng Vương - Tp Việt Trì (KK),PM2.5,ALL,0.201,15.933,26.196,96,165,58.2
+North,Phú Thọ,đường Hùng Vương - Tp Việt Trì (KK),PM2.5,U05,0.516,37.028,18.272,80,136,58.8
+North,Phú Thọ,đường Hùng Vương - Tp Việt Trì (KK),PM2.5,U10,0.701,50.306,15.289,81,147,55.1
+North,Phú Thọ,đường Hùng Vương - Tp Việt Trì (KK),PM2.5,U15,0.682,49.343,16.348,84,150,56.0
+North,Thái nguyên,Đường Hùng Vương - Tp Thái Nguyên (KK),PM2.5,ALL,0.464,57.86,68.877,70,122,57.4
+North,Thái nguyên,Đường Hùng Vương - Tp Thái Nguyên (KK),PM2.5,U05,0.537,75.217,47.626,56,93,60.2
+North,Thái nguyên,Đường Hùng Vương - Tp Thái Nguyên (KK),PM2.5,U10,0.489,71.11,49.351,62,100,62.0
+North,Thái nguyên,Đường Hùng Vương - Tp Thái Nguyên (KK),PM2.5,U15,0.16,-31.472,75.427,70,113,61.9
+Central,Quảng Bình,Khu kinh tế Hòn La (KK),PM2.5,ALL,0.415,-8.94,28.472,82,160,51.2
+Central,Quảng Bình,Khu kinh tế Hòn La (KK),PM2.5,U05,0.404,-8.55,26.853,72,126,57.1
+Central,Quảng Bình,Khu kinh tế Hòn La (KK),PM2.5,U10,0.376,-8.309,27.45,76,144,52.8
+Central,Quảng Bình,Khu kinh tế Hòn La (KK),PM2.5,U15,0.222,-5.804,22.971,80,156,51.3
+Central,Đà Nẵng,Khuôn viên trường ĐH sư phạm Đà Nẵng (KK),PM2.5,ALL,0.085,4.762,26.044,188,352,53.4
+Central,Đà Nẵng,Khuôn viên trường ĐH sư phạm Đà Nẵng (KK),PM2.5,U05,0.665,26.856,23.718,98,162,60.5
+Central,Đà Nẵng,Khuôn viên trường ĐH sư phạm Đà Nẵng (KK),PM2.5,U10,0.459,19.473,22.953,133,219,60.7
+Central,Đà Nẵng,Khuôn viên trường ĐH sư phạm Đà Nẵng (KK),PM2.5,U15,0.341,13.558,23.622,148,264,56.1
+South,Bình Dương,"số 593 Đại lộ Bình Dương, P. Hiệp Thành (KK)",PM2.5,ALL,0.145,7.233,26.302,150,261,57.5
+South,Bình Dương,"số 593 Đại lộ Bình Dương, P. Hiệp Thành (KK)",PM2.5,U05,0.29,10.775,23.548,98,190,51.6
+South,Bình Dương,"số 593 Đại lộ Bình Dương, P. Hiệp Thành (KK)",PM2.5,U10,0.097,5.779,26.338,140,244,57.4
+South,Bình Dương,"số 593 Đại lộ Bình Dương, P. Hiệp Thành (KK)",PM2.5,U15,0.039,3.349,29.033,145,258,56.2
+South,HCM,Khu Liên cơ quan Bộ Tài Nguyên và Môi Trường - số 20 Đ. Lý Chính Thắng (KK),PM2.5,ALL,0.068,-5.97,37.597,109,209,52.2
+South,HCM,Khu Liên cơ quan Bộ Tài Nguyên và Môi Trường - số 20 Đ. Lý Chính Thắng (KK),PM2.5,U05,0.394,26.83,29.595,41,77,53.2
+South,HCM,Khu Liên cơ quan Bộ Tài Nguyên và Môi Trường - số 20 Đ. Lý Chính Thắng (KK),PM2.5,U10,0.387,25.766,30.207,50,89,56.2
+South,HCM,Khu Liên cơ quan Bộ Tài Nguyên và Môi Trường - số 20 Đ. Lý Chính Thắng (KK),PM2.5,U15,0.424,24.652,28.269,59,110,53.6
+South,HCM,Đ. Lê Hữu Kiều - P. Bình Trưng Tây - Quận 2 (Ngã ba Lê Hữu Kiểu và Trương Văn Bang) (KK),PM2.5,ALL,0.216,-15.757,39.909,133,243,54.7
+South,HCM,Đ. Lê Hữu Kiều - P. Bình Trưng Tây - Quận 2 (Ngã ba Lê Hữu Kiểu và Trương Văn Bang) (KK),PM2.5,U05,0.338,23.222,24.51,44,83,53.0
+South,HCM,Đ. Lê Hữu Kiều - P. Bình Trưng Tây - Quận 2 (Ngã ba Lê Hữu Kiểu và Trương Văn Bang) (KK),PM2.5,U10,0.101,-8.14,38.349,107,199,53.8
+South,HCM,Đ. Lê Hữu Kiều - P. Bình Trưng Tây - Quận 2 (Ngã ba Lê Hữu Kiểu và Trương Văn Bang) (KK),PM2.5,U15,0.085,-7.353,38.094,125,227,55.1
+South,Long An,UBND Tp Tân An - 76 Hùng Vương - P.2 (KK),PM2.5,ALL,0.018,-2.445,35.619,157,288,54.5
+South,Long An,UBND Tp Tân An - 76 Hùng Vương - P.2 (KK),PM2.5,U05,0.056,-5.616,34.898,63,113,55.8
+South,Long An,UBND Tp Tân An - 76 Hùng Vương - P.2 (KK),PM2.5,U10,0.294,11.404,31.745,125,228,54.8
+South,Long An,UBND Tp Tân An - 76 Hùng Vương - P.2 (KK),PM2.5,U15,0.245,10.039,31.925,140,259,54.1
