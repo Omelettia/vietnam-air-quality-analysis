@@ -105,7 +105,7 @@ for i in range(n_stn):
 
 dist_rows = []
 for i in range(n_stn):
-    for rank, (j, d) in enumerate(
+    for rank, j in enumerate(
             sorted(range(n_stn), key=lambda x: dist_full[i, x] if x != i else 1e9), 1):
         if j == i:
             continue
