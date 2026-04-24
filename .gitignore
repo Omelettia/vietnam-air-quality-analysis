@@ -1,0 +1,49 @@
+# Heavy data directories
+data/merged/
+data/stations/historical_full_v2/
+data/stations/weather/
+station_aod_v3/
+data/gpm/
+data/dem/*.tif
+data/dem/*.tif.aux.xml
+data/dem/*.qgz
+data/era5/
+data/aeronet/
+data/embassy/
+data/himawari/
+data/modis/
+data/viirs/
+data/merged_thesis/
+data/stations/
+
+# Logs and caches
+*.log
+__pycache__/
+*.pyc
+.cache.sqlite
+.cache_test.sqlite
+
+# Environment
+.env
+.venv/
+*.conda/
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Model binaries
+models/*.json
+
+# Large notebooks (optional — remove lines to track specific ones)
+*.ipynb
+
+# Outputs directory (generated plots/data)
+outputs/
