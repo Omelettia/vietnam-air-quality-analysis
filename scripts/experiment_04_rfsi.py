@@ -1,19 +1,21 @@
 """
 Experiment 04: RFSI Nearest-Station Features
 
-For each row (station S, time T), append PM2.5 values and distances of the
-K nearest OTHER stations with valid data at time T.  In LOSO the held-out
-station is excluded from all neighbor pools.
-
 Configs:
   K1 — RFSI + temporal (spatial interpolation baseline)
   K2 — Full Config C + RFSI (kitchen-sink)
   K3 — Met + AOD + RFSI, no geography
   K4 — Met + RFSI, no AOD, no geography
+  K5 — Minimal physics (16 research-backed features)
+  K6 — K5 + constrained XGBoost (monotonic + shallow)
+
+Supports incremental runs: already-computed configs are loaded from CSV,
+only new configs are executed.  Results accumulate across runs.
 
 Output:
   analysis/thesis_experiments/experiment_04_rfsi.md
-  analysis/thesis_experiments/loso_per_station_exp04.csv
+  analysis/thesis_experiments/loso_per_station_exp04_all.csv
+  analysis/thesis_experiments/kfold_exp04.csv
   analysis/thesis_experiments/feature_importance_exp04.csv
   analysis/thesis_experiments/station_distances.csv
 """
@@ -67,7 +69,8 @@ df["ts"] = pd.to_datetime(df["ts"])
 print(f"Loaded: {len(df):,} rows, {df['stationId'].nunique()} stations "
       f"({time.time()-t0:.1f}s)")
 
-meta = pd.read_csv(os.path.join(DATA_DIR, "analysis/thesis_audit/station_selection_final.csv"),
+meta = pd.read_csv(os.path.join(DATA_DIR,
+                    "analysis/thesis_audit/station_selection_final.csv"),
                     dtype={"stationId": str})
 sid_name = dict(zip(meta["stationId"], meta["station_name"]))
 sid_region = dict(zip(meta["stationId"], meta["region"]))
@@ -129,7 +132,6 @@ for i in range(n_stn):
 nn1 = [neighbor_order[i][0][1] for i in range(n_stn)]
 print(f"NN1 distances: min={min(nn1):.0f}km, median={np.median(nn1):.0f}km, "
       f"max={max(nn1):.0f}km")
-print(f"Saved: analysis/thesis_experiments/station_distances.csv")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  PM2.5 WIDE MATRIX
@@ -157,12 +159,7 @@ RFSI_COLS = ([f"PM25_nn{k+1}" for k in range(K_NN)] +
 
 
 def compute_rfsi(exclude_sid=None, K=5):
-    """Compute RFSI features for every row in df.
-
-    For each row from station X at timestamp T, find the K nearest OTHER
-    stations with valid PM2.5 at T.  Both X (self) and exclude_sid are
-    removed from the candidate pool.
-    """
+    """Compute RFSI features for every row in df."""
     n = len(df)
     pm_nn = np.full((n, K), np.nan)
     d_nn = np.full((n, K), np.nan)
@@ -249,12 +246,45 @@ AOD = [
 GEO = ["latitude", "longitude", "elevation_m", "slope_deg",
        "aspect_sin", "aspect_cos", "elev_x_PBLH", "elev_x_hour_sin"]
 
+# K5/K6: minimal physics feature set
+FEATURES_K5 = [
+    "PM25_nn_idw", "PM25_nn_mean", "dist_nn1", "dist_nn2", "dist_nn3",
+    "PBLH", "WS_om", "Temperature_final", "Humidity_final", "Pressure_final",
+    "VC", "AOD_physics", "AOT", "RF", "precip_mm",
+    "month_sin", "month_cos",
+]
+
+# Monotonic constraints for K6 (same feature order as FEATURES_K5):
+#   RFSI (5): unconstrained
+#   PBLH↓  WS_om↓  Temp 0  Hum 0  Pres 0
+#   VC↓  AOD_phys 0  AOT↑  RF↑  precip↓
+#   month_sin 0  month_cos 0
+K6_CONSTRAINTS = (0, 0, 0, 0, 0,
+                  -1, -1, 0, 0, 0,
+                  -1, 0, 1, 1, -1,
+                  0, 0)
+
+K6_XGB_PARAMS = dict(
+    n_estimators=500, max_depth=5, learning_rate=0.05,
+    subsample=0.8, colsample_bytree=0.6, min_child_weight=20,
+    reg_alpha=0.1, reg_lambda=1.0, tree_method="hist",
+    device="cuda", random_state=42, n_jobs=-1,
+    monotone_constraints=K6_CONSTRAINTS,
+)
+
 CONFIGS = {
     "K1": TEMPORAL + RFSI_COLS,
     "K2": MET + AOD + GEO + TEMPORAL + RFSI_COLS,
     "K3": MET + AOD + TEMPORAL + RFSI_COLS,
     "K4": MET + TEMPORAL + RFSI_COLS,
+    "K5": FEATURES_K5,
+    "K6": FEATURES_K5,
 }
+
+CONFIG_ORDER = ["K1", "K2", "K3", "K4", "K5", "K6"]
+
+CONFIG_PARAMS = {c: XGB_PARAMS for c in CONFIG_ORDER}
+CONFIG_PARAMS["K6"] = K6_XGB_PARAMS
 
 for cname, feats in list(CONFIGS.items()):
     missing = [f for f in feats if f not in df.columns and f not in RFSI_COLS]
@@ -262,139 +292,177 @@ for cname, feats in list(CONFIGS.items()):
         print(f"WARNING: {cname} missing columns: {missing}")
         CONFIGS[cname] = [f for f in feats if f in df.columns or f in RFSI_COLS]
 
-for cname in ["K1", "K2", "K3", "K4"]:
-    nb = len([f for f in CONFIGS[cname] if f not in RFSI_COLS])
-    nr = len([f for f in CONFIGS[cname] if f in RFSI_COLS])
-    print(f"  {cname}: {len(CONFIGS[cname])} features ({nb} base + {nr} RFSI)")
+for cn in CONFIG_ORDER:
+    nb = len([f for f in CONFIGS[cn] if f not in RFSI_COLS])
+    nr = len([f for f in CONFIGS[cn] if f in RFSI_COLS])
+    print(f"  {cn}: {len(CONFIGS[cn])} features ({nb} base + {nr} RFSI)")
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  KFOLD (global RFSI)
+#  LOAD SAVED RESULTS (incremental run support)
 # ═══════════════════════════════════════════════════════════════════════════════
-print(f"\n{'='*80}")
-print("KFOLD 5-FOLD CV")
-print(f"{'='*80}")
 
-print("\nComputing global RFSI features ...")
-t1 = time.time()
-rfsi_global = compute_rfsi(exclude_sid=None, K=K_NN)
-print(f"Done ({time.time()-t1:.1f}s)")
+LOSO_ALL_CSV = os.path.join(OUT_DIR, "loso_per_station_exp04_all.csv")
+KFOLD_CSV = os.path.join(OUT_DIR, "kfold_exp04.csv")
 
-for col in RFSI_COLS:
-    df[col] = rfsi_global[col]
+saved_loso = {}
+saved_kf = {}
 
-nn1_nan = np.isnan(rfsi_global["PM25_nn1"]).sum()
-nn5_nan = np.isnan(rfsi_global["PM25_nn5"]).sum()
-print(f"PM25_nn1 NaN: {nn1_nan:,} ({nn1_nan/len(df)*100:.1f}%)")
-print(f"PM25_nn5 NaN: {nn5_nan:,} ({nn5_nan/len(df)*100:.1f}%)")
-print(f"PM25_nn_idw mean: {np.nanmean(rfsi_global['PM25_nn_idw']):.1f}")
+if os.path.exists(LOSO_ALL_CSV):
+    tmp = pd.read_csv(LOSO_ALL_CSV, dtype={"station_id": str})
+    for cfg in tmp["config"].unique():
+        sub = tmp[tmp["config"] == cfg].drop(columns=["config"])
+        saved_loso[cfg] = sub.to_dict("records")
 
-kf_results = {}
-for cname in ["K1", "K2", "K3", "K4"]:
-    feats = CONFIGS[cname]
-    X = df[feats]
-    print(f"\n--- {cname} ({len(feats)} features) ---")
+if os.path.exists(KFOLD_CSV):
+    tmp = pd.read_csv(KFOLD_CSV)
+    for _, row in tmp.iterrows():
+        saved_kf[row["config"]] = dict(r2=row["r2"], rmse=row["rmse"],
+                                        mae=row["mae"])
+
+configs_to_run = [c for c in CONFIG_ORDER if c not in saved_loso]
+configs_loaded = [c for c in CONFIG_ORDER if c in saved_loso]
+
+print(f"\nLoaded from CSV: {configs_loaded or '(none)'}")
+print(f"Will run: {configs_to_run or '(none — all cached)'}")
+
+if not configs_to_run:
+    print("All configs already computed. Skipping to report.")
+
+# ═══════════════════════════════════════════════════════════════════════════════
+#  KFOLD (global RFSI, new configs only)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+kf_results = dict(saved_kf)
+loso_results = dict(saved_loso)
+rfsi_global = None
+
+if configs_to_run:
+    print(f"\n{'='*80}")
+    print("KFOLD 5-FOLD CV")
+    print(f"{'='*80}")
+
+    print("\nComputing global RFSI features ...")
     t1 = time.time()
-    kf = KFold(n_splits=5, shuffle=True, random_state=42)
-    folds = []
-    for _, (tr, va) in enumerate(kf.split(X)):
-        m = xgb.XGBRegressor(**XGB_PARAMS)
-        m.fit(X.iloc[tr], y_all[tr])
-        p = m.predict(X.iloc[va])
-        folds.append(dict(
-            r2=r2_score(y_all[va], p),
-            rmse=np.sqrt(mean_squared_error(y_all[va], p)),
-            mae=mean_absolute_error(y_all[va], p)))
-    r2m = np.mean([f["r2"] for f in folds])
-    rmsem = np.mean([f["rmse"] for f in folds])
-    maem = np.mean([f["mae"] for f in folds])
-    print(f"  R²={r2m:.4f}  RMSE={rmsem:.2f}  MAE={maem:.2f} ({time.time()-t1:.0f}s)")
-    kf_results[cname] = dict(r2=round(r2m, 4), rmse=round(rmsem, 2),
-                              mae=round(maem, 2))
+    rfsi_global = compute_rfsi(exclude_sid=None, K=K_NN)
+    print(f"Done ({time.time()-t1:.1f}s)")
 
-df.drop(columns=RFSI_COLS, inplace=True)
+    for col in RFSI_COLS:
+        df[col] = rfsi_global[col]
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  LOSO (per-fold RFSI)
-# ═══════════════════════════════════════════════════════════════════════════════
-print(f"\n{'='*80}")
-print(f"LOSO CV ({n_stn} stations x {len(CONFIGS)} configs)")
-print(f"{'='*80}")
+    nn1_nan = np.isnan(rfsi_global["PM25_nn1"]).sum()
+    nn5_nan = np.isnan(rfsi_global["PM25_nn5"]).sum()
+    print(f"PM25_nn1 NaN: {nn1_nan:,} ({nn1_nan/len(df)*100:.1f}%)")
+    print(f"PM25_nn5 NaN: {nn5_nan:,} ({nn5_nan/len(df)*100:.1f}%)")
 
-all_base = sorted(set(f for fs in CONFIGS.values()
-                       for f in fs if f not in RFSI_COLS))
-base_arr = df[all_base].values
-base_col_map = {f: i for i, f in enumerate(all_base)}
-rfsi_col_map = {f: i for i, f in enumerate(RFSI_COLS)}
-
-loso_results = {c: [] for c in CONFIGS}
-loso_times = []
-
-for fold_i, held_sid in enumerate(station_ids):
-    nm = sid_name.get(held_sid, held_sid)[:45]
-    rg = sid_region.get(held_sid, "?")
-    mask_test = df["stationId"].values == held_sid
-    n_test = mask_test.sum()
-    if n_test < 10:
-        print(f"  [{fold_i+1:2d}/{n_stn}] {nm:45s} | SKIP (n={n_test})")
-        continue
-
-    mask_train = ~mask_test
-    y_test = y_all[mask_test]
-    y_train = y_all[mask_train]
-
-    t_fold = time.time()
-    rfsi_fold = compute_rfsi(exclude_sid=held_sid, K=K_NN)
-    rfsi_arr = np.column_stack([rfsi_fold[c] for c in RFSI_COLS])
-    rfsi_time = time.time() - t_fold
-
-    parts = [f"[{fold_i+1:2d}/{n_stn}] {nm:45s} |"]
-
-    for cname in ["K1", "K2", "K3", "K4"]:
+    for cname in configs_to_run:
         feats = CONFIGS[cname]
-        b_feats = [f for f in feats if f not in RFSI_COLS]
-        r_feats = [f for f in feats if f in RFSI_COLS]
+        params = CONFIG_PARAMS[cname]
+        X = df[feats]
+        print(f"\n--- {cname} ({len(feats)} features) ---")
+        t1 = time.time()
+        kf = KFold(n_splits=5, shuffle=True, random_state=42)
+        folds = []
+        for _, (tr, va) in enumerate(kf.split(X)):
+            m = xgb.XGBRegressor(**params)
+            m.fit(X.iloc[tr], y_all[tr])
+            p = m.predict(X.iloc[va])
+            folds.append(dict(
+                r2=r2_score(y_all[va], p),
+                rmse=np.sqrt(mean_squared_error(y_all[va], p)),
+                mae=mean_absolute_error(y_all[va], p)))
+        r2m = np.mean([f["r2"] for f in folds])
+        rmsem = np.mean([f["rmse"] for f in folds])
+        maem = np.mean([f["mae"] for f in folds])
+        print(f"  R²={r2m:.4f}  RMSE={rmsem:.2f}  MAE={maem:.2f} "
+              f"({time.time()-t1:.0f}s)")
+        kf_results[cname] = dict(r2=round(r2m, 4), rmse=round(rmsem, 2),
+                                  mae=round(maem, 2))
 
-        b_idx = [base_col_map[f] for f in b_feats] if b_feats else []
-        r_idx = [rfsi_col_map[f] for f in r_feats] if r_feats else []
+    df.drop(columns=RFSI_COLS, inplace=True)
 
-        arrays = []
-        if b_idx:
-            arrays.append(base_arr[:, b_idx])
-        if r_idx:
-            arrays.append(rfsi_arr[:, r_idx])
-        X_all = np.hstack(arrays)
+    # ═══════════════════════════════════════════════════════════════════════════
+    #  LOSO (per-fold RFSI, new configs only)
+    # ═══════════════════════════════════════════════════════════════════════════
+    print(f"\n{'='*80}")
+    print(f"LOSO CV ({n_stn} stations x {len(configs_to_run)} configs: "
+          f"{configs_to_run})")
+    print(f"{'='*80}")
 
-        X_tr = X_all[mask_train]
-        X_te = X_all[mask_test]
+    all_base = sorted(set(f for cn in configs_to_run
+                           for f in CONFIGS[cn] if f not in RFSI_COLS))
+    base_arr = df[all_base].values
+    base_col_map = {f: i for i, f in enumerate(all_base)}
+    rfsi_col_map = {f: i for i, f in enumerate(RFSI_COLS)}
 
-        m = xgb.XGBRegressor(**XGB_PARAMS)
-        m.fit(X_tr, y_train)
-        p = m.predict(X_te)
+    for cn in configs_to_run:
+        loso_results[cn] = []
 
-        r2 = r2_score(y_test, p)
-        rmse = np.sqrt(mean_squared_error(y_test, p))
-        mae = mean_absolute_error(y_test, p)
+    for fold_i, held_sid in enumerate(station_ids):
+        nm = sid_name.get(held_sid, held_sid)[:45]
+        rg = sid_region.get(held_sid, "?")
+        mask_test = df["stationId"].values == held_sid
+        n_test = mask_test.sum()
+        if n_test < 10:
+            print(f"  [{fold_i+1:2d}/{n_stn}] {nm:45s} | SKIP (n={n_test})")
+            continue
 
-        loso_results[cname].append(dict(
-            station_id=held_sid,
-            station_name=sid_name.get(held_sid, held_sid),
-            region=rg, n_rows=n_test,
-            r2=round(r2, 4), rmse=round(rmse, 2), mae=round(mae, 2)))
+        mask_train = ~mask_test
+        y_test = y_all[mask_test]
+        y_train = y_all[mask_train]
 
-        parts.append(f"{cname}={r2:+.3f}")
+        t_fold = time.time()
+        rfsi_fold = compute_rfsi(exclude_sid=held_sid, K=K_NN)
+        rfsi_arr = np.column_stack([rfsi_fold[c] for c in RFSI_COLS])
 
-    fold_time = time.time() - t_fold
-    loso_times.append(fold_time)
-    elapsed = time.time() - t0
-    remaining = (fold_time * (n_stn - fold_i - 1))
-    print(f"  {' '.join(parts)}  [{rg}]  "
-          f"({fold_time:.0f}s, ETA {remaining/60:.0f}m)")
+        parts = [f"[{fold_i+1:2d}/{n_stn}] {nm:45s} |"]
+
+        for cname in configs_to_run:
+            feats = CONFIGS[cname]
+            params = CONFIG_PARAMS[cname]
+            b_feats = [f for f in feats if f not in RFSI_COLS]
+            r_feats = [f for f in feats if f in RFSI_COLS]
+
+            b_idx = [base_col_map[f] for f in b_feats] if b_feats else []
+            r_idx = [rfsi_col_map[f] for f in r_feats] if r_feats else []
+
+            arrays = []
+            if b_idx:
+                arrays.append(base_arr[:, b_idx])
+            if r_idx:
+                arrays.append(rfsi_arr[:, r_idx])
+            X_all = np.hstack(arrays)
+
+            X_tr = X_all[mask_train]
+            X_te = X_all[mask_test]
+
+            m = xgb.XGBRegressor(**params)
+            m.fit(X_tr, y_train)
+            p = m.predict(X_te)
+
+            r2 = r2_score(y_test, p)
+            rmse = np.sqrt(mean_squared_error(y_test, p))
+            mae = mean_absolute_error(y_test, p)
+
+            loso_results[cname].append(dict(
+                station_id=held_sid,
+                station_name=sid_name.get(held_sid, held_sid),
+                region=rg, n_rows=n_test,
+                r2=round(r2, 4), rmse=round(rmse, 2), mae=round(mae, 2)))
+
+            parts.append(f"{cname}={r2:+.3f}")
+
+        fold_time = time.time() - t_fold
+        remaining = fold_time * (n_stn - fold_i - 1)
+        print(f"  {' '.join(parts)}  [{rg}]  "
+              f"({fold_time:.0f}s, ETA {remaining/60:.0f}m)")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 #  FEATURE IMPORTANCE (best config by LOSO R²)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-best_cfg = max(CONFIGS, key=lambda c: np.mean([r["r2"] for r in loso_results[c]]))
+best_cfg = max(CONFIG_ORDER,
+               key=lambda c: np.mean([r["r2"] for r in loso_results[c]])
+               if c in loso_results else -999)
 best_loso = np.mean([r["r2"] for r in loso_results[best_cfg]])
 
 print(f"\n{'='*80}")
@@ -402,12 +470,16 @@ print(f"FEATURE IMPORTANCE — Config {best_cfg} "
       f"(best LOSO R²={best_loso:.4f})")
 print(f"{'='*80}")
 
+if rfsi_global is None:
+    rfsi_global = compute_rfsi(exclude_sid=None, K=K_NN)
+
 for col in RFSI_COLS:
     df[col] = rfsi_global[col]
 
 feats_best = CONFIGS[best_cfg]
+params_best = CONFIG_PARAMS[best_cfg]
 X_full = df[feats_best]
-model_full = xgb.XGBRegressor(**XGB_PARAMS)
+model_full = xgb.XGBRegressor(**params_best)
 model_full.fit(X_full, y_all)
 
 importance = model_full.get_booster().get_score(importance_type="gain")
@@ -428,15 +500,30 @@ for _, r in imp_df.head(20).iterrows():
 df.drop(columns=RFSI_COLS, inplace=True)
 
 # ═══════════════════════════════════════════════════════════════════════════════
-#  SAVE PER-STATION RESULTS
+#  SAVE ALL RESULTS (incremental)
 # ═══════════════════════════════════════════════════════════════════════════════
 
+all_loso_rows = []
+for cfg in CONFIG_ORDER:
+    if cfg not in loso_results:
+        continue
+    for r in loso_results[cfg]:
+        all_loso_rows.append({"config": cfg, **r})
+pd.DataFrame(all_loso_rows).to_csv(LOSO_ALL_CSV, index=False,
+                                    encoding="utf-8-sig")
+
+# Also save best-config-only for backward compat
 best_loso_df = pd.DataFrame(loso_results[best_cfg]).sort_values(
     "r2", ascending=True)
 best_loso_df.to_csv(os.path.join(OUT_DIR, "loso_per_station_exp04.csv"),
                      index=False, encoding="utf-8-sig")
 
-loso_c = pd.read_csv(os.path.join(DATA_DIR, "analysis/thesis_experiments/loso_per_station_config_c.csv"),
+all_kf_rows = [{"config": cfg, **kf_results[cfg]}
+                for cfg in CONFIG_ORDER if cfg in kf_results]
+pd.DataFrame(all_kf_rows).to_csv(KFOLD_CSV, index=False, encoding="utf-8-sig")
+
+loso_c = pd.read_csv(os.path.join(DATA_DIR,
+                      "analysis/thesis_experiments/loso_per_station_config_c.csv"),
                       dtype={"station_id": str})
 c_r2 = dict(zip(loso_c["station_id"], loso_c["r2"]))
 
@@ -469,7 +556,8 @@ def loso_summary(results):
         by_region=by_region)
 
 
-sums = {c: loso_summary(loso_results[c]) for c in CONFIGS}
+sums = {c: loso_summary(loso_results[c]) for c in CONFIG_ORDER
+        if c in loso_results}
 
 rpt = []
 rpt.append("# Experiment 04: RFSI Nearest-Station Features\n")
@@ -477,6 +565,8 @@ rpt.append(f"**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
 rpt.append(f"**Dataset:** {len(df):,} rows, {n_stn} stations")
 rpt.append(f"**XGBoost:** v{xgb.__version__}, n_estimators=500, max_depth=7, "
            f"lr=0.05, device=cuda")
+rpt.append(f"**K6 overrides:** max_depth=5, colsample_bytree=0.6, "
+           f"min_child_weight=20, monotonic constraints")
 rpt.append(f"**RFSI:** K={K_NN} nearest neighbors, haversine distances\n")
 
 # ── Comparison table ──
@@ -490,13 +580,16 @@ refs = [
     ("C (Exp01)", "Absolute baseline", 62, 0.7262, -0.4953, -0.0004, 20, 1.2215),
     ("E (Exp02)", "Oracle anomaly",    55, 0.6926,  0.2252,  0.2640,  7, 0.4674),
 ]
-for cfg, desc, nf, kf, lm, lmed, neg, gap in refs:
-    rpt.append(f"| {cfg} | {desc} | {nf} | {kf:.4f} | {lm:.4f} | "
+for cfg, desc, nf, kf_r2, lm, lmed, neg, gap in refs:
+    rpt.append(f"| {cfg} | {desc} | {nf} | {kf_r2:.4f} | {lm:.4f} | "
                f"{lmed:.4f} | {neg} | {gap:.4f} |")
 
 descs = {"K1": "RFSI + temporal", "K2": "Full + RFSI",
-         "K3": "Met+AOD+RFSI (no geo)", "K4": "Met+RFSI (no AOD)"}
-for cn in ["K1", "K2", "K3", "K4"]:
+         "K3": "Met+AOD+RFSI (no geo)", "K4": "Met+RFSI (no AOD)",
+         "K5": "Minimal physics", "K6": "K5 + constrained XGB"}
+for cn in CONFIG_ORDER:
+    if cn not in sums or cn not in kf_results:
+        continue
     nf = len(CONFIGS[cn])
     kf = kf_results[cn]
     s = sums[cn]
@@ -525,10 +618,10 @@ for _, r in best_loso_df.iterrows():
                    f"{r['rmse']:.1f} |")
 
 # ── Regional breakdown ──
+avail = [cn for cn in CONFIG_ORDER if cn in sums]
 rpt.append("\n## Regional Breakdown\n")
-hdr = "| Region | C LOSO R² | " + " | ".join(
-    f"{c} R²" for c in ["K1", "K2", "K3", "K4"]) + " |"
-sep = "|--------|-----------|" + "|".join(["----------"] * 4) + "|"
+hdr = "| Region | C LOSO R² | " + " | ".join(f"{c} R²" for c in avail) + " |"
+sep = "|--------|-----------|" + "|".join(["----------"] * len(avail)) + "|"
 rpt.append(hdr)
 rpt.append(sep)
 
@@ -536,7 +629,7 @@ c_reg = {"North": 0.0458, "Central": -0.0211, "South": -2.1908}
 for rg in ["North", "Central", "South"]:
     cv = c_reg.get(rg, 0)
     vals = []
-    for cn in ["K1", "K2", "K3", "K4"]:
+    for cn in avail:
         v = sums[cn]["by_region"].get(rg, {}).get("mean_r2")
         vals.append(f"{v:.4f}" if v is not None else "—")
     rpt.append(f"| {rg} | {cv:.4f} | " + " | ".join(vals) + " |")
@@ -563,44 +656,58 @@ for col in RFSI_COLS:
 # ── Analysis ──
 rpt.append("\n## Analysis\n")
 
-k1 = sums["K1"]["mean_r2"]
-k2 = sums["K2"]["mean_r2"]
-k3 = sums["K3"]["mean_r2"]
-k4 = sums["K4"]["mean_r2"]
-
 rpt.append("### 1. Does RFSI alone (K1) beat the baseline?\n")
-rpt.append(f"- Config C baseline: LOSO R² = -0.4953")
-rpt.append(f"- Config K1 (RFSI only): LOSO R² = {k1:.4f}")
-if k1 > -0.4953:
-    rpt.append(f"- RFSI alone beats the baseline by {k1 - (-0.4953):+.4f}")
-else:
-    rpt.append(f"- RFSI alone does not beat the baseline")
-rpt.append(f"- Oracle ceiling (Config E): LOSO R² = 0.2252")
+if "K1" in sums:
+    k1 = sums["K1"]["mean_r2"]
+    rpt.append(f"- Config C baseline: LOSO R² = -0.4953")
+    rpt.append(f"- Config K1 (RFSI only): LOSO R² = {k1:.4f}")
+    if k1 > -0.4953:
+        rpt.append(f"- RFSI alone beats the baseline by {k1 - (-0.4953):+.4f}")
+    else:
+        rpt.append(f"- RFSI alone does not beat the baseline")
+    rpt.append(f"- Oracle ceiling (Config E): LOSO R² = 0.2252")
 
 rpt.append(f"\n### 2. Does Full + RFSI (K2) set a new best?\n")
-rpt.append(f"- Config K2: LOSO R² = {k2:.4f}")
-if k2 > 0.2252:
-    rpt.append(f"- New best — surpasses oracle anomaly (0.2252)")
-elif k2 > -0.4953:
-    rpt.append(f"- Better than baseline but below oracle (0.2252)")
-else:
-    rpt.append(f"- Does not beat baseline")
+if "K2" in sums:
+    k2 = sums["K2"]["mean_r2"]
+    rpt.append(f"- Config K2: LOSO R² = {k2:.4f}")
+    if k2 > 0.2252:
+        rpt.append(f"- New best — surpasses oracle anomaly (0.2252)")
+    elif k2 > -0.4953:
+        rpt.append(f"- Better than baseline but below oracle (0.2252)")
+    else:
+        rpt.append(f"- Does not beat baseline")
 
-rpt.append(f"\n### 3. Does AOD add value on top of RFSI? (K2 vs K4)\n")
-rpt.append(f"- K2 (with AOD): LOSO R² = {k2:.4f}")
-rpt.append(f"- K4 (no AOD):   LOSO R² = {k4:.4f}")
-rpt.append(f"- Delta: {k2 - k4:+.4f}")
+rpt.append(f"\n### 3. K5 minimal physics vs K2 kitchen-sink\n")
+if "K5" in sums:
+    k5 = sums["K5"]["mean_r2"]
+    k2v = sums.get("K2", {}).get("mean_r2", "N/A")
+    rpt.append(f"- K2 (75 features): LOSO R² = {k2v}")
+    rpt.append(f"- K5 (17 features): LOSO R² = {k5:.4f}")
+    if isinstance(k2v, float):
+        rpt.append(f"- Delta: {k5 - k2v:+.4f}")
 
-rpt.append(f"\n### 4. Are geographic features needed with RFSI? (K2 vs K3)\n")
-rpt.append(f"- K2 (with geo): LOSO R² = {k2:.4f}")
-rpt.append(f"- K3 (no geo):   LOSO R² = {k3:.4f}")
-rpt.append(f"- Delta: {k2 - k3:+.4f}")
+rpt.append(f"\n### 4. Do monotonic constraints help? (K6 vs K5)\n")
+if "K5" in sums and "K6" in sums:
+    k5 = sums["K5"]["mean_r2"]
+    k6 = sums["K6"]["mean_r2"]
+    rpt.append(f"- K5 (unconstrained): LOSO R² = {k5:.4f}, "
+               f"neg={sums['K5']['neg_count']}")
+    rpt.append(f"- K6 (constrained):   LOSO R² = {k6:.4f}, "
+               f"neg={sums['K6']['neg_count']}")
+    rpt.append(f"- Delta: {k6 - k5:+.4f}")
+    if k6 > k5:
+        rpt.append(f"- Constraints help — regularization improves generalization")
+    else:
+        rpt.append(f"- Constraints do not help")
 
 rpt.append(f"\n### 5. KFold-LOSO gap\n")
-for cn in ["K1", "K2", "K3", "K4"]:
-    kfr = kf_results[cn]["r2"]
-    lr = sums[cn]["mean_r2"]
-    rpt.append(f"- {cn}: KFold={kfr:.4f}, LOSO={lr:.4f}, gap={kfr - lr:.4f}")
+for cn in CONFIG_ORDER:
+    if cn in kf_results and cn in sums:
+        kfr = kf_results[cn]["r2"]
+        lr = sums[cn]["mean_r2"]
+        rpt.append(f"- {cn}: KFold={kfr:.4f}, LOSO={lr:.4f}, "
+                   f"gap={kfr - lr:.4f}")
 rpt.append(f"- Baseline (C) gap: 1.2215")
 
 report_path = os.path.join(OUT_DIR, "experiment_04_rfsi.md")
@@ -608,7 +715,8 @@ with open(report_path, "w", encoding="utf-8") as f:
     f.write("\n".join(rpt))
 
 print(f"\nReport: {report_path}")
-print(f"LOSO per-station: analysis/thesis_experiments/loso_per_station_exp04.csv")
-print(f"Feature importance: analysis/thesis_experiments/feature_importance_exp04.csv")
-print(f"Station distances: analysis/thesis_experiments/station_distances.csv")
+print(f"LOSO all configs: {LOSO_ALL_CSV}")
+print(f"KFold summary: {KFOLD_CSV}")
+print(f"Feature importance: {os.path.join(OUT_DIR, 'feature_importance_exp04.csv')}")
+print(f"Station distances: {os.path.join(OUT_DIR, 'station_distances.csv')}")
 print(f"\nDONE — total time: {time.time()-t0:.0f}s")
