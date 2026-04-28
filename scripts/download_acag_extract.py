@@ -1,15 +1,21 @@
 #!/usr/bin/env python
 """
-Download ACAG V6.GL.02.04 monthly PM2.5 (2020-2023), extract nearest-pixel
-values at 124 Vietnamese station locations, compute climatology, delete
-the large NetCDF files.  Only the station CSV remains.
+Extract ACAG V6.GL.02.04 monthly PM2.5 (2020-2023) at station locations,
+compute per-station annual mean and monthly climatology.
 
-Usage:
+Usage (local zip/nc files — recommended, S3 blocks downloads):
+    python scripts/download_acag_extract.py \
+        --meta data/stations/metadata/station_building_density.csv \
+        --local .
+
+Usage (auto-download from AWS S3 — may return 403):
     python scripts/download_acag_extract.py \
         --meta data/stations/metadata/station_building_density.csv
+
+Output: data/acag/acag_station_climatology.csv
 """
 
-import argparse, os, sys, io
+import argparse, glob, os, re, sys, io, tempfile, zipfile
 import numpy as np
 import pandas as pd
 
@@ -23,7 +29,6 @@ BUCKET = "v6.gl.02.04"
 S3_BASE = f"https://s3.us-west-2.amazonaws.com/{BUCKET}"
 YEARS = range(2020, 2024)
 
-# S3 key templates — AS (Asia) region keeps files small
 KEY_001 = "V6.GL.02.04/AS/Monthly/{year}/V6GL02.04.CNNPM25.AS.{ym}-{ym}.nc"
 KEY_01 = "V6.GL.02.04-0p10/AS/Monthly/{year}/V6GL02.04.CNNPM25.0p10.AS.{ym}-{ym}.nc"
 
@@ -34,7 +39,6 @@ SANITY_KEYWORDS = ["ĐHBK", "Trà Vinh", "Thái Nguyên"]
 
 def _download_requests(url, dest):
     import requests
-
     try:
         r = requests.get(url, stream=True, timeout=300)
         if r.status_code != 200:
@@ -52,10 +56,8 @@ def _download_boto3(key, dest):
         import boto3
         from botocore import UNSIGNED
         from botocore.config import Config
-
         s3 = boto3.client(
-            "s3",
-            config=Config(signature_version=UNSIGNED),
+            "s3", config=Config(signature_version=UNSIGNED),
             region_name="us-west-2",
         )
         s3.download_file(BUCKET, key, dest)
@@ -65,7 +67,6 @@ def _download_boto3(key, dest):
 
 
 def download(key, dest):
-    """Try direct HTTP GET, then unsigned boto3."""
     url = f"{S3_BASE}/{key}"
     if _download_requests(url, dest):
         return True
@@ -75,47 +76,84 @@ def download(key, dest):
 # ── extraction ──────────────────────────────────────────────────────
 
 def extract_at_stations(nc_path, lats, lons):
-    """Open NetCDF, return nearest-pixel PM2.5 for each station."""
     import xarray as xr
-
     ds = xr.open_dataset(nc_path)
-
-    pm_var = None
-    for v in ds.data_vars:
-        if "pm" in v.lower():
-            pm_var = v
-            break
-    if pm_var is None:
-        pm_var = list(ds.data_vars)[0]
-
-    da = ds[pm_var].squeeze()
-
-    lat_dim = lon_dim = None
-    for d in da.dims:
-        dl = d.lower()
-        if dl in ("lat", "latitude", "y"):
-            lat_dim = d
-        elif dl in ("lon", "longitude", "x"):
-            lon_dim = d
-
-    if lat_dim is None or lon_dim is None:
-        raise ValueError(f"Cannot identify lat/lon dims in {da.dims}")
-
+    da = ds["PM25"].squeeze()
     vals = np.full(len(lats), np.nan)
     for i, (la, lo) in enumerate(zip(lats, lons)):
-        v = da.sel({lat_dim: la, lon_dim: lo}, method="nearest").values
-        vals[i] = float(np.squeeze(v))
+        vals[i] = float(da.sel(lat=la, lon=lo, method="nearest").values)
     ds.close()
     return vals
+
+
+# ── local file loading ──────────────────────────────────────────────
+
+def _parse_ym(fname):
+    m = re.search(r"(\d{4})(\d{2})-\d{6}\.nc", fname)
+    if m:
+        return int(m.group(1)), int(m.group(2))
+    return None, None
+
+
+def load_local(local_dir, lats, lons):
+    monthly = {}
+
+    nc_files = sorted(glob.glob(os.path.join(local_dir, "**", "*.nc"), recursive=True))
+    zip_files = sorted(glob.glob(os.path.join(local_dir, "*.zip")))
+    print(f"  Found {len(nc_files)} loose .nc, {len(zip_files)} zip archives")
+
+    for fpath in nc_files:
+        fname = os.path.basename(fpath)
+        year, month = _parse_ym(fname)
+        if year is None or year not in YEARS:
+            continue
+        print(f"  {year}-{month:02d} ({fname}) … ", end="", flush=True)
+        try:
+            monthly[(year, month)] = extract_at_stations(fpath, lats, lons)
+            print("ok")
+        except Exception as e:
+            print(f"error: {e}")
+
+    for zpath in zip_files:
+        zname = os.path.basename(zpath)
+        print(f"  Archive: {zname}")
+        with zipfile.ZipFile(zpath, "r") as zf:
+            for entry in sorted(zf.namelist()):
+                if not entry.endswith(".nc"):
+                    continue
+                fname = os.path.basename(entry)
+                year, month = _parse_ym(fname)
+                if year is None or year not in YEARS:
+                    continue
+                if (year, month) in monthly:
+                    continue
+                print(f"    {year}-{month:02d} ({fname}) … ", end="", flush=True)
+                tmp = os.path.join(tempfile.gettempdir(), fname)
+                try:
+                    with zf.open(entry) as src, open(tmp, "wb") as dst:
+                        dst.write(src.read())
+                    monthly[(year, month)] = extract_at_stations(tmp, lats, lons)
+                    print("ok")
+                except Exception as e:
+                    print(f"error: {e}")
+                finally:
+                    if os.path.exists(tmp):
+                        os.remove(tmp)
+
+    return monthly
 
 
 # ── main ────────────────────────────────────────────────────────────
 
 def main():
     ap = argparse.ArgumentParser(
-        description="Download ACAG PM2.5 and extract at station locations"
+        description="Extract ACAG PM2.5 at station locations"
     )
     ap.add_argument("--meta", required=True, help="Station metadata CSV")
+    ap.add_argument(
+        "--local", default=None,
+        help="Directory with .nc files or .zip archives (skip AWS)",
+    )
     args = ap.parse_args()
 
     meta_path = args.meta
@@ -130,89 +168,96 @@ def main():
     out_dir = os.path.join(REPO_DIR, "data", "acag")
     os.makedirs(out_dir, exist_ok=True)
 
-    monthly = {}  # (year, month) → ndarray shape (n_stations,)
+    monthly = {}
     chosen_res = None
 
-    for label, key_tpl in [("0.01°", KEY_001), ("0.1°", KEY_01)]:
-        print(f"\n{'='*50}")
-        print(f"Trying {label} resolution (AS region) from AWS S3 …")
-        print(f"{'='*50}")
+    # ── local mode ──────────────────────────────────────────────────
+    if args.local:
+        local_dir = args.local
+        if not os.path.isabs(local_dir):
+            local_dir = os.path.join(REPO_DIR, local_dir)
+        print(f"\nLoading local files from: {local_dir}")
+        monthly = load_local(local_dir, lats, lons)
+        chosen_res = "local"
 
-        # Probe first file
-        year0 = list(YEARS)[0]
-        ym = f"{year0}01"
-        key = key_tpl.format(year=year0, ym=ym)
-        probe = os.path.join(out_dir, "_probe.nc")
+    # ── AWS download mode ───────────────────────────────────────────
+    else:
+        for label, key_tpl in [("0.01°", KEY_001), ("0.1°", KEY_01)]:
+            print(f"\n{'='*50}")
+            print(f"Trying {label} resolution (AS region) from AWS S3 …")
+            print(f"{'='*50}")
 
-        if not download(key, probe):
-            print(f"  ✗ {label} not accessible, trying next resolution")
-            if os.path.exists(probe):
-                os.remove(probe)
-            continue
+            year0 = list(YEARS)[0]
+            ym = f"{year0}01"
+            key = key_tpl.format(year=year0, ym=ym)
+            probe = os.path.join(out_dir, "_probe.nc")
 
-        size_mb = os.path.getsize(probe) / (1 << 20)
-        print(f"  File size: {size_mb:.1f} MB")
+            if not download(key, probe):
+                print(f"  {label} not accessible, trying next")
+                if os.path.exists(probe):
+                    os.remove(probe)
+                continue
 
-        try:
-            vals = extract_at_stations(probe, lats, lons)
-            monthly[(year0, 1)] = vals
-            med = np.nanmedian(vals)
-            print(f"  ✓ Probe OK  (median = {med:.1f} µg/m³)")
-        except Exception as e:
-            print(f"  ✗ Cannot read file: {e}")
-            if os.path.exists(probe):
-                os.remove(probe)
-            continue
-        finally:
-            if os.path.exists(probe):
-                os.remove(probe)
+            try:
+                vals = extract_at_stations(probe, lats, lons)
+                monthly[(year0, 1)] = vals
+                print(f"  Probe OK (median = {np.nanmedian(vals):.1f} µg/m³)")
+            except Exception as e:
+                print(f"  Cannot read: {e}")
+                if os.path.exists(probe):
+                    os.remove(probe)
+                continue
+            finally:
+                if os.path.exists(probe):
+                    os.remove(probe)
 
-        chosen_res = label
+            chosen_res = label
+            for year in YEARS:
+                for month in range(1, 13):
+                    if (year, month) in monthly:
+                        continue
+                    ym = f"{year}{month:02d}"
+                    key = key_tpl.format(year=year, ym=ym)
+                    fpath = os.path.join(out_dir, f"_tmp_{ym}.nc")
+                    print(f"  {year}-{month:02d} … ", end="", flush=True)
+                    if not download(key, fpath):
+                        print("FAILED")
+                        continue
+                    try:
+                        monthly[(year, month)] = extract_at_stations(
+                            fpath, lats, lons
+                        )
+                        print("ok")
+                    except Exception as e:
+                        print(f"read error: {e}")
+                    finally:
+                        if os.path.exists(fpath):
+                            os.remove(fpath)
+            break
 
-        # Download remaining months
-        for year in YEARS:
-            for month in range(1, 13):
-                if (year, month) in monthly:
-                    continue
-                ym = f"{year}{month:02d}"
-                key = key_tpl.format(year=year, ym=ym)
-                fpath = os.path.join(out_dir, f"_tmp_{ym}.nc")
-
-                print(f"  {year}-{month:02d} … ", end="", flush=True)
-                if not download(key, fpath):
-                    print("FAILED")
-                    continue
-                try:
-                    monthly[(year, month)] = extract_at_stations(fpath, lats, lons)
-                    print("ok")
-                except Exception as e:
-                    print(f"read error: {e}")
-                finally:
-                    if os.path.exists(fpath):
-                        os.remove(fpath)
-        break
-
-    # ── check we got data ───────────────────────────────────────────
+    # ── check ───────────────────────────────────────────────────────
     if not monthly:
-        print("\nERROR: All AWS downloads failed.")
-        print("Manual fallback — download 0.1° monthly AS files from:")
-        print("  https://wustl.box.com/v/ACAG-V6GL0204-CNNPM25c0p10")
-        print("Place them in data/acag/ and re-run with --local flag (not yet implemented).")
+        print("\nERROR: No data extracted.")
+        print("Download 0.1° monthly AS .nc files (2020-2023) and use --local:")
+        print("  python scripts/download_acag_extract.py \\")
+        print("    --meta <csv> --local /path/to/zip/or/nc/")
         sys.exit(1)
 
     n_ok = len(monthly)
     n_expected = len(list(YEARS)) * 12
     print(f"\nExtracted {n_ok}/{n_expected} monthly grids ({chosen_res})")
     if n_ok < n_expected:
-        missing = [(y, m) for y in YEARS for m in range(1, 13) if (y, m) not in monthly]
-        print(f"Missing months: {missing}")
+        missing = [
+            (y, m) for y in YEARS for m in range(1, 13) if (y, m) not in monthly
+        ]
+        print(f"Missing: {missing}")
 
-    # ── compute climatology ─────────────────────────────────────────
+    # ── climatology ─────────────────────────────────────────────────
     result = meta[["stationId", "stationName", "latitude", "longitude"]].copy()
 
     all_vals = np.column_stack(
         [monthly[k] for k in sorted(monthly.keys())]
-    )  # (n_stations, n_months_ok)
+    )
     result["ACAG_annual_mean"] = np.nanmean(all_vals, axis=1)
 
     for m in range(1, 13):
@@ -230,7 +275,7 @@ def main():
     print(f"\nSaved → {out_path}")
     print(f"Shape:  {result.shape}")
 
-    # ── summary stats ───────────────────────────────────────────────
+    # ── summary ─────────────────────────────────────────────────────
     am = result["ACAG_annual_mean"]
     print(f"\nACAG annual mean across {n_stations} stations:")
     print(f"  min  = {am.min():.2f} µg/m³")
@@ -255,7 +300,9 @@ def main():
             print(f"\n  {name}")
             print(f"    ACAG annual mean = {row['ACAG_annual_mean']:.2f} µg/m³")
             clim = [row[f"ACAG_monthly_clim_{m:02d}"] for m in range(1, 13)]
-            print(f"    monthly clim range = {min(clim):.1f} – {max(clim):.1f} µg/m³")
+            print(
+                f"    monthly clim range = {min(clim):.1f} – {max(clim):.1f} µg/m³"
+            )
             months_str = " ".join(f"{v:.1f}" for v in clim)
             print(f"    J F M A M J J A S O N D: {months_str}")
 
