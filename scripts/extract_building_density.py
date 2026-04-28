@@ -21,7 +21,9 @@ REPO_DIR = os.path.dirname(SCRIPT_DIR)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data-dir", default=None,
-                    help="Root data directory (default: REPO_DIR)")
+                    help="Directory containing OpenBuildingData/ (default: REPO_DIR)")
+parser.add_argument("--meta", default=None,
+                    help="Path to envisoft_station_map.csv")
 args = parser.parse_args()
 
 DATA_DIR = args.data_dir or REPO_DIR
@@ -30,7 +32,7 @@ os.makedirs(OUT_DIR, exist_ok=True)
 
 # ─── Load station metadata ───────────────────────────────────────────────────
 
-meta_path = os.path.join(DATA_DIR, "data/stations/metadata/envisoft_station_map.csv")
+meta_path = args.meta or os.path.join(DATA_DIR, "data/stations/metadata/envisoft_station_map.csv")
 meta = pd.read_csv(meta_path, dtype={"stationId": str})
 stations = meta[["stationId", "stationName", "latitude", "longitude"]].copy()
 n_stations = len(stations)
