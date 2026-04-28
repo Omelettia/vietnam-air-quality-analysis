@@ -1,0 +1,41 @@
+﻿station_id,station_name,region,n_rows,r2,rmse,mae
+29098319146067624969113973428,"Trà Vinh xã Đông Hải, huyện Duyên Hải (KK)",South,758,-7.943,10.99,10.07
+29518885338952740244749551027,Quảng Ninh Nhuệ Hổ - Đông Triều (KK),North,707,-1.7233,12.58,9.89
+29996239538320865599553202177,Tây Ninh Thị xã Trảng Bàng (KK),South,931,-1.5095,9.86,7.83
+30991938797551443885460120607,"Sóc Trăng Sở TNMT - 16 Hùng Vương, P.6, Tp. Sóc Trăng (KK)",South,812,-1.4758,10.5,8.98
+31616865099255512061948816121,Đà Nẵng Phạm Hùng (KK),Unknown,649,-1.0682,13.03,11.21
+28916504310234840885489983032,Bắc Ninh Khu liên cơ Thuận Thành - thị trấn Hồ (KK),North,850,-0.7809,26.9,19.65
+31390932574706768021562473002,Long An UBND Tp Tân An - 76 Hùng Vương - P.2 (KK),South,843,-0.6785,12.03,9.26
+28602837126985114455002404577,Quảng Ninh UBND TP Uông Bí (KK),North,727,-0.5737,9.89,7.63
+29203727697074312726675247132,"Thái Bình xã Thái Thọ, huyện Thái Thụy (KK)",North,960,-0.5636,20.48,13.58
+31388836637198369136462150188,Bình Định Khuôn viên Cây xanh gần cầu chui đường Hoa Lư - TP. Quy Nhơn (KK),Central,834,-0.5194,8.99,7.23
+31388851800421997746903202346,Đà Nẵng Khuôn viên trường ĐH sư phạm Đà Nẵng (KK),Central,842,-0.3695,12.15,10.02
+28916774462801800655608897080,Bắc Ninh UBND xã Xuân Lâm - Thuận Thành (KK),North,578,-0.2381,40.61,27.42
+31651502905690497791503780869,Thái Nguyên Sân vận động Gang thép - P Trung Thành - TP Thái Nguyên (KK),North,640,-0.222,38.51,26.59
+28505268571336961948594948504,Phú Thọ đường Hùng Vương - Tp Việt Trì (KK),North,1127,-0.214,20.62,16.94
+29196021237696127337075448678,Bắc Ninh UBND xã Cao Đức - Gia Bình (KK),North,753,-0.1673,17.41,13.25
+29518852005686198968139908531,Quảng Ninh Gần KCN Cái Lân (KK),North,661,-0.1507,8.59,4.38
+28505272740301122608933325208,Đà Nẵng 41 đường Lê Duẩn (KK),Central,957,-0.0916,11.04,8.47
+28602897318711027016899843809,Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK),North,783,-0.0788,7.13,5.77
+31390951371938979254287350314,Quảng Ngãi UBND P. Nguyễn Nghiêm - TP Quảng Ngãi (KK),Central,846,-0.0713,18.32,11.51
+29098314940209976158571475636,"Trà Vinh xã Dân Thành, TX Duyên Hải (KK)",South,1190,-0.0567,5.87,3.89
+29544533341424688633522251105,Gia Lai KCN Trà Đa - Tp Pleiku (KK),Central,840,-0.0377,12.03,8.42
+28599103930259709512833128161,Quảng Ninh Phường Cẩm Thịnh - Cẩm Phả (KK),North,386,-0.006,20.1,5.86
+31570631866920915749872483233,Bình Định huyện Tuy Phước (KK),Central,457,0.0111,9.75,7.76
+29196010501691076420299004774,Bắc Ninh TT Quan trắc - phường Suối Hoa - TP Bắc Ninh (KK),North,539,0.0769,17.3,10.02
+29518839738601389925132404147,"Quảng Ninh Trung tâm văn hóa thể thao Cẩm Phả, đường Trần Phú, phường Cẩm Trung (KK)",North,752,0.1524,5.94,4.56
+31390939012620449761949792810,Ninh Thuận Công viên (bến xe cũ) - Đ. Thống Nhất - P. Thanh Sơn - TP Phan Rang (KK),Central,615,0.1967,5.24,4.09
+31390965631272148257054013994,Vũng Tàu Đ. Huyền Trân Công Chúa - Phường 8 - TP Vũng Tàu,South,852,0.2189,5.13,4.14
+31388839920718814259329251882,"Bình Dương số 593 Đại lộ Bình Dương, P. Hiệp Thành (KK)",South,823,0.2877,10.88,8.16
+31390944251495766704153049642,Quảng Nam Tiếp giáp Đ. Hùng Vương - KDC Đ. Hồ Xuân Hương (KK),Central,836,0.3031,7.93,5.23
+31390928700890512538630765099,Lâm Đồng Vườn hoa - đối diện THCS Lam Sơn - Phường 6 - TP Đà Lạt (KK),Central,849,0.323,12.85,10.11
+29518872592252585279589451187,Quảng Ninh Km11 - Minh Thành (KK),North,711,0.3625,9.13,6.81
+31388868531618872623864101418,Hải Dương UBND TP. Hải Dương - 106 Đường Trần Hưng Đạo (KK),North,838,0.4872,18.3,12.53
+28560877461938780203765592307,Hà Nội 556 Nguyễn Văn Cừ (KK),North,1166,0.6443,16.61,11.96
+31390957404024291365397346858,Thái Bình Cầu Thái Bình - Đ. Trần Thái Tông - P. Bồ Xuyên - TP Thái Bình (KK),North,840,0.726,13.83,10.44
+31390916083317566102523755051,HCM Đ. Lê Hữu Kiều - P. Bình Trưng Tây - Quận 2 (Ngã ba Lê Hữu Kiểu và Trương Văn Bang) (KK),South,825,0.7428,4.84,3.43
+31390912357075263208060500522,HCM Khu Liên cơ quan Bộ Tài Nguyên và Môi Trường - số 20 Đ. Lý Chính Thắng (KK),South,841,0.7461,4.4,3.51
+31388883344354363840031242796,Hà Nam Công Viên Nam Cao - P.Quang Trung - TP. Phủ Lý (KK),North,832,0.7636,12.94,7.87
+31390921469766835629621918251,Hưng Yên số 437 Nguyễn Văn Linh - Tp Hưng Yên (KK),North,817,0.7961,14.09,10.67
+31390908889087377344742439468,Hà Nội Công viên Nhân Chính - Khuất Duy Tiến (KK),North,827,0.8061,8.92,5.92
+31390903576425084107499649578,Hà Nội ĐHBK cổng Parabol đường Giải Phóng (KK),North,841,0.8096,14.13,9.73
