@@ -301,9 +301,17 @@ def compute_stage1_features(rfsi_vals, s1_type="full"):
 
 
 def ridge_predict(X_train, y_train, X_test, alpha=1.0):
+    X_tr = X_train.copy()
+    X_te = X_test.copy()
+    med = np.nanmedian(X_tr, axis=0)
+    for j in range(X_tr.shape[1]):
+        nans_tr = np.isnan(X_tr[:, j])
+        X_tr[nans_tr, j] = med[j]
+        nans_te = np.isnan(X_te[:, j])
+        X_te[nans_te, j] = med[j]
     scaler = StandardScaler()
-    X_tr = scaler.fit_transform(X_train)
-    X_te = scaler.transform(X_test)
+    X_tr = scaler.fit_transform(X_tr)
+    X_te = scaler.transform(X_te)
     ridge = Ridge(alpha=alpha)
     ridge.fit(X_tr, y_train)
     return ridge.predict(X_te)
