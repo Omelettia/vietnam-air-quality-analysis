@@ -97,3 +97,67 @@ Best model: **Best-8 Ridge** (R²=0.7038, MAE=5.50)
 
 v2 baseline (Best-5 Ridge): R²=0.6580
 Improvement: +0.0458 R²
+
+---
+
+## V3c — RF Swap + Satellite-Only Ceiling
+
+**Date**: 2026-05-01
+
+### 1. Swap IDW → RF in v3 Best-8
+
+| Configuration | R² | MAE | ΔR² |
+|---|:---:|:---:|:---:|
+| v3 Best-8 (with IDW) | 0.7038 | 5.50 | — |
+| IDW → mean_RF_mean | 0.4450 | 8.30 | -0.2588 |
+| IDW → mean_RF_inner_mean | 0.4023 | 8.11 | -0.3015 |
+| IDW → mean_RF_outer_mean | 0.4442 | 8.31 | -0.2596 |
+| IDW → mean_RF_center | 0.3873 | 8.57 | -0.3165 |
+| IDW → mean_AOT_fine | 0.4108 | 8.29 | -0.2930 |
+| IDW → mean_RF_grad_mag | 0.4132 | 8.27 | -0.2906 |
+| Drop IDW entirely (7 feats) | 0.3045 | 9.09 | -0.3993 |
+
+### 2. Add RF to v3 Best-8
+
+| Configuration | R² | MAE | ΔR² |
+|---|:---:|:---:|:---:|
+| v3 Best-8 (baseline) | 0.7038 | 5.50 | — |
+| + mean_RF_mean | 0.6960 | 5.63 | -0.0078 |
+| + mean_RF_inner_mean | 0.6959 | 5.74 | -0.0079 |
+| + mean_RF_outer_mean | 0.6960 | 5.63 | -0.0078 |
+| + mean_RF_center | 0.6996 | 5.54 | -0.0042 |
+| + mean_AOT_fine | 0.6926 | 5.59 | -0.0111 |
+| + mean_RF_grad_mag | 0.6970 | 5.66 | -0.0068 |
+| + all 8 RF features | 0.6549 | 6.20 | -0.0489 |
+
+### 3. Cleaned SSA (filtered values > 1)
+
+SSA correlations with station mean PM2.5 (after filtering):
+
+| Feature | Pearson | Spearman |
+|---|:---:|:---:|
+| mean_SSA_outer_mean_clean | +0.5606 | +0.4629 |
+| mean_SSA_mean_clean | +0.5628 | +0.4556 |
+| mean_SSA_inner_mean_clean | +0.5326 | +0.4226 |
+| mean_SSA_grad_mag_clean | -0.4224 | -0.3199 |
+| mean_SSA_center_clean | +0.2168 | -0.2095 |
+
+Adding to Best-8: only SSA_center_clean marginally helps (+0.0014). Others slightly hurt.
+
+### 4. Satellite-Only Best Subsets (no ground-station features)
+
+Pool: 39 features. Excluded: mean_PM25_nn_idw, std/iqr_PM25_nn_idw, nbr_diurnal_range, nbr_seasonal_amp.
+
+| k | R² | MAE | Features |
+|---|:---:|:---:|---|
+| 5 | 0.5727 | 6.95 | mean_AOT_outer_mean, mean_AOT_grad_mag, latitude, **mean_SSA_grad_mag_clean**, **mean_SSA_local_vs_regional_clean** |
+| 6 | 0.5918 | 6.70 | + **mean_SSA_inner_mean_clean** |
+| 7 | 0.6014 | 6.70 | + mean_AOT_inner_mean |
+
+### Conclusions
+
+1. **RF cannot replace IDW** — swapping drops R² by 0.26–0.32. RF is a noisy proxy; IDW is direct spatial interpolation.
+2. **RF adds nothing** on top of IDW — all additions slightly hurt R².
+3. **SSA matters for satellite-only prediction** — 3 cleaned SSA features appear in every satellite-only best subset.
+4. **Satellite-only ceiling: R²≈0.60** (vs 0.70 with IDW) — the gap is ~0.10 R², driven by the loss of direct PM2.5 neighbor information.
+5. **Core satellite features**: AOT outer mean, AOT gradient magnitude, latitude, SSA inner mean, SSA gradient, SSA local-vs-regional.
