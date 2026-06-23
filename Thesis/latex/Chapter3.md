@@ -1,0 +1,195 @@
+# CHƯƠNG 3: PHƯƠNG PHÁP ĐỀ XUẤT
+
+Chương 2 đã thiết lập các nền tảng lý thuyết cho ước tính PM2.5 dựa trên vệ tinh: mối quan hệ AOD-PM2.5, các thách thức của truy xuất ở vùng nhiệt đới, và sự phân định then chốt giữa đánh giá thời gian và đánh giá không gian. Chương này trình bày phương pháp cụ thể được phát triển trong luận văn. Mục 3.1 cung cấp tổng quan về quy trình giải pháp. Mục 3.2 mô tả khu vực nghiên cứu, mạng lưới quan trắc, và các nguồn dữ liệu vệ tinh. Mục 3.3 trình bày chi tiết các quy trình kiểm soát chất lượng dữ liệu. Mục 3.4 trình bày quy trình kỹ thuật đặc trưng. Mục 3.5 mô tả hướng tiếp cận mô hình hóa phân tầng và phụ thuộc vòng tròn mà nó kéo theo. Mục 3.6 trình bày ba phương pháp triển khai được phát triển để giải quyết phụ thuộc này. Mục 3.7 mô tả mô hình vùng áp dụng cho mạng lưới con đồng bằng sông Hồng.
+
+
+## 3.1 Tổng quan giải pháp
+
+Phương pháp đề xuất tuân theo một quy trình nhiều giai đoạn. Ở giai đoạn thứ nhất, các phép đo PM2.5 mặt đất được thu thập từ mạng lưới quan trắc tự động của Việt Nam và hợp nhất với các đặc trưng dẫn xuất từ vệ tinh được trích xuất qua Google Earth Engine, dữ liệu tái phân tích khí tượng từ ERA5, và các bộ dữ liệu không gian phụ trợ (ánh sáng ban đêm, mật độ xây dựng). Ở giai đoạn thứ hai, các quy trình kiểm soát chất lượng dữ liệu xác định và loại bỏ các cảm biến trục trặc và các quan trắc bất thường. Ở giai đoạn thứ ba, kỹ thuật đặc trưng tạo ra các biến dự đoán, bao gồm nội suy không gian từ các trạm lân cận (RFSI), các tổng hợp theo thời gian, và dấu vân tay chế độ theo trạm dẫn xuất từ chuỗi thời gian vệ tinh. Ở giai đoạn thứ tư, các mô hình XGBoost với chính quy hóa DART được huấn luyện và đánh giá dưới ba khung đánh giá: đánh giá chéo ngẫu nhiên năm-fold, đánh giá chéo bỏ-một-trạm-ra (LOSO), và đánh giá độc lập với một mạng lưới cảm biến chi phí thấp độc lập.
+
+Một khía cạnh đặc trưng của phương pháp này là việc khảo sát có hệ thống phân tầng theo chế độ ô nhiễm (T4F), trong đó các trạm được nhóm theo mức PM2.5 trung bình của chúng và các mô hình riêng được huấn luyện cho mỗi nhóm. Kỹ thuật này mang lại sự cải thiện đơn lẻ lớn nhất về độ chính xác dự đoán nhưng kéo theo một phụ thuộc vòng tròn — biến phân nhóm chính là biến mục tiêu dự đoán — và điều đó thúc đẩy việc phát triển ba phương pháp xấp xỉ độc lập cho dự đoán triển khai được tại các vị trí không có quan trắc.
+
+
+## 3.2 Khu vực nghiên cứu và nguồn dữ liệu
+
+### 3.2.1 Khu vực nghiên cứu
+
+Việt Nam trải dài trên khoảng 331.000 km² dọc bờ biển phía đông Bán đảo Đông Dương, kéo dài qua các vĩ độ từ khoảng 8,5°B đến 23,4°B. Địa lý của đất nước bao gồm đồng bằng sông Hồng ở phía Bắc, dải Tây Nguyên hẹp, và đồng bằng sông Cửu Long ở phía Nam. Sự đa dạng địa lý này tạo ra các chế độ PM2.5 riêng biệt: đồng bằng sông Hồng phía Bắc trải qua các đợt ô nhiễm mùa đông nghiêm trọng do nghịch nhiệt và vận chuyển xuyên biên giới từ miền Nam Trung Quốc, với PM2.5 trung bình năm vượt 35 µg/m³ tại các trạm đô thị; các thành phố ven biển miền Trung duy trì mức trung bình 15–25 µg/m³; và các trạm phía Nam dao động từ ô nhiễm trung bình (Thành phố Hồ Chí Minh, khoảng 21 µg/m³) đến rất sạch (các vị trí nông thôn đồng bằng sông Cửu Long, 5–10 µg/m³).
+
+### 3.2.2 Mạng lưới quan trắc mặt đất
+
+Ba loại trạm mặt đất được sử dụng trong luận văn này, mỗi loại đảm nhận một vai trò riêng.
+
+Bộ dữ liệu huấn luyện chính bao gồm 40 trạm quan trắc tự động từ mạng lưới của Trung tâm Quan trắc Môi trường Việt Nam (CEM), được ký hiệu là các trạm KK (Không Khí). Các trạm này báo cáo PM2.5 theo giờ cùng với các biến khí tượng (nhiệt độ, độ ẩm tương đối, áp suất, tốc độ và hướng gió) qua nền tảng dữ liệu Envisoft. Sau kiểm soát chất lượng (Mục 3.3), 37 trạm được giữ lại cho huấn luyện mô hình, trải dài giai đoạn từ tháng 1 năm 2023 đến tháng 4 năm 2026 với tổng cộng 684.837 quan trắc PM2.5 theo giờ hợp lệ (toàn bộ tập 40 trạm trước khi loại bỏ chứa 727.635 quan trắc theo giờ hợp lệ). Các trạm được giữ lại phân bố không đồng đều: 21 trạm ở miền Bắc (tập trung ở hành lang Hà Nội–Bắc Ninh–Hải Dương), 9 trạm ở miền Trung, và 7 trạm ở miền Nam (hai trạm đồng bằng sông Cửu Long bị loại bỏ đều thuộc miền Nam).
+
+Loại thứ hai bao gồm 83 trạm cảm biến chi phí thấp (LCS), cũng do CEM vận hành, sử dụng các cảm biến tán xạ laser lớp Plantower PMS. Các trạm này chủ yếu bắt đầu hoạt động từ tháng 10 năm 2025 và tập trung ở khu vực Hà Nội mở rộng, Hải Phòng, và một số tỉnh phía Bắc. Bởi vì chúng chỉ bao phủ mùa khô (tháng 10–tháng 4), chúng bị loại khỏi huấn luyện mô hình để tránh nhiễu loạn theo mùa và được dành riêng cho đánh giá độc lập. 83 trạm LCS này chỉ đóng vai trò là các mục tiêu đánh giá giữ lại; chúng không bao giờ được dùng làm điểm neo không gian RFSI trong bất kỳ mô hình được báo cáo nào. Trường lân cận RFSI được xây dựng hoàn toàn từ các trạm quan trắc tự động (KK).
+
+Trạm thứ ba là Đại sứ quán Hoa Kỳ tại Hà Nội, vận hành một thiết bị suy giảm beta Met One BAM-1022 chuẩn tham chiếu — cùng lớp thiết bị được dùng trong mạng lưới quan trắc của EPA Hoa Kỳ. Trạm này cung cấp 9.729 quan trắc theo giờ hợp lệ và đóng vai trò là điểm đánh giá độc lập chất lượng cao nhất. Nó nằm tại 21,022°B, 105,819°Đ ở quận Ba Đình, trung tâm Hà Nội, cách trạm huấn luyện KK gần nhất (ĐHBK) khoảng 3,0 km.
+
+### 3.2.3 Quy trình thu thập dữ liệu
+
+Dữ liệu từ nhiều nguồn bất đồng nhất được thu thập và tích hợp qua ba quy trình riêng biệt.
+
+**Dữ liệu quan trắc mặt đất.** PM2.5, PM10, khí vết (NO₂, SO₂, CO, O₃), và các biến khí tượng (nhiệt độ, độ ẩm, áp suất, tốc độ và hướng gió) được thu thập từ nền tảng TEDP (tedp.vn) — cổng dữ liệu công khai của hệ thống Envisoft do Trung tâm Quan trắc Môi trường Việt Nam vận hành. Quy trình thu thập gồm hai giai đoạn: (i) giai đoạn lập chỉ mục truy vấn API tìm kiếm của TEDP để lấy ID bản ghi cho mỗi trạm trong khoảng thời gian mong muốn; và (ii) giai đoạn lấy chi tiết sử dụng một bộ thu thập đa luồng (4 worker, giới hạn tốc độ 3 yêu cầu/giây/worker) để gọi API chi tiết cho mỗi ID bản ghi nhằm lấy dữ liệu theo giờ đầy đủ. Bộ thu thập hỗ trợ vận hành có thể tiếp tục bằng cách so sánh các ID bản ghi đã tải về với chỉ mục, và ghi dữ liệu một cách nguyên tử theo từng trạm. Khoảng 840.000 bản ghi theo giờ được thu thập cho 40 trạm KK trải dài từ tháng 1 năm 2023 đến tháng 4 năm 2026. Tất cả các nhãn thời gian được chuẩn hóa về giờ Việt Nam (UTC+7).
+
+**Dữ liệu viễn thám vệ tinh.** Dữ liệu vệ tinh được trích xuất tại tọa độ của mỗi trạm bằng Code Editor của Google Earth Engine (GEE). Năm script JavaScript tùy chỉnh được phát triển, mỗi script xử lý một bộ sưu tập ảnh cụ thể: (1) MAIAC AOD — trích xuất lưới 5×5 pixel quanh mỗi trạm; (2) TROPOMI — trích xuất giá trị pixel trung tâm cho NO₂, SO₂, CO, HCHO; (3) MODIS LST — trích xuất nhiệt độ bề mặt ngày/đêm từ cả Terra và Aqua trên lưới 5×5; (4) GEOS-CF và MERRA-2 — trích xuất PM2.5 và AOD theo giờ tại ô lưới của mỗi trạm; (5) GHAP/ACAG — trích xuất khí hậu PM2.5 theo tháng và theo năm. Kết quả trích xuất được xuất ra các tệp CSV theo năm lên Google Drive, sau đó được tải về và đóng gói thành các tệp nén ZIP. Quá trình trích xuất GEE mất khoảng 2–4 giờ mỗi script do các giới hạn tính toán phía máy chủ.
+
+**Dữ liệu tái phân tích khí tượng.** Dữ liệu ERA5 (nhiệt độ, độ ẩm, áp suất, gió, độ cao lớp biên hành tinh) được thu thập qua Open-Meteo Archive API — một dịch vụ miễn phí cung cấp quyền truy cập tái phân tích ERA5 của ECMWF mà không cần đăng ký tài khoản CDS. Một script Python truy vấn API cho từng trạm riêng lẻ, với bộ nhớ đệm và thử lại tự động để xử lý các giới hạn tốc độ. Các nhãn thời gian UTC được chuyển đổi sang UTC+7 ở bước tải về.
+
+Toàn bộ quy trình thu thập hoàn toàn có thể tái lập: các script thu thập, trích xuất, và xây dựng bộ dữ liệu có sẵn trong kho mã nguồn tại `scripts/collection/` và `scripts/data/`.
+
+### 3.2.4 Dữ liệu viễn thám vệ tinh
+
+Dữ liệu vệ tinh được trích xuất tại tọa độ của mỗi trạm bằng Google Earth Engine (GEE). Năm script GEE tùy chỉnh được phát triển cho mục đích này, mỗi script nhắm đến một nguồn dữ liệu và hình học trích xuất cụ thể.
+
+MODIS MAIAC AOD (MCD19A2, Collection 6.1) từ Lyapustin et al. (2018) cung cấp độ sâu quang học sol khí ở độ phân giải 1 km từ các vệ tinh Terra và Aqua, với thời điểm bay qua lần lượt vào khoảng 10:30 và 13:30 giờ địa phương. Đối với mỗi trạm, AOD được trích xuất tại pixel trung tâm và dưới dạng các tóm tắt thống kê (trung bình, độ lệch chuẩn, cực đại) trên một lưới 5×5 pixel (25 km²), nắm bắt cả tải sol khí cục bộ lẫn lân cận. Do độ che phủ mây dai dẳng của Việt Nam, truy xuất MAIAC AOD chỉ khả dụng cho 14,9% số quan trắc theo giờ trong bộ dữ liệu — một giới hạn then chốt được giải quyết thông qua khả năng xử lý giá trị thiếu bản địa của XGBoost.
+
+Các sản phẩm sol khí Mức 2 của Himawari-8 AHI (Advanced Himawari Imager) cung cấp AOD ở độ phân giải khoảng 5 km từ quỹ đạo địa tĩnh, mang lại độ phân giải thời gian theo giờ trong các giờ ban ngày — một lợi thế đáng kể so với hai lần bay qua mỗi ngày của MODIS quỹ đạo cực. Đối với mỗi trạm, AOT pixel trung tâm, thống kê lưới 5×5 (trung bình, độ lệch chuẩn, trung bình vành trong/ngoài), số mũ Ångström, suất phản xạ tán xạ đơn, và độ bất định truy xuất được trích xuất. Độ phủ AOT trung bình theo lưới (khoảng 51% số giờ ban ngày) vượt tỷ lệ pixel trung tâm của MODIS, bởi việc lấy trung bình không gian phục hồi thông tin từ các cảnh có mây một phần. Cùng nhau, các đặc trưng Himawari AHI cấu thành 9 trong 10 đặc trưng của nhóm AOD vệ tinh, đóng góp 8,5% tổng độ tăng của mô hình.
+
+TROPOMI (TROPOspheric Monitoring Instrument) trên Sentinel-5P cung cấp mật độ cột tầng đối lưu theo ngày của nitơ điôxít (NO₂), lưu huỳnh điôxít (SO₂), cacbon monoxit (CO), và formaldehyde (HCHO) ở độ phân giải khoảng 5,5 km. Các khí vết này đóng vai trò là đại diện cho các loại nguồn phát thải: NO₂ chỉ thị giao thông và phát điện, SO₂ chỉ thị đốt công nghiệp, CO chỉ thị đốt không hoàn toàn (xe máy, nấu nướng), và HCHO chỉ thị sự hình thành sol khí hữu cơ sinh học và thứ cấp. Đối với mỗi trạm, giá trị pixel trung tâm được trích xuất.
+
+Nhiệt độ Bề mặt Đất MODIS (MOD11A1/MYD11A1) từ Wan et al. (2021) cung cấp nhiệt độ bề mặt ngày và đêm ở độ phân giải 1 km. Nghịch nhiệt — được chỉ thị bởi LST ban đêm cao hơn so với nhiệt độ không khí — có liên hệ với các đợt tích tụ PM2.5. LST được trích xuất dưới dạng các tóm tắt thống kê trên lưới 5×5 pixel.
+
+### 3.2.5 Các sản phẩm mô hình vận chuyển hóa học
+
+Hai sản phẩm dẫn xuất từ CTM được đưa vào làm đặc trưng và được đánh giá như các ước tính PM2.5 độc lập.
+
+GEOS-CF (GEOS Composition Forecasting, phiên bản 1.0) cung cấp ước tính PM2.5 toàn cầu theo giờ ở độ phân giải 0,25° (khoảng 25 km). Các giá trị được trích xuất tại ô lưới của mỗi trạm cho cả PM2.5 và AOD. Như được ghi nhận ở Chương 4, GEOS-CF thể hiện một chu kỳ ngày đêm bị đảo ngược một cách hệ thống ở Việt Nam so với quan trắc mặt đất — dự đoán đỉnh PM2.5 vào giữa trưa thay vì vào các giờ sáng sớm khi các phép đo bề mặt đạt đỉnh — khiến các giá trị tuyệt đối của nó không đáng tin cậy làm ước tính tiên nghiệm cho khu vực này.
+
+MERRA-2 (Modern-Era Retrospective analysis for Research and Applications, Version 2) cung cấp tái phân tích sol khí theo giờ ở độ phân giải 0,5° × 0,625°. PM2.5 được dẫn xuất từ các nồng độ khối lượng sol khí theo loài (sulfat, carbon hữu cơ, carbon đen, bụi, muối biển). PM2.5 và AOD của MERRA-2 được trích xuất tại ô lưới của mỗi trạm. Đánh giá toàn cầu cho thấy Chỉ số Phù hợp của MERRA-2 cho Đông Nam Á là 0,39 — kém nhất trong tất cả các khu vực toàn cầu.
+
+### 3.2.6 Dữ liệu tái phân tích khí tượng
+
+Tái phân tích ERA5 từ Copernicus (2023) cung cấp các trường khí tượng theo giờ ở độ phân giải 0,25°. Các biến sau được trích xuất tại mỗi trạm: nhiệt độ 2 mét, nhiệt độ điểm sương 2 mét (từ đó độ ẩm tương đối được dẫn xuất), các thành phần gió U và V 10 mét, áp suất bề mặt, tổng lượng giáng thủy, và độ cao lớp biên hành tinh (PBLH). Dữ liệu gió ERA5 được dùng ưu tiên hơn các phép đo gió Envisoft tại chỗ, bởi một cuộc kiểm toán chất lượng cho thấy hướng gió Envisoft có tương quan vòng chỉ 0,21 với ERA5 — có thể do các vật cản cục bộ tại các vị trí lắp đặt cảm biến.
+
+Đối với nhiệt độ, độ ẩm tương đối, và áp suất khí quyển tại chỗ, các phép đo trạm Envisoft được dùng khi có sẵn và được bổ sung bằng các giá trị ERA5 trong các khoảng trống. Dữ liệu OpenMeteo API cung cấp các tham số khí tượng cục bộ bổ sung.
+
+### 3.2.7 Dữ liệu không gian phụ trợ
+
+Cường độ ánh sáng ban đêm từ các ảnh tổng hợp năm VIIRS DNB (Day/Night Band) đóng vai trò là đại diện cho đô thị hóa và hoạt động kinh tế. Diện tích dấu chân công trình trong phạm vi 1 km quanh mỗi trạm, dẫn xuất từ bộ dữ liệu Open Buildings của Google (Google, 2023), cung cấp một thước đo mật độ môi trường xây dựng. Khí hậu PM2.5 theo tháng và theo năm của GHAP (Global High-resolution Air Pollutants) ở độ phân giải 1 km từ Wei et al. (2023) cung cấp một đường cơ sở dài hạn dẫn xuất từ vệ tinh, được dùng vừa làm đặc trưng vừa làm mốc so sánh để đánh giá.
+
+
+## 3.3 Kiểm soát chất lượng dữ liệu
+
+Kiểm soát chất lượng dữ liệu được áp dụng ở ba cấp: lọc ở cấp quan trắc, làm sạch ở cấp đặc trưng, và loại bỏ ở cấp trạm.
+
+### 3.3.1 Lọc ở cấp quan trắc
+
+Ba loại quan trắc PM2.5 bất thường được xác định và loại bỏ. Thứ nhất, các giá trị đọc bằng không hoặc âm, vốn ở các cảm biến lớp Plantower thường chỉ ra hiện vật sàn cảm biến chứ không phải PM2.5 thực sự bằng không, được loại trừ (2.448 quan trắc). Thứ hai, các chuỗi đường-phẳng — được định nghĩa là năm giờ liên tiếp trở lên với giá trị PM2.5 giống hệt đến chữ số thập phân thứ nhất — được loại bỏ, bởi chúng chỉ ra một cảm biến bị kẹt hoặc đóng băng (16.209 quan trắc). Thứ ba, các chuỗi kẹt-thấp — được định nghĩa là 48 giờ liên tiếp trở lên với 0 < PM2.5 ≤ 2 µg/m³ — được loại bỏ, bởi các giá trị đọc gần-không duy trì ở mức này chỉ ra một cảm biến đang vận hành ở sàn nhiễu của nó chứ không phải đo nồng độ môi trường thực sự (14.683 quan trắc). Ba mặt nạ này chồng lấn ở chỗ, ví dụ, một chuỗi kẹt-thấp cũng đọc giống hệt ở độ chính xác 0,1 µg/m³; hợp của chúng loại bỏ 25.093 quan trắc duy nhất (3,4% của 727.635 bản ghi PM2.5 hợp lệ). Mặc dù tỷ lệ này khiêm tốn, các quan trắc bị ảnh hưởng tập trung ở các trạm và giai đoạn thời gian cụ thể, và việc loại bỏ chúng tạo ra sự cải thiện đo được là +0,011 về R² LOSO.
+
+### 3.3.2 Làm sạch ở cấp đặc trưng
+
+Một số đặc trưng vệ tinh và khí tượng thể hiện các giá trị bất hợp lý về mặt vật lý, chỉ ra các sai số truy xuất hoặc cảm biến. Các quy tắc làm sạch sau được áp dụng: các giá trị độ ẩm tương đối dưới 5% được đặt thành thiếu (chỉ ra sai số cảm biến thiên lệch-khô); các giá trị áp suất khí quyển ngoài khoảng 900–1.100 hPa được đặt thành thiếu; các giá trị số mũ Ångström của MODIS dưới 0 hoặc trên 3 được đặt thành thiếu (chỉ ra truy xuất thất bại); và các giá trị tốc độ gió Envisoft đúng bằng không được đặt thành thiếu (vì gió bằng không thực sự là hiếm về mặt vật lý và giá trị này thường chỉ ra trục trặc cảm biến). Các quy tắc này ảnh hưởng đến 86.912 quan trắc (11,9% bộ dữ liệu) trên bốn nhóm đặc trưng và cải thiện R² LOSO thêm +0,004.
+
+### 3.3.3 Loại bỏ ở cấp trạm
+
+Ba trạm KK được loại khỏi bộ dữ liệu huấn luyện dựa trên các chỉ báo thống kê về trục trặc cảm biến, được kiểm chứng đối chiếu với đánh giá tính hợp lý vật lý và các ước tính PM2.5 dẫn xuất từ vệ tinh. Tiêu chí xóa là chẩn đoán nội tại của cảm biến (tỷ lệ đúng-không, các chuỗi đường-phẳng, hệ số biến thiên); các giá trị PM2.5 dẫn xuất từ GHAP và vệ tinh khác chỉ được dùng để củng cố các quyết định loại bỏ thu được, chứ không phải bản thân tiêu chí xóa.
+
+Đà Nẵng – Phạm Hùng (15,996°B, 108,207°Đ) thể hiện PM2.5 trung bình 6,2 µg/m³ với trung vị chỉ 2,5 µg/m³, chỉ ra một phân bố lệch phải cực độ bị chi phối bởi các giá trị đọc gần-không. Trạm này cho thấy tỷ lệ không-hoặc-âm 9,9% (1.602 trong 16.221 quan trắc) và 11,4% tổng số quan trắc bị gắn cờ bởi ít nhất một mặt nạ QC — so với dưới 1% đối với các trạm vận hành bình thường. Đây là các triệu chứng kinh điển của một cảm biến Plantower PMS5003 bị suy giảm như được ghi nhận bởi AirGradient (2024).
+
+Sóc Trăng (9,614°B, 105,968°Đ) ghi nhận PM2.5 trung bình 6,7 µg/m³, chưa bằng một nửa ước tính vệ tinh GHAP khoảng 15 µg/m³ cho cùng ô lưới. Hệ số biến thiên 1,51 cao một cách bất thường, và 10,1% quan trắc bị gắn cờ bởi các mặt nạ QC — chủ yếu là các chuỗi đường-phẳng và kẹt-thấp — chỉ ra trục trặc cảm biến gián đoạn.
+
+Trà Vinh – Đông Hải (9,576°B, 106,488°Đ) báo cáo PM2.5 trung bình 5,7 µg/m³ so với ước tính GHAP khoảng 14 µg/m³. Mặc dù các thống kê thời gian có vẻ sạch hơn hai trạm bị loại bỏ kia (không có giá trị đọc đúng-không, chỉ 1,0% quan trắc bị gắn cờ), sự chênh lệch gấp 2,5 lần với mọi sản phẩm vệ tinh độc lập và nghiên cứu thực địa ở đồng bằng sông Cửu Long chỉ ra một độ thiên lệch thấp hệ thống, có thể từ một sai lệch hiệu chuẩn.
+
+Hai trạm bổ sung được gắn cờ để diễn giải thận trọng nhưng vẫn được giữ lại. Quảng Ninh – Nhà máy Tuyển Than nằm trong một khu chế biến than được phun nước nhiều và đọc 6,6 µg/m³, có thể phản ánh vi môi trường chứ không phải không khí môi trường. Thái Nguyên đọc 55,2 µg/m³ — nhất quán với mức trung bình thành phố 56,4 µg/m³ mà IQAir báo cáo và sự gần kề của trạm với khu liên hợp thép TISCO — nhưng được gắn cờ là một vị trí chịu tác động nguồn chứ không phải một trạm đô thị đại diện.
+
+Sau khi loại bỏ trạm, 37 trạm KK được giữ lại cho huấn luyện mô hình và đánh giá LOSO.
+
+
+## 3.4 Kỹ thuật đặc trưng
+
+Quy trình kỹ thuật đặc trưng tạo ra 66 biến dự đoán từ các nguồn dữ liệu được mô tả ở Mục 3.2, được tổ chức thành sáu nhóm.
+
+### 3.4.1 Đặc trưng nội suy không gian (RFSI)
+
+Các đặc trưng Nội suy Không gian Random Forest (RFSI) cung cấp cho mô hình thông tin từ các trạm mặt đất lân cận. Đối với mỗi quan trắc mục tiêu tại trạm $s$ và thời điểm $t$, ba trạm gần nhất có giá trị PM2.5 hợp lệ tại thời điểm $t$ được xác định. Các giá trị PM2.5 của chúng (PM25_nn1, PM25_nn2, PM25_nn3), khoảng cách (dist_nn1, dist_nn2, dist_nn3), và một trung bình có trọng số nghịch đảo khoảng cách (PM25_nn_idw) được tính. Các độ trễ thời gian của trạm lân cận gần nhất (PM25_nn1_lag1h, PM25_nn1_lag3h) cũng được đưa vào để nắm bắt tính bền bỉ trong điều kiện của các trạm lân cận.
+
+Quan trọng là, trong đánh giá chéo LOSO, trạm giữ lại bị loại khỏi tập lân cận của tất cả các trạm còn lại, ngăn chặn rò rỉ không gian. Tập lân cận được lấy hoàn toàn từ các trạm quan trắc tự động (KK) — 37 trạm trên toàn quốc, trong đó 12 trạm thuộc mạng lưới con đồng bằng sông Hồng. 83 cảm biến chi phí thấp được dành làm mục tiêu đánh giá độc lập và không được dùng làm điểm neo RFSI trong bất kỳ mô hình được báo cáo nào.
+
+Các đặc trưng RFSI cùng nhau chiếm khoảng 37% tổng độ tăng của mô hình trong phân tích tầm quan trọng đặc trưng, khiến chúng trở thành nhóm đặc trưng quan trọng nhất. Sự thống trị này phản ánh tự tương quan không gian mạnh của PM2.5 ở các khoảng cách 10–50 km, đặc biệt trong cụm trạm phía Bắc dày đặc.
+
+### 3.4.2 Đặc trưng khí tượng
+
+Các đặc trưng khí tượng từ ERA5 và dẫn xuất từ trạm bao gồm nhiệt độ, độ ẩm tương đối, áp suất khí quyển, tốc độ gió, các thành phần gió U và V, PBLH, và tổng lượng giáng thủy. Các đặc trưng dẫn xuất nắm bắt tính bền bỉ của thời tiết: PBLH_min_24h (PBLH cực tiểu trong 24 giờ trước đó, chỉ ra độ dày của lớp xáo trộn mỏng nhất gần đây), cực tiểu hệ số thông gió (VC_min_24h = tốc độ gió × PBLH), số giờ đình trệ (số giờ trong 24 giờ trước đó mà hệ số thông gió rơi xuống dưới ngưỡng), thay đổi độ ẩm tương đối trong 6 giờ (dRH_6h), và lượng mưa tích lũy 48 giờ (rain_sum_48h, chỉ ra rửa trôi lắng đọng ướt).
+
+### 3.4.3 Đặc trưng quan trắc vệ tinh
+
+Các quan trắc vệ tinh trực tiếp bao gồm MODIS MAIAC AOD tại pixel trung tâm và thống kê lưới 5×5 (trung bình, độ lệch chuẩn), số mũ Ångström của MODIS (chỉ ra phân bố kích thước sol khí), các cột khí vết TROPOMI (NO₂, SO₂, CO, HCHO) tại pixel trung tâm, và thống kê nhiệt độ bề mặt đất MODIS. Một đại diện phát thải tổng hợp (smart_v1_center, smart_v1_contrast) kết hợp ánh sáng ban đêm, mật độ xây dựng, NO₂ và SO₂ từ TROPOMI thành một chỉ báo duy nhất về cường độ phát thải cục bộ và gradient không gian của nó.
+
+### 3.4.4 Đặc trưng mô hình vận chuyển hóa học
+
+PM2.5 và AOD theo giờ của GEOS-CF, PM2.5 và AOD theo giờ của MERRA-2, và khí hậu PM2.5 theo tháng của GHAP được đưa vào làm đặc trưng. Mặc dù có các độ thiên lệch đã được ghi nhận của các sản phẩm này tại Việt Nam (Chương 4), XGBoost về tiềm năng có thể học các hệ số hiệu chỉnh vùng. Trong thực tế, phân tích tầm quan trọng đặc trưng cho thấy các đặc trưng này đóng góp tối thiểu — và trong một số cấu hình, việc loại bỏ chúng cải thiện hiệu suất — xác nhận các phát hiện đánh giá CTM.
+
+### 3.4.5 Đặc trưng thời gian
+
+Giờ trong ngày và ngày trong năm được mã hóa thành các cặp sin/cosin để nắm bắt các mẫu tuần hoàn: hour_sin, hour_cos, day_of_year_sin, day_of_year_cos, month_sin, month_cos. Các đặc trưng này cho phép mô hình học các mẫu PM2.5 theo ngày đêm và theo mùa mà không áp đặt một dạng hàm cụ thể.
+
+### 3.4.6 Dấu vân tay chế độ của trạm
+
+Một nhóm đặc trưng mới được giới thiệu ở các giai đoạn sau của các thí nghiệm trong luận văn này, dấu vân tay chế độ của trạm nắm bắt các thống kê thời gian của các quan trắc vệ tinh tại mỗi trạm trên một cửa sổ trượt 30 ngày: aod_30d_mean_stn (AOD trung bình 30 ngày tại trạm), hcho_30d_mean_stn, co_30d_mean_stn, aod_30d_p90_stn, co_30d_std_stn, và các thống kê tương tự cho các biến vệ tinh khác. Các đặc trưng này mã hóa "đây là loại địa điểm gì" chỉ từ chuỗi thời gian vệ tinh, mà không cần các phép đo PM2.5 mặt đất. Trong thí nghiệm v5b, tám dấu vân tay chế độ của trạm xuất hiện trong số 20 đặc trưng hàng đầu theo độ tăng của mô hình, với tầm quan trọng kết hợp khoảng 28% — gần bằng đóng góp của RFSI — chỉ ra rằng các quan trắc vệ tinh quả thực có mang thông tin về chế độ ô nhiễm theo trạm, ngay cả khi thông tin này không đủ để giải quyết hoàn toàn phụ thuộc vòng tròn T4F (Mục 3.5).
+
+
+## 3.5 Mô hình hóa phân tầng (T4F)
+
+### 3.5.1 Động lực và định nghĩa
+
+Kỹ thuật có tác động lớn nhất được phát hiện trong quá trình phát triển thực nghiệm của luận văn này là phân tầng Tier-4-Fold (T4F). 37 trạm huấn luyện được nhóm thành bốn tầng dựa trên nồng độ PM2.5 trung bình của chúng: t0 (< 10 µg/m³, 7 trạm), t1 (10–20 µg/m³, 10 trạm), t2 (20–35 µg/m³, 11 trạm), và t3 (> 35 µg/m³, 9 trạm). Ba cảm biến bị hỏng được loại bỏ ở Mục 3.3.3 đều là các trạm tầng-sạch (t0), đó là lý do số lượng t0 giảm từ giá trị 10 trước khi loại bỏ xuống còn 7 trong khi các tầng khác không đổi. Các ranh giới tầng 10/20/35 µg/m³ được cố định tiên nghiệm từ các loại chất lượng không khí của WHO/quốc gia và không được tinh chỉnh dựa trên hiệu suất LOSO; việc tinh chỉnh chúng dựa trên tham số giữ lại sẽ mở ra một kênh rò rỉ. Ranh giới t3 ở 35 µg/m³ nằm trong một khoảng trống rộng của phân bố trung bình theo trạm và bền vững trước các nhiễu nhỏ, trong khi một dịch chuyển ±2 µg/m³ tại các ranh giới 10 và 20 µg/m³ sẽ gán lại khoảng năm đến bảy trạm giữa các tầng liền kề. Các mô hình XGBoost riêng được huấn luyện cho mỗi tầng, và trong đánh giá LOSO, mỗi trạm giữ lại được dự đoán chỉ bằng mô hình của tầng riêng của nó.
+
+T4F cải thiện R² LOSO thêm khoảng +0,17 (trong-cùng-tệp, đo so với đường cơ sở không phân nhóm cùng-tệp là 0,027) và lên đến +0,26 tùy thuộc vào tham số tổng hợp và cấu hình tham chiếu, với ước tính có thể bảo vệ nhất gần +0,17. Điều này khiến nó trở thành mức tăng hiệu suất đơn lẻ lớn nhất của bất kỳ kỹ thuật nào được khảo sát. Sự cải thiện phát sinh bởi vì các trạm trong cùng một tầng chia sẻ các mức PM2.5 nền tương tự, biên độ ngày đêm, và các mẫu theo mùa, cho phép mô hình riêng theo tầng tập trung vào việc mô hình hóa các độ lệch so với một chế độ chung thay vì đồng thời trải dài toàn bộ dải 5–55 µg/m³ của các trạm Việt Nam.
+
+### 3.5.2 Phụ thuộc vòng tròn
+
+T4F đòi hỏi phải biết trung bình PM2.5 của mỗi trạm để gán tầng của nó — nhưng trung bình PM2.5 chính là đại lượng mà mô hình nhắm dự đoán tại các vị trí không có quan trắc. Điều này tạo ra một phụ thuộc vòng tròn được thỏa mãn một cách hiển nhiên trong đánh giá LOSO (nơi tầng thực của trạm giữ lại được biết từ dữ liệu lịch sử) nhưng về cơ bản là vấn đề khi triển khai tại các vị trí mới.
+
+Phụ thuộc vòng tròn này không phải là độc nhất của luận văn này; nó phản ánh một thách thức chung trong bất kỳ hướng tiếp cận mô hình hóa nào hưởng lợi từ việc biết phân bố của biến mục tiêu một cách tiên nghiệm. Điều đặc trưng trong đóng góp của luận văn này là việc kiểm tra một cách có hệ thống và cạn kiệt các phương pháp xấp xỉ để giải quyết phụ thuộc, được ghi nhận ở Mục 3.6 và đánh giá ở Chương 5. Quan sát then chốt cuối cùng giải quyết nó (Mục 3.6.4) là nhãn tầng không gì khác hơn là một mã hóa thô của mức PM2.5 nền của trạm, và mức này — khác với chính nhãn tầng — có thể được ước tính tại một vị trí không có quan trắc không phải từ các biến quan sát được từ vệ tinh mà bằng nội suy không gian từ mạng lưới quan trắc xung quanh.
+
+
+## 3.6 Các phương pháp triển khai được
+
+Bốn phương pháp được phát triển để xấp xỉ hiệu suất mức-T4F mà không đòi hỏi PM2.5 thực địa tại vị trí mục tiêu. Ba phương pháp đầu (Mục 3.6.1–3.6.3) ước tính tầng của trạm từ các biến quan sát được từ vệ tinh, phát thải, và sử dụng đất, rồi hội tụ ở một ngưỡng trần triển khai thấp, qua đó xác lập rằng không có đại diện quan sát được từ vệ tinh nào phục hồi được mức tăng do tầng. Phương pháp thứ tư (Mục 3.6.4) từ bỏ hoàn toàn việc ước tính tầng và thay vào đó nội suy mức nền của trạm từ các trạm quan trắc lân cận; đây là phương pháp được mang theo làm mô hình triển khai, và nó phục hồi gần như toàn bộ mức tăng oracle ở bất cứ đâu mạng lưới cung cấp các trạm lân cận khả dụng.
+
+### 3.6.1 Tổ hợp chuyên gia cổng-mềm
+
+Tổ hợp chuyên gia (MoE) cổng-mềm huấn luyện bốn mô hình XGBoost riêng theo tầng (các "chuyên gia") song song với một mô hình cổng hồi quy logistic dự đoán các xác suất thành viên tầng từ chín đặc trưng quan sát được: trung bình năm của GHAP, smart_v1_center (tổng hợp phát thải), building_area_1km, các mật độ cột TROPOMI (SO₂, CO, HCHO, NO₂), khí hậu AOD của ACAG, và vĩ độ. Đối với mỗi dự đoán, mô hình cổng tạo ra một phân bố xác suất trên bốn tầng, và dự đoán cuối cùng là trung bình có trọng số theo xác suất của bốn dự đoán chuyên gia.
+
+Cổng đạt độ chính xác 58% trong đánh giá bỏ-một-trạm-ra (so với đường cơ sở ngẫu nhiên 25%): độ chính xác 78% cho các trạm t3, 70% cho t0, nhưng chỉ 45% cho t2 và 40% cho t1 — phản ánh khó khăn trong việc phân biệt các mức ô nhiễm trung gian chỉ từ các biến quan sát được từ vệ tinh. Mô hình triển khai được thu được đạt R² trung bình theo trạm là +0,045 — khiêm tốn nhưng là trung bình theo trạm dương đầu tiên được đạt một cách nhất quán bởi một cấu hình hoàn toàn triển khai được.
+
+### 3.6.2 Đường cơ sở dự đoán hai pha
+
+Hướng tiếp cận hai pha tách bài toán thành (i) dự đoán trung bình PM2.5 của trạm từ các đặc trưng vệ tinh và sử dụng đất, và (ii) sử dụng trung bình dự đoán này làm biên cơ sở cho mô hình XGBoost theo giờ. Pha 1 sử dụng một mô hình hồi quy Ridge được huấn luyện với đánh giá bỏ-một-trạm-ra trên 13 đặc trưng cấp trạm (trung bình năm GHAP, các khí hậu TROPOMI, ánh sáng ban đêm, mật độ xây dựng, vĩ độ, kinh độ), đạt R² LOO = 0,591 và MAE = 7,08 µg/m³ cho việc dự đoán trung bình PM2.5 năm của trạm.
+
+Trung bình trạm dự đoán sau đó được cung cấp cho XGBoost dưới dạng base_margin — một dự đoán ban đầu mà các cây tăng cường học để hiệu chỉnh. Điều này về mặt khái niệm tương tự với việc cung cấp cho mô hình một tiên nghiệm có thông tin về mức ô nhiễm của trạm. Cấu hình hai pha triển khai được (pred_bm) là một thiết kế hoàn toàn triển khai được, nhưng nó không vượt qua đường cơ sở toàn cục về tổng thể: R² gộp có trọng số-n của nó là khoảng −0,04 và R² trung bình theo trạm của nó là khoảng −0,063. Các mức tăng chỉ giới hạn ở các trạm ô nhiễm nhất, nơi R² trung bình tầng-t3 đạt khoảng 0,39; R² trung vị theo trạm chỉ khoảng +0,04. Các giá trị gộp và trung bình âm chỉ ra rằng các sai số dự đoán của Pha 1 đủ lớn để làm suy giảm hiệu suất tại đa số các trạm, đặc biệt những trạm có PM2.5 thấp nơi đường cơ sở dự đoán vượt quá một cách hệ thống.
+
+### 3.6.3 Dấu vân tay chế độ dẫn xuất từ vệ tinh
+
+Hướng tiếp cận thứ ba tích hợp trực tiếp các đặc trưng dấu vân tay chế độ của trạm được mô tả ở Mục 3.4.6 vào một mô hình toàn cục duy nhất (không phân tầng). Bằng cách cung cấp cho XGBoost các thống kê vệ tinh 30 ngày tại mỗi trạm, mô hình có thể ngầm học cách điều kiện hóa các dự đoán của nó theo chế độ ô nhiễm của trạm mà không cần gán tầng tường minh.
+
+Hướng tiếp cận này đạt R² trung vị theo trạm là +0,043 — tương đương với MoE cổng-mềm — với tám đặc trưng dấu vân tay chế độ xuất hiện trong số 20 đặc trưng hàng đầu theo độ tăng của mô hình. Sự hội tụ của ba hướng tiếp cận độc lập (cổng mềm: +0,045, đường cơ sở dự đoán: +0,036 trung vị, dấu vân tay chế độ: +0,043 trung vị) ở xấp xỉ cùng một mức hiệu suất cung cấp bằng chứng mạnh rằng đây đại diện cho ngưỡng trần triển khai có thể đạt được chỉ từ các biến quan sát được từ vệ tinh, khi không có dữ liệu hiệu chuẩn thực địa.
+
+### 3.6.4 Định tuyến tiên nghiệm không gian
+
+Ba hướng tiếp cận trên chia sẻ một chiến lược chung — ước tính tầng của trạm, rồi hành động dựa trên ước tính đó — và một thất bại chung: tầng không thể được phục hồi từ các biến quan sát được từ vệ tinh với độ chính xác đủ để hữu dụng. Hướng tiếp cận thứ tư từ bỏ chiến lược đó. Nó hoàn toàn không phân loại tầng. Thay vào đó, nó ước tính trực tiếp *mức nền* của trạm bằng nội suy không gian từ mạng lưới quan trắc xung quanh, và sử dụng ước tính đó để neo và định tuyến một tập các luồng dự đoán. Đây là lời giải triển khai được cho phụ thuộc vòng tròn và là mô hình được mang theo trong phần còn lại của luận văn.
+
+Bộ ước tính là một **tiên nghiệm không gian** có trọng số khoảng cách: đối với một vị trí mục tiêu, tiên nghiệm là trung bình có trọng số khoảng cách Gauss của trung bình PM2.5 quan trắc của *k* trạm huấn luyện gần nhất, $\text{prior} = \sum_i w_i \bar{y}_i / \sum_i w_i$ với $w_i = \exp(-d_i^2/s^2)$, trong đó $d_i$ là khoảng cách vòng tròn lớn đến trạm huấn luyện $i$, $s$ là một thang độ dài khoảng 55–65 km, và $\bar{y}_i$ là trung bình quan trắc riêng của trạm đó. Trạm giữ lại luôn bị loại khỏi tiên nghiệm của chính nó, nên ước tính chỉ sử dụng mạng lưới xung quanh và không bao giờ dùng dữ liệu riêng của mục tiêu. Một hiệu chuẩn độ tin cậy bỏ-một-trạm-ra đi kèm với tiên nghiệm: nó chấm điểm mức độ đáng tin cậy của tiên nghiệm không gian quanh mỗi vị trí từ sự đồng thuận của các trung bình trạm lân cận và số trạm lân cận khả dụng hiệu dụng, vốn về sau điều khiển lớp độ tin cậy. Đây chính là nguyên lý nội suy không gian mà Chương 4 xác định là biến dự đoán chủ đạo của mô hình, nhưng được áp dụng ở cấp *đường cơ sở* của trạm thay vì sự đồng biến thiên theo giờ — và nó chính xác là đại lượng mà các đại diện quan sát được từ vệ tinh không thể cung cấp. Nó là một bộ ước tính trung bình trạm mạnh hơn đáng kể so với hồi quy vệ tinh Pha-1 của Mục 3.6.2 (R² bỏ-một-ra ≈ 0,59), bởi vì các nồng độ quan trắc của các trạm lân cận mang mức ô nhiễm vùng một cách trực tiếp hơn bất kỳ đặc trưng vệ tinh hay sử dụng đất nào.
+
+Tiên nghiệm được tiêu thụ không phải như một biên cơ sở cứng — chế độ thất bại của Mục 3.6.2, nơi một trung bình dự đoán không hoàn hảo được tiêm trực tiếp gây ra sự vượt quá hệ thống tại các vị trí sạch — mà một cách thận trọng, thông qua hai cơ chế. Thứ nhất, **xây dựng luồng**: bốn luồng không-mục-tiêu được huấn luyện trên tất cả bốn mươi trạm và bảo toàn các khía cạnh khác nhau của tín hiệu. Một luồng XGBoost mục tiêu-log thì thận trọng và ổn định; một luồng mục tiêu-thô với trọng số mẫu nồng độ cao bảo toàn biên độ sự kiện cao; một pha trộn cố định 70/30 đánh đổi giữa hai luồng; và một luồng có cổng nâng trọng số thô chỉ ở nơi bối cảnh cục bộ là ô nhiễm. Các luồng log và thô thực chất là phiên bản liên tục tương đương của một chuyên gia tầng-thấp và một chuyên gia tầng-cao, nhưng mỗi luồng được huấn luyện trên toàn mạng lưới thay vì trên một mảnh tầng mười-trạm, nên không luồng nào bị đói dữ liệu. Thứ hai, **định tuyến**: tiên nghiệm không gian lựa chọn và neo trong số các luồng này theo chế độ — nơi tiên nghiệm chỉ ra một lân cận ô nhiễm thì luồng có cổng được dùng; nơi nó chỉ ra một lân cận sạch thì luồng log được dịch một phần về phía tiên nghiệm; và trong dải trung bình thì pha trộn được dịch một phần về phía tiên nghiệm (các hệ số co gần 0,40). Sự dịch chuyển di chuyển đường cơ sở dự đoán về phía mức được nội suy không gian mà không vứt bỏ hình dạng thời gian của luồng, và đó chính là điều tránh được sự vượt quá đã đánh bại thiết kế hai-pha biên-cơ-sở-cứng.
+
+Một **bộ bảo vệ độ tin cậy** sau dự đoán duy nhất hoàn thiện thiết kế. Nó không lựa chọn luồng hay thay đổi dự đoán cốt lõi; nó đánh giá dự đoán đã hoàn thành so với độ đáng tin cậy của lân cận cục bộ và phát ra các cờ hiển thị bản đồ, chỉ áp dụng một hiệu chỉnh số trong một trường hợp mâu thuẫn rõ ràng duy nhất. Nơi mô hình dự đoán không-cao nhưng bằng chứng lân cận đáng tin cậy chỉ ra một lân cận ô nhiễm cao, vị trí đó được *gắn cờ* như một cảnh báo cao-ẩn thay vì được nâng lên về mặt số — giữ cho bộ bảo vệ không hành xử như một bộ định tuyến thứ hai và tránh các thảm họa thấp-thành-cao. Nơi mô hình dự đoán cao nhưng một tiên nghiệm cục bộ đáng tin cậy lại thấp hơn nhiều, mâu thuẫn cao-sai rõ ràng duy nhất đó được nén về phía ranh giới trung bình. Điều này hợp nhất thành một đối tượng có thể diễn giải những gì mà khảo sát trước đó đã trải ra trên nhiều lớp hậu xử lý chồng lấn. Một hiệu chỉnh AOD theo mùa của MODIS gọn nhẹ chỉ được áp dụng sau khi đường cơ sở đã được thu hẹp bởi tiên nghiệm, điều chỉnh độ lớn một khi chế độ đã được cố định.
+
+Hình 3.1 tóm tắt toàn bộ quy trình định tuyến tiên nghiệm không gian từ các đặc trưng đầu vào đến dự đoán PM2.5 theo giờ cuối cùng.
+
+![Hình 3.1: Quy trình định tuyến tiên nghiệm không gian — kiến trúc mô hình triển khai được gồm sáu giai đoạn, từ đầu vào 66 biến qua tổ hợp XGBoost-DART, tính toán tiên nghiệm không gian, định tuyến ba chế độ, bộ bảo vệ độ tin cậy với hiệu chỉnh mùa từ MODIS, đến ước tính PM2.5 theo giờ cuối cùng.](fig_3_pipeline.png)
+
+Được đánh giá dưới bỏ-một-trạm-ra trên bốn mươi trạm của luận văn (với GHAP được loại bỏ, nên bản đồ không phụ thuộc vào bất kỳ sản phẩm PM2.5 khí hậu nào), quy trình này phục hồi gần như toàn bộ mức tăng tầng oracle: R² trung bình theo trạm 0,197 và trung vị 0,117 so với ngưỡng trần T4F oracle 0,203 và 0,147 — và với độ an toàn lớp tốt hơn oracle, tạo ra không có chuyển trạng thái cao-thành-không-cao và không có chuyển trạng thái thấp-thành-cao nguy hiểm nào. So sánh định lượng với oracle và dải triển khai dựa trên biến quan sát được từ vệ tinh được trình bày ở Mục 5.5, và bài kiểm tra sức chịu đựng độc lập trên các cảm biến chi phí thấp chưa từng thấy ở Mục 5.6. Điểm cốt lõi về phương pháp được nêu ở đây: phụ thuộc vòng tròn được giải quyết không phải bằng cách đoán tầng từ vệ tinh mà bằng cách nội suy đường cơ sở từ các trạm lân cận, điều này khiến kỹ năng của nó phụ thuộc vào sự gần kề của các trạm lân cận đó — chính là ràng buộc mật độ chi phối phần còn lại của luận văn.
+
+
+## 3.7 Mô hình vùng đồng bằng
+
+Ngoài mô hình toàn quốc, một mô hình vùng được phát triển riêng cho đồng bằng sông Hồng — cụm trạm dày đặc nhất, chứa 12 trạm KK trong bán kính khoảng 150 km. Động lực là các trạm trong vùng này chia sẻ điều kiện khí tượng, các loại nguồn phát thải (giao thông đô thị, khu công nghiệp, đốt rơm rạ), và phơi nhiễm ô nhiễm xuyên biên giới, có khả năng cho phép dự đoán trong-vùng chính xác hơn.
+
+Mô hình đồng bằng sử dụng cùng tập đặc trưng và cấu hình XGBoost-DART như mô hình toàn quốc nhưng được huấn luyện riêng trên 12 trạm đồng bằng. Đánh giá LOSO được thực hiện trong tập 12 trạm, và đánh giá độc lập được thực hiện bằng cách huấn luyện trên tất cả 12 trạm đồng bằng và dự đoán tại 39 trạm LCS và Đại sứ quán Hoa Kỳ — không trạm nào trong số đó được dùng trong quá trình phát triển mô hình.
+
+Hướng tiếp cận vùng này tạo ra kết quả LOSO với R² trung bình = 0,302 và R² trung vị = 0,433 (cho cấu hình delta_rfsi), vượt một cách khiêm tốn các cấu hình toàn quốc triển khai được mù-tầng trên cùng 12 trạm đồng bằng (0,302 so với 0,271 cho biến thể no_t4f và 0,290 cho biến thể no_group). Lợi thế này chỉ đúng so với các biến thể toàn quốc triển khai được: một mô hình toàn quốc true-tier (oracle), vốn giả định tầng của mỗi trạm được biết tiên nghiệm, đạt điểm cao hơn trên cùng 12 trạm (R² trung bình ≈ 0,43), nên ưu thế của mô hình vùng là so với các cấu hình toàn quốc triển khai được, chứ không phải so với ngưỡng trần oracle. Quan trọng hơn, đánh giá độc lập LCS đạt R² trung vị 0,529 với 85% số trạm cho R² dương, và R² = 0,684 tại trạm tham chiếu Đại sứ quán Hoa Kỳ. Các kết quả này nên được hiểu là một phép kiểm tra chuyển đặc trưng từ trạm gần nhất cộng với sự phù hợp cảm biến chứ không phải dự đoán không gian thực sự tại các vị trí chưa từng thấy: tại mỗi cảm biến chi phí thấp giữ lại, các đặc trưng vệ tinh, AOD, TROPOMI, và khí tượng ERA5 được lấy từ bản ghi theo giờ của trạm quan trắc (KK) gần nhất, và chỉ có PM2.5 mục tiêu đến từ chính cảm biến giữ lại (các điểm neo không gian RFSI vẫn được định vị đúng tại tọa độ mục tiêu). Do đó R² độc lập nổi bật phần nào phản ánh sự chuyển đặc trưng và sự phù hợp thiết bị giữa cảm biến chi phí thấp và trạm quan trắc lân cận, và sự suy giảm theo khoảng cách quan sát được phần nào phản ánh sai số thay thế đặc trưng tăng dần khi trạm KK gần nhất trở nên xa hơn. Với lưu ý này, các kết quả đánh giá độc lập vẫn cạnh tranh với các kết quả đánh giá chéo không gian tốt nhất được công bố trên quốc tế (Kawano et al. 2025 báo cáo R² đánh giá chéo không gian = 0,67 cho Ấn Độ với khoảng 1.000 trạm huấn luyện).
+
+
+Chương này đã mô tả toàn bộ phương pháp: các nguồn dữ liệu và kiểm soát chất lượng, quy trình kỹ thuật 66 đặc trưng, phát hiện phân tầng T4F, ba phương pháp xấp xỉ triển khai được, và mô hình vùng đồng bằng. Chương 4 sẽ phân tích các kết quả một cách sâu sắc, xem xét các mẫu tầm quan trọng đặc trưng, các thất bại của sản phẩm CTM, và vai trò của mật độ trạm. Chương 5 sẽ trình bày đánh giá thực nghiệm định lượng trên tất cả các khung đánh giá.

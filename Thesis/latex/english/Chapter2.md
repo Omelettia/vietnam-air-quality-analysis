@@ -1,0 +1,103 @@
+# CHAPTER 2: THEORETICAL BACKGROUND
+
+This chapter presents the theoretical foundations underlying the satellite-based PM2.5 estimation problem addressed in this thesis. Section 2.1 describes the context and scope of the prediction task. Section 2.2 reviews existing research results and identifies the gaps that motivate this work. Section 2.3 explains the physical relationship between aerosol optical depth and surface-level PM2.5, with attention to the factors that complicate this relationship in tropical environments. Section 2.4 introduces the machine learning framework used in this thesis, focusing on XGBoost and the DART regularization strategy. Section 2.5 provides a detailed treatment of spatial validation methodology — the methodological core of this thesis — explaining why standard cross-validation practices inflate reported performance and how spatially rigorous alternatives provide more honest assessments.
+
+
+## 2.1 Context of the Prediction Problem
+
+The task addressed in this thesis — estimating hourly ground-level PM2.5 from satellite and meteorological data — can be decomposed into two fundamentally different sub-problems that are rarely distinguished in the literature.
+
+The first is temporal prediction: given a station with historical PM2.5 measurements, predict the station's PM2.5 at times when data is missing (sensor downtime, maintenance gaps, or future hours). In this setting, the model has access to the station's historical patterns — its mean level, diurnal cycle, seasonal behavior, and response to meteorological conditions. This is essentially a time-series gap-filling task, and models routinely achieve R² > 0.7 because the station's identity provides a strong prior.
+
+The second is spatial prediction: estimate PM2.5 at a location that has never been monitored. The model must infer not only the temporal fluctuations but also the baseline pollution level — which depends on hyperlocal factors such as traffic density, proximity to industrial sources, topographic trapping, and urban morphology that satellites observe only indirectly at 1–10 km resolution. This is a spatial extrapolation task, and it is substantially harder.
+
+The distinction matters because the two tasks require different validation strategies. Random cross-validation, the dominant practice in the literature, conflates the two: when observations from the same station appear in both training and test sets, the model effectively performs temporal prediction while appearing to perform spatial prediction. The inflated accuracy that results has practical consequences, as it may lead to overconfidence in PM2.5 maps used for public health decision-making in areas without monitoring.
+
+Vietnam's monitoring context makes this distinction particularly acute. With only 40 stations across 331,000 km², the spatial prediction task is the operationally relevant one — the purpose of a satellite-based model is precisely to estimate PM2.5 where no station exists. Yet this is also the context in which performance is expected to be lowest, because the training data provides sparse spatial coverage and the tropical environment introduces additional complications in satellite retrieval.
+
+
+## 2.2 Related Research Results
+
+### 2.2.1 Machine Learning for PM2.5 Estimation from Satellite Data
+
+The application of machine learning to satellite-based PM2.5 estimation has accelerated since approximately 2015, driven by the availability of high-resolution satellite products and increasingly powerful ensemble methods. The dominant approach involves training a supervised model — typically random forest, gradient boosting (XGBoost, LightGBM), or deep neural networks — to predict ground-measured PM2.5 using a combination of satellite-retrieved aerosol optical depth, meteorological reanalysis variables (temperature, humidity, wind, planetary boundary layer height), land use indicators, and, in some cases, chemical transport model outputs as prior estimates.
+
+In China, where over 1,500 national monitoring stations provide abundant training data, Wei et al. developed the Space-Time Random Forest (STRF) model achieving R² > 0.85 at 1 km resolution. Their approach leveraged the dense station network to capture fine-scale spatial heterogeneity, and related space-time random-forest methods later underpinned the GlobalHighAirPollutants (GHAP) dataset, which has become a widely used global PM2.5 product. However, as discussed in Section 2.5, the reported R² reflects sample-based cross-validation, in which individual station-days are randomly assigned to folds regardless of station identity.
+
+In the United States, Di et al. and related groups have used neural network ensemble approaches with EPA monitoring data, reporting cross-validated R² of 0.76–0.89 depending on temporal resolution. European studies by de Hoogh et al. have applied hybrid land-use regression and machine learning models with moderate cross-validated R² of 0.53–0.72, though these generally employ denser networks than Vietnam's.
+
+For India, Kawano et al. (2025) represents the current methodological gold standard. Using approximately 1,000 stations with XGBoost and features from MODIS AOD, TROPOMI, ERA5, and GEOS-Chem, they reported R² = 0.85 under random cross-validation but R² = 0.67 under spatial 10-fold cross-validation (within-R² = 0.49), and explicitly stated that random cross-validation "overstates model performance on critical real-world applications."
+
+### 2.2.2 PM2.5 Studies in Vietnam and Southeast Asia
+
+Vietnam-specific PM2.5 modeling literature remains sparse. Ngo et al. (2023) produced a daily PM2.5 dataset for Vietnam from 2012 to 2020 using a mixed-effects model with MODIS AOD, MERRA-2, and ERA5 inputs, trained on 9 ground stations. They reported R² = 0.75 (Pearson r = 0.87), but the validation used sample-based 10-fold cross-validation. The small station count — 9 stations across the entire country — means that even a single station's temporal patterns can dominate the cross-validated performance.
+
+In Thailand, Gupta et al. (2021) used MERRA-2 with random forest across 51 stations, reporting R = 0.95 under 10-fold random cross-validation. Studies in the Mekong River Basin by Lu et al. (2024) applied stacking models for PM2.5 estimation, but explicitly noted that global PM2.5 product accuracy "in the MRB needs to be further validated."
+
+A common limitation of Southeast Asian studies is the reliance on sample-based validation and the absence of rigorous spatial cross-validation. No published study has performed leave-one-station-out validation on a Vietnamese PM2.5 dataset, which is the gap this thesis addresses.
+
+### 2.2.3 Chemical Transport Model Products
+
+Chemical transport models (CTMs) simulate atmospheric composition by solving coupled equations for emission, transport, chemical transformation, and deposition on gridded domains. Two CTM-derived PM2.5 products are commonly used as features or benchmarks in satellite-based estimation:
+
+GEOS-CF (GEOS Composition Forecasting), developed by NASA's Global Modeling and Assimilation Office, provides hourly global PM2.5 estimates at approximately 25 km resolution. It uses the GEOS-Chem chemical mechanism coupled with the GEOS atmospheric model. While GEOS-CF has been shown to capture synoptic-scale pollution events, its emission inventories for Southeast Asia — particularly for mobile sources (motorbikes), residential combustion (cooking, heating), and agricultural burning (rice straw) — are known to be incomplete.
+
+MERRA-2 (Modern-Era Retrospective analysis for Research and Applications, Version 2) provides aerosol reanalysis incorporating satellite AOD observations through data assimilation. A recent global validation by Gupta et al. (2026) reported an Index of Agreement of only 0.39 for Southeast Asia — the worst performance among all global regions evaluated. MERRA-2 has been documented as unable to reproduce diurnal PM2.5 variation even in well-characterized regions such as the North China Plain, with the largest biases occurring during winter pollution episodes.
+
+The GlobalHighAirPollutants (GHAP) dataset provides global 1 km daily PM2.5 estimates by fusing satellite AOD, CTM simulations, and ground measurements through a space-time random forest. Its headline cross-validated R² of 0.91 is sample-based, and its accuracy in Vietnam has not been independently validated. This thesis provides the first such validation.
+
+
+## 2.3 The AOD–PM2.5 Relationship
+
+Aerosol optical depth (AOD) is the column-integrated extinction of solar radiation by atmospheric aerosols, measured as a dimensionless quantity. Because PM2.5 is a component of the aerosol column, there exists a physical relationship between AOD and surface-level PM2.5 concentration. However, this relationship is not straightforward, and understanding its limitations is essential for interpreting satellite-based PM2.5 estimates.
+
+The fundamental relationship can be expressed conceptually as: PM2.5 is proportional to AOD multiplied by a factor that depends on the vertical distribution of aerosol within the atmospheric column, the ratio of dry PM2.5 mass to total aerosol extinction (mass extinction efficiency), and the hygroscopic growth factor that accounts for water uptake by aerosol particles at ambient humidity. Each of these factors introduces variability that weakens the AOD-PM2.5 correlation.
+
+The vertical distribution factor is governed primarily by the planetary boundary layer height (PBLH). When the boundary layer is deep (typically during daytime convective conditions), aerosol is distributed through a larger column volume, and a given AOD corresponds to lower surface concentration. Conversely, during nighttime stable conditions or temperature inversions, aerosol is concentrated near the surface, and the same AOD corresponds to higher surface PM2.5. This is why PBLH is among the most important meteorological features in PM2.5 prediction models.
+
+The mass extinction efficiency depends on aerosol composition and size distribution. Fine particles (PM2.5) scatter light more efficiently per unit mass than coarse particles, but the composition varies by source: sulfate-dominated aerosol (from power plants), organic carbon (from biomass burning), black carbon (from diesel combustion), and mineral dust each have different extinction efficiencies. In Vietnam, the aerosol mixture is dominated by motorbike emissions, cooking and heating combustion, industrial processes, and seasonal rice-straw burning, creating a composition profile that differs from the East Asian and North American conditions under which most AOD-PM2.5 models have been developed.
+
+The hygroscopic growth factor is particularly important in tropical Vietnam, where ambient relative humidity frequently exceeds 70% and can remain above 85% for extended periods during the monsoon and cool seasons. At high humidity, hygroscopic aerosol particles absorb water and swell, increasing their optical cross-section and thus AOD without a corresponding increase in dry PM2.5 mass. This creates a positive humidity bias: AOD-based PM2.5 estimates tend to overpredict in humid conditions unless explicitly corrected. Low-cost laser-scattering PM2.5 sensors (such as the Plantower PMS5003 used in Vietnam's monitoring network) are also affected by this phenomenon, as they measure optical scattering including the contribution of water shells around particles.
+
+Satellite AOD retrieval itself is complicated by clouds. The MODIS MAIAC algorithm cannot retrieve AOD through clouds, and Vietnam's monsoon climate produces persistent cloud cover during much of the year. In this thesis's dataset, satellite AOD is available for only approximately 15% of hourly observations. The missing data is not randomly distributed — clear-sky conditions tend to coincide with drier, less polluted air in summer and with high-pressure stagnation (often highly polluted) in winter — creating a systematic sampling bias that the model must accommodate through missing-value handling rather than imputation.
+
+
+## 2.4 XGBoost and DART Regularization
+
+XGBoost (eXtreme Gradient Boosting) is a gradient-boosted decision tree algorithm that has become a dominant method for tabular supervised learning tasks. It builds an ensemble of decision trees sequentially, with each tree trained to predict the residual errors of the preceding ensemble. The final prediction is the sum of all trees' outputs. XGBoost incorporates several regularization mechanisms — L1 and L2 penalties on leaf weights, maximum tree depth constraints, minimum child weight, and subsampling of rows and columns — that reduce overfitting and improve generalization.
+
+For this thesis, the DART (Dropouts meet Multiple Additive Regression Trees) variant of XGBoost is used. DART addresses a specific weakness of standard gradient boosting: the tendency for early trees to dominate the ensemble while later trees make only marginal corrections, a phenomenon known as over-specialization. In DART, during each boosting iteration, a random subset of existing trees is "dropped" (temporarily removed from the ensemble), and the new tree is trained to compensate for the dropped trees' contribution. This has the effect of distributing predictive load more evenly across the ensemble and reducing the correlation between individual trees. In the context of spatial prediction, where the model must generalize to unseen locations with potentially different feature distributions, DART's more balanced ensemble provides better robustness than standard boosting.
+
+The choice of XGBoost over deep learning alternatives (convolutional neural networks, transformers, graph neural networks) is motivated by three practical considerations. First, XGBoost handles missing values natively by learning optimal split directions for missing features during training — essential given that 85% of hourly observations lack satellite AOD. Second, XGBoost provides feature importance scores that enable interpretation of what the model has learned, which is critical for understanding why spatial prediction fails at certain stations. Third, XGBoost's computational efficiency enables the extensive ablation and cross-validation experiments (over 30 configurations, each requiring 37–40 LOSO folds) that constitute the experimental core of this thesis.
+
+
+## 2.5 Spatial Validation Methodology
+
+The validation of spatial prediction models is a well-studied problem in geostatistics and spatial machine learning, but its implications have only recently penetrated the PM2.5 estimation literature. This section presents the three validation frameworks used in this thesis and explains the theoretical basis for their different performance characteristics.
+
+### 2.5.1 Random k-fold Cross-Validation
+
+In random k-fold cross-validation, the dataset of N observations is randomly partitioned into k approximately equal folds. The model is trained on k-1 folds and evaluated on the held-out fold, rotating through all k folds. The reported performance is the average across folds. For hourly PM2.5 data from S stations over T time steps (N = S × T), random partitioning distributes each station's observations across all folds. Consequently, during each training iteration, the model has access to approximately (k-1)/k of each station's time series.
+
+This creates two forms of information leakage. First, temporal leakage: because PM2.5 at a station exhibits strong autocorrelation (hour-to-hour correlation typically > 0.9), seeing 90% of a station's hours in training effectively reveals the station's temporal patterns, allowing the model to predict the held-out 10% by interpolation rather than extrapolation. Second, spatial leakage: features derived from neighboring stations (such as the RFSI spatial interpolation used in this thesis) may directly or indirectly carry information from the held-out observation's own station.
+
+Random cross-validation is appropriate for evaluating temporal gap-filling performance — predicting missing hours at monitored stations — but it does not measure spatial prediction capability at unmonitored locations.
+
+### 2.5.2 Leave-One-Station-Out (LOSO) Cross-Validation
+
+In LOSO cross-validation, all observations from one station are held out simultaneously, the model is trained on the remaining S-1 stations, and predictions are generated for the held-out station. This is repeated for each of the S stations, and performance metrics are computed both per station and in aggregate.
+
+LOSO eliminates temporal leakage by ensuring that the model has never seen any data from the evaluation station. It also eliminates direct spatial leakage, provided that spatial interpolation features (RFSI) are recomputed in each fold to exclude the held-out station. The resulting performance metric measures the model's ability to predict PM2.5 at a truly unmonitored location — the operationally relevant capability for extending air quality monitoring to areas without stations.
+
+LOSO performance is expected to be substantially lower than random cross-validation performance, particularly when (i) the station network is sparse, (ii) stations span heterogeneous pollution regimes, and (iii) station-level mean PM2.5 varies widely across the network. All three conditions hold for Vietnam.
+
+Two variants of aggregation are used in this thesis. The n-weighted mean per-station R² treats each station's predictions in proportion to its number of observations and its variance, summarizing performance across the network in a way that is dominated by high-volume, high-variance stations; this is the LOSO cross-station summary, and it is distinct from a true pooled R² computed by concatenating all stations' hourly residuals into a single vector (a statistic reserved for that strict definition and discussed in Chapter 5). Per-station mean R² computes R² independently for each station and averages, giving equal weight to each station regardless of data volume or variance. The two metrics can diverge substantially: the n-weighted mean is dominated by high-variance stations (which tend to be the most polluted and most predictable), while per-station mean R² reveals whether the model adds value at the typical station. Both are reported throughout this thesis.
+
+### 2.5.3 External Validation
+
+A further test of model transferability is external validation on a completely independent dataset not used in any aspect of model development. In this thesis, external validation is performed using 39 low-cost sensor (LCS) stations and one US Embassy reference station. These stations were deployed after the primary model was developed, use different sensor hardware (Plantower PMS-class for LCS; Met One BAM-1022 for the Embassy), and were not used for feature engineering, hyperparameter tuning, or any model selection decision. It should be noted, however, that this external validation is not a test of genuine spatial prediction at fully unseen sites: the satellite, AOD, TROPOMI, and ERA5 meteorological features are taken from the nearest regulatory (KK) station's hourly record, while only the target PM2.5 comes from the held-out low-cost sensor, and the RFSI spatial anchors are correctly localized to each external site. It is therefore best understood as a nearest-station feature-transfer plus sensor-agreement test, and the corresponding distance-decay of performance reported later partly reflects growing feature-substitution error with distance.
+
+External validation avoids not only the leakage present in random cross-validation but also the more subtle forms of leakage that can occur even in LOSO — for example, if the held-out station's data influenced feature selection decisions, hyperparameter choices, or the decision to include certain data sources. The trade-off is that external validation is only possible when an independent monitoring network exists, which is a practical luxury that few studies can employ.
+
+
+This chapter has presented the theoretical foundations for the thesis: the distinction between temporal and spatial prediction, the state of the art in satellite-based PM2.5 estimation, the physical challenges of the AOD-PM2.5 relationship in tropical environments, the XGBoost/DART modeling framework, and the spatial validation methodology that forms the methodological core of this work. The following chapter presents the specific data sources, feature engineering procedures, and model configurations used in the experimental evaluation.

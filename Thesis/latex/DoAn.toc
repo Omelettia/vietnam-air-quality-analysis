@@ -1,0 +1,113 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Abstract}{}{chapter*.3}%
+\ttl@change@i {\@ne }{chapter}{0.0cm}{\bfseries \vspace {0.3cm}}{{\bfseries {\scshape } CHƯƠNG \thecontentslabel .\ }}{}{\titlerule *[0.3pc]{.}\contentspage }\relax 
+\ttl@change@v {chapter}{}{}{}\relax 
+\ttl@change@i {\@ne }{section}{0.0cm}{\vspace {0.3cm}}{\thecontentslabel \ }{}{\titlerule *[0.3pc]{.}\contentspage }\relax 
+\ttl@change@v {section}{}{}{}\relax 
+\ttl@change@i {\@ne }{subsection}{1.0cm}{\vspace {0.3cm}}{\thecontentslabel \ }{}{\titlerule *[0.3pc]{.}\contentspage }\relax 
+\ttl@change@v {subsection}{}{}{}\relax 
+\thispagestyle {empty}
+\contentsline {chapter}{\numberline {1}GIỚI THIỆU ĐỀ TÀI}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}GIỚI THIỆU}{2}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Đặt vấn đề}{2}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Các giải pháp hiện có và hạn chế}{3}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Mục tiêu và hướng giải pháp}{4}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Đóng góp của luận văn}{5}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Cấu trúc luận văn}{6}{section.2.5}%
+\contentsline {chapter}{\numberline {3}NỀN TẢNG LÝ THUYẾT}{8}{chapter.3}%
+\contentsline {chapter}{\numberline {4}CƠ SỞ LÝ THUYẾT}{9}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Từ kỳ vọng ban đầu đến bài toán trọng tâm}{9}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Kỳ vọng ban đầu: nội suy thời gian}{9}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Bài toán trọng tâm: ngoại suy không gian}{10}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Khoảng cách giữa kỳ vọng và thực tế}{10}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Các kết quả nghiên cứu tương tự}{10}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Học máy cho ước tính PM2.5 từ dữ liệu vệ tinh}{10}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Các nghiên cứu PM2.5 tại Việt Nam và Đông Nam Á}{11}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Các sản phẩm mô hình vận chuyển hóa học}{12}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Mối quan hệ AOD--PM2.5}{13}{section.4.3}%
+\contentsline {section}{\numberline {4.4}XGBoost và chính quy hóa DART}{14}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Các phương pháp đánh giá tương ứng}{15}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Đánh giá chéo k-fold ngẫu nhiên --- đánh giá nội suy thời gian}{15}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Đánh giá chéo bỏ-một-trạm-ra (LOSO) --- đánh giá ngoại suy không gian}{15}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Đánh giá độc lập}{16}{subsection.4.5.3}%
+\contentsline {chapter}{\numberline {5}PHƯƠNG PHÁP ĐỀ XUẤT}{18}{chapter.5}%
+\contentsline {chapter}{\numberline {6}PHƯƠNG PHÁP ĐỀ XUẤT}{19}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Tổng quan giải pháp}{19}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Khu vực nghiên cứu và nguồn dữ liệu}{20}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Khu vực nghiên cứu}{20}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Mạng lưới quan trắc mặt đất}{20}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Quy trình thu thập dữ liệu}{21}{subsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.2.4}Dữ liệu viễn thám vệ tinh}{22}{subsection.6.2.4}%
+\contentsline {subsection}{\numberline {6.2.5}Các sản phẩm mô hình vận chuyển hóa học}{23}{subsection.6.2.5}%
+\contentsline {subsection}{\numberline {6.2.6}Dữ liệu tái phân tích khí tượng}{23}{subsection.6.2.6}%
+\contentsline {subsection}{\numberline {6.2.7}Dữ liệu không gian phụ trợ}{24}{subsection.6.2.7}%
+\contentsline {section}{\numberline {6.3}Kiểm soát chất lượng dữ liệu}{24}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Lọc ở cấp quan trắc}{24}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Làm sạch ở cấp đặc trưng}{24}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Loại bỏ ở cấp trạm}{25}{subsection.6.3.3}%
+\contentsline {section}{\numberline {6.4}Kỹ thuật đặc trưng}{26}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Đặc trưng nội suy không gian (RFSI)}{26}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Đặc trưng khí tượng}{26}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Đặc trưng quan trắc vệ tinh}{27}{subsection.6.4.3}%
+\contentsline {subsection}{\numberline {6.4.4}Đặc trưng mô hình vận chuyển hóa học}{27}{subsection.6.4.4}%
+\contentsline {subsection}{\numberline {6.4.5}Đặc trưng thời gian}{27}{subsection.6.4.5}%
+\contentsline {subsection}{\numberline {6.4.6}Dấu vân tay chế độ của trạm}{27}{subsection.6.4.6}%
+\contentsline {section}{\numberline {6.5}Mô hình hóa phân tầng (T4F)}{28}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Động lực và định nghĩa}{28}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Phụ thuộc vòng tròn}{28}{subsection.6.5.2}%
+\contentsline {section}{\numberline {6.6}Các phương pháp triển khai được}{29}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Tổ hợp chuyên gia cổng-mềm}{29}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Đường cơ sở dự đoán hai pha}{29}{subsection.6.6.2}%
+\contentsline {subsection}{\numberline {6.6.3}Dấu vân tay chế độ dẫn xuất từ vệ tinh}{30}{subsection.6.6.3}%
+\contentsline {subsection}{\numberline {6.6.4}Định tuyến tiên nghiệm không gian}{30}{subsection.6.6.4}%
+\contentsline {section}{\numberline {6.7}Mô hình vùng đồng bằng}{32}{section.6.7}%
+\contentsline {chapter}{\numberline {7}PHÂN TÍCH LÝ THUYẾT}{35}{chapter.7}%
+\contentsline {chapter}{\numberline {8}PHÂN TÍCH VÀ BÀN LUẬN}{36}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Phân tích tầm quan trọng đặc trưng}{36}{section.8.1}%
+\contentsline {subsection}{\numberline {8.1.1}Sự thống trị của nội suy không gian}{36}{subsection.8.1.1}%
+\contentsline {subsection}{\numberline {8.1.2}Đóng góp của vệ tinh, khí tượng, và thời gian}{37}{subsection.8.1.2}%
+\contentsline {subsection}{\numberline {8.1.3}Tính ổn định của đặc trưng và vai trò của dấu vân tay chế độ}{38}{subsection.8.1.3}%
+\contentsline {section}{\numberline {8.2}Đánh giá các sản phẩm mô hình vận chuyển hóa học}{39}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}GEOS-CF: Một chu kỳ ngày đêm đảo ngược}{40}{subsection.8.2.1}%
+\contentsline {subsection}{\numberline {8.2.2}MERRA-2: Cân bằng khối lượng nhưng thiếu kỹ năng thời gian}{42}{subsection.8.2.2}%
+\contentsline {subsection}{\numberline {8.2.3}GHAP: Kỹ năng không gian trung bình, sàn vị-trí-sạch}{42}{subsection.8.2.3}%
+\contentsline {subsection}{\numberline {8.2.4}Tổng hợp}{43}{subsection.8.2.4}%
+\contentsline {section}{\numberline {8.3}Nghiên cứu loại bỏ: chỉ vệ tinh so với trạm mặt đất}{44}{section.8.3}%
+\contentsline {subsection}{\numberline {8.3.1}Thang loại bỏ}{44}{subsection.8.3.1}%
+\contentsline {subsection}{\numberline {8.3.2}Nơi vệ tinh sánh ngang trạm mặt đất, và nơi không}{45}{subsection.8.3.2}%
+\contentsline {subsection}{\numberline {8.3.3}Diễn giải}{45}{subsection.8.3.3}%
+\contentsline {section}{\numberline {8.4}Đánh giá các bản đồ PM2.5 hiện có}{46}{section.8.4}%
+\contentsline {subsection}{\numberline {8.4.1}GHAP tại các vị trí sạch so với ô nhiễm}{46}{subsection.8.4.1}%
+\contentsline {subsection}{\numberline {8.4.2}MERRA-2 chia sẻ cùng một chế độ thất bại}{46}{subsection.8.4.2}%
+\contentsline {subsection}{\numberline {8.4.3}Hệ quả: Từ bản đồ đơn-giá-trị đến lập bản đồ nhận-biết-độ-tin-cậy}{47}{subsection.8.4.3}%
+\contentsline {section}{\numberline {8.5}Mật độ trạm như ràng buộc then chốt}{48}{section.8.5}%
+\contentsline {subsection}{\numberline {8.5.1}So sánh mật độ trong bối cảnh}{48}{subsection.8.5.1}%
+\contentsline {subsection}{\numberline {8.5.2}Sự suy giảm kỹ năng dự đoán theo khoảng cách}{48}{subsection.8.5.2}%
+\contentsline {subsection}{\numberline {8.5.3}Con đường phía trước: Làm dày}{50}{subsection.8.5.3}%
+\contentsline {chapter}{\numberline {9}ĐÁNH GIÁ THỰC NGHIỆM}{52}{chapter.9}%
+\contentsline {chapter}{\numberline {10}ĐÁNH GIÁ THỰC NGHIỆM}{53}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Các tham số đánh giá}{53}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Nội suy thời gian (đánh giá chéo ngẫu nhiên)}{55}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Ngoại suy không gian (LOSO --- cấu hình toàn cục)}{57}{section.10.3}%
+\contentsline {section}{\numberline {10.4}Kết quả phân tầng theo mức ô nhiễm}{62}{section.10.4}%
+\contentsline {section}{\numberline {10.5}So sánh các mô hình triển khai được}{66}{section.10.5}%
+\contentsline {section}{\numberline {10.6}Đánh giá độc lập (mạng lưới LCS)}{70}{section.10.6}%
+\contentsline {section}{\numberline {10.7}Tổng hợp các thí nghiệm không thành công}{75}{section.10.7}%
+\contentsline {section}{\numberline {10.8}Một góc nhìn thống nhất: nội suy và ngoại suy}{78}{section.10.8}%
+\contentsline {chapter}{\numberline {11}KẾT LUẬN}{83}{chapter.11}%
+\contentsline {chapter}{\numberline {12}KẾT LUẬN}{84}{chapter.12}%
+\contentsline {section}{\numberline {12.1}Tổng hợp các phát hiện}{84}{section.12.1}%
+\contentsline {section}{\numberline {12.2}Khuyến nghị cho chiến lược quan trắc chất lượng không khí của Việt Nam}{88}{section.12.2}%
+\contentsline {section}{\numberline {12.3}Hạn chế}{90}{section.12.3}%
+\contentsline {section}{\numberline {12.4}Hướng phát triển trong tương lai}{91}{section.12.4}%
+\contentsline {section}{\numberline {12.5}Lời kết}{92}{section.12.5}%
+\contentsline {chapter}{TÀI LIỆU THAM KHẢO}{97}{section*.19}%
+\contentsline {chapter}{PHỤ LỤC}{99}{section*.20}%
+\ttl@change@i {\@ne }{chapter}{0.0cm}{\bfseries \vspace {0.3cm}}{{\bfseries {\scshape } \thecontentslabel .\ }}{}{\titlerule *[0.3pc]{.}\contentspage }\relax 
+\ttl@change@v {chapter}{}{}{}\relax 
+\contentsline {chapter}{\numberline {A}DỮ LIỆU VÀ ĐẶC TRƯNG}{99}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Danh sách trạm quan trắc}{99}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Danh sách đặc trưng}{101}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Google Earth Engine Scripts}{103}{section.A.3}%
+\contentsline {chapter}{\numberline {B}CẤU HÌNH THÍ NGHIỆM}{104}{appendix.B}%
+\contentsfinish 

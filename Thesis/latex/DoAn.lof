@@ -1,0 +1,25 @@
+\babel@toc {english}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Quy trình định tuyến tiên nghiệm không gian --- kiến trúc mô hình triển khai được gồm sáu giai đoạn, từ đầu vào 66 biến qua tổ hợp XGBoost-DART, tính toán tiên nghiệm không gian, định tuyến ba chế độ, bộ bảo vệ độ tin cậy với hiệu chỉnh mùa từ MODIS, đến ước tính PM2.5 theo giờ cuối cùng.}}{34}{figure.caption.9}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Chu kỳ ngày đêm của GEOS-CF so với quan trắc mặt đất}}{40}{figure.caption.10}%
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Mẫu sai số theo trạm của GEOS-CF}}{41}{figure.caption.11}%
+\contentsline {figure}{\numberline {8.3}{\ignorespaces Biểu đồ tán xạ tại một trạm đại diện của GEOS-CF}}{41}{figure.caption.12}%
+\contentsline {figure}{\numberline {8.4}{\ignorespaces Biểu đồ tán xạ tại một trạm đại diện của MERRA-2}}{42}{figure.caption.13}%
+\contentsline {figure}{\numberline {8.5}{\ignorespaces Thành phần loài của MERRA-2 theo vùng}}{43}{figure.caption.14}%
+\contentsline {figure}{\numberline {8.6}{\ignorespaces Xếp hạng trạm của GHAP so với trung bình trạm quan trắc}}{47}{figure.caption.15}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {10.1}{\ignorespaces R\textsuperscript {2} bỏ-một-trạm-ra theo trạm trên 37 trạm quan trắc, tô màu theo kỹ năng.}}{82}{figure.caption.16}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsfinish 
+\contentsfinish 

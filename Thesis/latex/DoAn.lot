@@ -1,0 +1,48 @@
+\babel@toc {english}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {10.1}{\ignorespaces R\textsuperscript {2} ngoài-fold theo từng fold của Config H dưới đánh giá chéo ngẫu nhiên năm-fold, với giá trị gộp.}}{55}{table.10.1}%
+\contentsline {table}{\numberline {10.1}{\ignorespaces R\textsuperscript {2} ngoài-fold theo từng fold của Config H dưới đánh giá chéo ngẫu nhiên năm-fold, với giá trị gộp.}}{56}{table.10.1}%
+\contentsline {table}{\numberline {10.2}{\ignorespaces R\textsuperscript {2}, MAE, và RMSE đánh giá chéo ngẫu nhiên trên toàn bộ quét cấu hình, từ đường cơ sở chỉ-khí-tượng đến mô hình giàu-đặc-trưng nhất.}}{56}{table.10.2}%
+\contentsline {table}{\numberline {10.3}{\ignorespaces R\textsuperscript {2} và MAE của Config H qua các bài toán dự đoán, từ nội suy thời gian (đánh giá chéo ngẫu nhiên) đến ngoại suy không gian (LOSO huấn-luyện-lại-theo-fold), với khoảng cách giữa hai bài toán.}}{58}{table.10.3}%
+\contentsline {table}{\numberline {10.4}{\ignorespaces Các cấu hình LOSO toàn cục qua các tệp thí nghiệm --- không phân nhóm, true-tier (T4F), và oracle base-margin --- với R\textsuperscript {2} gộp, trung bình, trung vị, tỷ lệ dương, và trung bình t3.}}{59}{table.10.4}%
+\contentsline {table}{\numberline {10.5}{\ignorespaces Sáu biến thể huấn luyện DART trong definitive\_v3, tất cả đều tụ gần ngưỡng trần LOSO 0,20, sắp xếp theo R\textsuperscript {2} gộp.}}{60}{table.10.5}%
+\contentsline {table}{\numberline {10.6}{\ignorespaces R\textsuperscript {2} LOSO trung thực theo trạm cho cấu hình phi-oracle tốt nhất (T4F), tất cả ba mươi bảy trạm sắp xếp theo tầng rồi theo R\textsuperscript {2} trong tầng.}}{60}{table.10.6}%
+\contentsline {table}{\numberline {10.6}{\ignorespaces R\textsuperscript {2} LOSO trung thực theo trạm cho cấu hình phi-oracle tốt nhất (T4F), tất cả ba mươi bảy trạm sắp xếp theo tầng rồi theo R\textsuperscript {2} trong tầng.}}{61}{table.10.6}%
+\contentsline {table}{\numberline {10.7}{\ignorespaces Kết quả LOSO trung thực phân tầng cho biến thể DART cơ sở --- số trạm theo tầng, trung bình PM2.5, R\textsuperscript {2}, RMSE, MAE, và bias.}}{63}{table.10.7}%
+\contentsline {table}{\numberline {10.8}{\ignorespaces Kết quả LOSO trung thực phân tầng cho biến thể tổ hợp tốt nhất tổng thể, cho thấy cùng cấu trúc đơn điệu cao hơn một cách cận biên ở mỗi tầng.}}{64}{table.10.8}%
+\contentsline {table}{\numberline {10.9}{\ignorespaces Mười một trạm t2 theo vùng, PM2.5, và R\textsuperscript {2}, cho thấy so sánh Bắc--Nam ở mức ô nhiễm tương đương.}}{65}{table.10.9}%
+\contentsline {table}{\numberline {10.10}{\ignorespaces Mức tăng do phân tầng qua các biến thể và tập trạm, mỗi mục lấy hiệu số một trung bình true-tier so với một đường cơ sở không-phân-nhóm.}}{66}{table.10.10}%
+\contentsline {table}{\numberline {10.11}{\ignorespaces Các cấu hình triển khai được so với các ngưỡng trần oracle --- R\textsuperscript {2} trung bình, trung vị, tỷ lệ dương, và trung bình t3, với mỗi cấu hình được gắn cờ là triển khai được hay oracle.}}{67}{table.10.11}%
+\contentsline {table}{\numberline {10.12}{\ignorespaces Chi phí thông tin của việc không biết trung bình trạm --- các khoảng cách oracle-trừ-triển-khai về R\textsuperscript {2} trung bình, R\textsuperscript {2} trung vị, và tỷ lệ dương, được đo trên các tập trạm tương ứng.}}{68}{table.10.12}%
+\contentsline {table}{\numberline {10.13}{\ignorespaces Mô hình định tuyến tiên nghiệm không gian so với ngưỡng trần oracle và dải triển khai dựa-trên-biến-quan-sát-từ-vệ-tinh, tất cả dưới bỏ-một-trạm-ra không-GHAP. Bộ ước tính đường-cơ-sở-không-gian triển khai được khép gần như toàn bộ khoảng cách oracle mà ước tính tầng từ biến quan sát không thể.}}{69}{table.10.13}%
+\contentsline {table}{\numberline {10.14}{\ignorespaces LOSO của mô hình đồng bằng trên mười hai trạm đồng bằng sông Hồng dày đặc --- các cấu hình base-margin, nội-suy-không-gian, và oracle.}}{70}{table.10.14}%
+\contentsline {table}{\numberline {10.15}{\ignorespaces Tóm tắt đánh giá độc lập --- tập con cảm-biến-chi-phí-thấp, tất cả các vị trí bao gồm Đại sứ quán, và riêng trạm tham chiếu Đại sứ quán Hoa Kỳ.}}{72}{table.10.15}%
+\contentsline {table}{\numberline {10.16}{\ignorespaces Mười vị trí chi phí thấp được dự đoán tốt nhất theo R\textsuperscript {2}, với khoảng cách đến trạm quan trắc gần nhất, độ dài bản ghi, và RMSE.}}{72}{table.10.16}%
+\contentsline {table}{\numberline {10.17}{\ignorespaces Các vị trí chi phí thấp được dự đoán kém nhất, tất cả đều ở xa bất kỳ trạm neo quan trắc nào, với khoảng cách, độ dài bản ghi, và RMSE.}}{73}{table.10.17}%
+\contentsline {table}{\numberline {10.18}{\ignorespaces Thống kê khoảng-cách--kỹ-năng trên ba mươi chín vị trí chi phí thấp --- các tương quan Pearson và Spearman và R\textsuperscript {2} trung vị gần-so-với-xa.}}{73}{table.10.18}%
+\contentsline {table}{\numberline {10.19}{\ignorespaces Quy trình định tuyến tiên nghiệm không gian trên bốn mươi sáu cảm biến chi phí thấp chưa thấy (huấn-luyện-trên-bốn-mươi, dự-đoán-phần-chưa-thấy). Các tham số số học là một bài kiểm tra sức chịu đựng miền-nhiễu; kết quả vận hành là không có phân loại sai thấp-thành-cao nguy hiểm nào, với bộ bảo vệ độ tin cậy cắt giảm một nửa số bỏ-sót-cao hiệu dụng.}}{75}{table.10.19}%
+\contentsline {table}{\numberline {10.20}{\ignorespaces Bảy họ thí nghiệm không thành công, mỗi họ với R\textsuperscript {2} trung-bình-theo-trạm tốt nhất của nó và lý do nó không đạt tham chiếu hard-T4F 0,198.}}{77}{table.10.20}%
+\contentsline {table}{\numberline {10.21}{\ignorespaces Cùng một mô hình đặc-trưng-ngoại-sinh theo trạm được đánh giá như bốn bài toán khác nhau, theo tầng ô nhiễm. Lấp khoảng trống và dự báo dùng dữ liệu riêng của trạm trong huấn luyện; bản đồ không gian (LOSO) thì không. Dự báo được phân tách thành R\textsuperscript {2} thô và kỹ năng hình dạng (bình phương tương quan Pearson của chuỗi tương lai dự đoán và quan trắc).}}{79}{table.10.21}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Danh sách 37 trạm KK được sử dụng trong mô hình}}{99}{table.A.1}%
+\contentsline {table}{\numberline {A.1}{\ignorespaces Danh sách 37 trạm KK được sử dụng trong mô hình}}{100}{table.A.1}%
+\contentsline {table}{\numberline {A.1}{\ignorespaces Danh sách 37 trạm KK được sử dụng trong mô hình}}{101}{table.A.1}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Danh sách đặc trưng với nguồn và tỷ lệ phủ}}{101}{table.A.2}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Danh sách đặc trưng với nguồn và tỷ lệ phủ}}{102}{table.A.2}%
+\contentsline {table}{\numberline {A.2}{\ignorespaces Danh sách đặc trưng với nguồn và tỷ lệ phủ}}{103}{table.A.2}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {B.1}{\ignorespaces Tóm tắt cấu hình thí nghiệm (top 40 theo R$^2$ trung bình)}}{104}{table.B.1}%
+\contentsline {table}{\numberline {B.1}{\ignorespaces Tóm tắt cấu hình thí nghiệm (top 40 theo R$^2$ trung bình)}}{105}{table.B.1}%
+\contentsfinish 
+\contentsfinish 

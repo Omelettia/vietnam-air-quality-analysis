@@ -1,0 +1,58 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+
+Phụ lục này liệt kê các cấu hình thí nghiệm và kết quả tương ứng. Bảng dưới đây tóm tắt 40 cấu hình có R$^2$ trung bình cao nhất trong tất cả các thí nghiệm LOSO.
+
+{\small
+\begin{longtable}{p{3.5cm}p{3.5cm}rr r}
+\caption{Tóm tắt cấu hình thí nghiệm (top 40 theo R$^2$ trung bình)}\\
+\toprule
+\textbf{Cấu hình} & \textbf{Tệp nguồn} & \textbf{n} & \textbf{R$^2$ TB} & \textbf{R$^2$ Median} \\
+\midrule\endhead
+  dart\_ensemble & definitive\_v3.csv & 37 & +0.205 & +0.203 \\
+  dart\_tuned & definitive\_v3.csv & 37 & +0.199 & +0.179 \\
+  dart\_nn23\_pruned & definitive\_v3.csv & 37 & +0.199 & +0.188 \\
+  dart\_nn23 & definitive\_v3.csv & 37 & +0.197 & +0.207 \\
+  dart\_nn23\_dow & definitive\_v3.csv & 37 & +0.193 & +0.193 \\
+  dart\_base & definitive\_v3.csv & 37 & +0.190 & +0.182 \\
+  plus\_oracle\_log\_gated & additive\_shape\_magnitude\_stati & 40 & +0.043 & -0.009 \\
+  plus\_oracle\_log\_blend & additive\_shape\_magnitude\_stati & 40 & +0.040 & -0.020 \\
+  plus\_oracle\_log & additive\_shape\_magnitude\_stati & 40 & +0.034 & -0.015 \\
+  plus\_oracle\_log\_raw & additive\_shape\_magnitude\_stati & 40 & -0.004 & -0.086 \\
+  no\_t4f & tier\_operational\_general\_log\_r & 40 & -0.046 & +0.019 \\
+  no\_t4f & deeper\_failure\_feature\_diagnos & 40 & -0.046 & +0.019 \\
+  no\_t4f & tier\_operational\_general\_log\_r & 40 & -0.046 & +0.019 \\
+  no\_t4f & shape\_magnitude\_stucklow\_stati & 40 & -0.046 & +0.019 \\
+  no\_t4f & additive\_shape\_magnitude\_stati & 40 & -0.046 & +0.019 \\
+  no\_t4f & tier\_operational\_general\_log\_r & 40 & -0.059 & -0.023 \\
+  no\_t4f & tier\_operational\_test.csv & 40 & -0.059 & -0.023 \\
+  no\_t4f & tier\_operational\_general\_log\_r & 40 & -0.059 & -0.023 \\
+  no\_t4f\_gated & tier\_operational\_general\_log\_r & 40 & -0.065 & -0.019 \\
+  no\_t4f\_gated & shape\_magnitude\_stucklow\_stati & 40 & -0.065 & -0.019 \\
+  no\_t4f\_gated & additive\_shape\_magnitude\_stati & 40 & -0.065 & -0.019 \\
+  no\_t4f\_gated & tier\_operational\_general\_log\_r & 40 & -0.065 & -0.019 \\
+  no\_t4f\_gated & tier\_operational\_general\_log\_r & 40 & -0.076 & -0.017 \\
+  no\_t4f\_gated & tier\_operational\_test.csv & 40 & -0.076 & -0.017 \\
+  no\_t4f\_gated & tier\_operational\_general\_log\_r & 40 & -0.076 & -0.017 \\
+  no\_t4f\_blend & tier\_operational\_general\_log\_r & 40 & -0.078 & -0.006 \\
+  no\_t4f\_blend & tier\_operational\_general\_log\_r & 40 & -0.078 & -0.006 \\
+  no\_t4f\_blend & shape\_magnitude\_stucklow\_stati & 40 & -0.078 & -0.006 \\
+  no\_t4f\_blend & additive\_shape\_magnitude\_stati & 40 & -0.078 & -0.006 \\
+  no\_t4f\_blend & tier\_operational\_test.csv & 40 & -0.079 & -0.002 \\
+  no\_t4f\_blend & tier\_operational\_general\_log\_r & 40 & -0.079 & -0.002 \\
+  no\_t4f\_blend & tier\_operational\_general\_log\_r & 40 & -0.079 & -0.002 \\
+  plus\_static\_log\_gated & additive\_shape\_magnitude\_stati & 40 & -0.241 & -0.039 \\
+  plus\_static\_log & additive\_shape\_magnitude\_stati & 40 & -0.246 & -0.033 \\
+  plus\_static\_log\_blend & additive\_shape\_magnitude\_stati & 40 & -0.246 & -0.038 \\
+  plus\_static\_log\_raw & additive\_shape\_magnitude\_stati & 40 & -0.299 & -0.055 \\
+  posthoc\_hidden\_raw\_else\_l & tier\_operational\_general\_log\_r & 40 & -0.302 & +0.050 \\
+  posthoc\_hidden\_raw\_else\_l & tier\_operational\_general\_log\_r & 40 & -0.341 & +0.043 \\
+  posthoc\_dynamic\_raw\_lift & tier\_operational\_general\_log\_r & 40 & -0.359 & -0.022 \\
+  posthoc\_static\_raw\_else\_l & tier\_operational\_general\_log\_r & 40 & -0.384 & +0.046 \\
+\bottomrule
+\end{longtable}
+}
+
+Bảng kết quả đầy đủ theo từng trạm có sẵn trong kho mã nguồn tại \texttt{analysis/thesis\_experiments/}.
+
+\end{document}

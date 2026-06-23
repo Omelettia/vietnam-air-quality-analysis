@@ -1,0 +1,1534 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{copernicus2023}{misc}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a31b6f6da80a50c061b5e489590ab5f2}{%
+           family={(C3S)},
+           familyi={(\bibinitperiod},
+           given={Copernicus\bibnamedelimb Climate\bibnamedelimb Change\bibnamedelima Service},
+           giveni={C\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a31b6f6da80a50c061b5e489590ab5f2}
+      \strng{fullhash}{a31b6f6da80a50c061b5e489590ab5f2}
+      \strng{fullhashraw}{a31b6f6da80a50c061b5e489590ab5f2}
+      \strng{bibnamehash}{a31b6f6da80a50c061b5e489590ab5f2}
+      \strng{authorbibnamehash}{a31b6f6da80a50c061b5e489590ab5f2}
+      \strng{authornamehash}{a31b6f6da80a50c061b5e489590ab5f2}
+      \strng{authorfullhash}{a31b6f6da80a50c061b5e489590ab5f2}
+      \strng{authorfullhashraw}{a31b6f6da80a50c061b5e489590ab5f2}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Copernicus Climate Change Service (C3S) Climate Data Store (CDS)}
+      \field{title}{ERA5 hourly data on single levels from 1940 to present [Data set]}
+      \field{year}{2023}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.24381/cds.adbb2d47
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.24381/cds.adbb2d47
+      \endverb
+    \endentry
+    \entry{gonzalez2018}{misc}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e9e0bbb86ab781d888986d7e2f2eedfe}{%
+           family={Abad},
+           familyi={A\bibinitperiod},
+           given={G},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e9e0bbb86ab781d888986d7e2f2eedfe}
+      \strng{fullhash}{e9e0bbb86ab781d888986d7e2f2eedfe}
+      \strng{fullhashraw}{e9e0bbb86ab781d888986d7e2f2eedfe}
+      \strng{bibnamehash}{e9e0bbb86ab781d888986d7e2f2eedfe}
+      \strng{authorbibnamehash}{e9e0bbb86ab781d888986d7e2f2eedfe}
+      \strng{authornamehash}{e9e0bbb86ab781d888986d7e2f2eedfe}
+      \strng{authorfullhash}{e9e0bbb86ab781d888986d7e2f2eedfe}
+      \strng{authorfullhashraw}{e9e0bbb86ab781d888986d7e2f2eedfe}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{European Space Agency / Copernicus. (NO2); https://doi.org/10.5270/S5P-yp7ws9j (HCHO); https://doi.org/10.5270/S5P-1hkp7rp (CO); https://doi.org/10.5270/S5P-72w5292 (SO2)}
+      \field{title}{Sentinel-5 Precursor (Sentinel-5P) TROPOMI Level 2 products [Data set]}
+      \field{year}{2018}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.5270/S5P-bj3nry0
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5270/S5P-bj3nry0
+      \endverb
+    \endentry
+    \entry{national2021}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=0b3f3a8d27a25574fc4053765e403b39}{%
+           family={Aeronautics},
+           familyi={A\bibinitperiod},
+           given={National},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cb23ed12eb580a886433e088ba20b6b7}{%
+           family={(NASA)},
+           familyi={(\bibinitperiod},
+           given={Space\bibnamedelima Administration},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4bb98a5074f766c4ea32b6063a0c0143}
+      \strng{fullhash}{4bb98a5074f766c4ea32b6063a0c0143}
+      \strng{fullhashraw}{4bb98a5074f766c4ea32b6063a0c0143}
+      \strng{bibnamehash}{4bb98a5074f766c4ea32b6063a0c0143}
+      \strng{authorbibnamehash}{4bb98a5074f766c4ea32b6063a0c0143}
+      \strng{authornamehash}{4bb98a5074f766c4ea32b6063a0c0143}
+      \strng{authorfullhash}{4bb98a5074f766c4ea32b6063a0c0143}
+      \strng{authorfullhashraw}{4bb98a5074f766c4ea32b6063a0c0143}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Earth Observation Group, Payne Institute for Public Policy, Colorado School of Mines}
+      \field{title}{VIIRS/NPP Day/Night Band annual composites (VNL V2) [Data set]}
+      \field{year}{2021}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://eogdata.mines.edu/products/vnl/
+      \endverb
+      \verb{url}
+      \verb https://eogdata.mines.edu/products/vnl/
+      \endverb
+    \endentry
+    \entry{airgradient2024}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=41fce0404c153c2873e55e4445f2985f}{%
+           family={AirGradient},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{41fce0404c153c2873e55e4445f2985f}
+      \strng{fullhash}{41fce0404c153c2873e55e4445f2985f}
+      \strng{fullhashraw}{41fce0404c153c2873e55e4445f2985f}
+      \strng{bibnamehash}{41fce0404c153c2873e55e4445f2985f}
+      \strng{authorbibnamehash}{41fce0404c153c2873e55e4445f2985f}
+      \strng{authornamehash}{41fce0404c153c2873e55e4445f2985f}
+      \strng{authorfullhash}{41fce0404c153c2873e55e4445f2985f}
+      \strng{authorfullhashraw}{41fce0404c153c2873e55e4445f2985f}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{AirGradient. Retrieved May 30, 2026, from}
+      \field{title}{Low readings from Plantower PMS5003 [Technical documentation]}
+      \field{year}{2024}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://www.airgradient.com/blog/low-readings-from-pms5003/
+      \endverb
+      \verb{url}
+      \verb https://www.airgradient.com/blog/low-readings-from-pms5003/
+      \endverb
+    \endentry
+    \entry{bai2022}{article}{}{}
+      \name{author}{9}{}{%
+        {{un=0,uniquepart=base,hash=6c6d89c3086ad710d435f9cff1b4cde0}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1a48ecf9984adc4526895c8abf1d2b80}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6fe8e7b20b8c2976e5f7ed821cb6c116}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1a48ecf9984adc4526895c8abf1d2b80}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ae6f64f7b429f6425fbe070323390f1b}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=28f6068ba57e60c5e27fc2490a8e1ffd}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8fdfe6f233c240d6d7bbd9e0624af53d}{%
+           family={Chang},
+           familyi={C\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8e81b8c9dabc7088f68a3cbcde87f822}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=84f1294fc7b1dd904172d502b455538a}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={D},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{26de20a7e3bb133dd6217801cbeff46f}
+      \strng{fullhash}{303c29e5e4b0340c30fa166019b123dd}
+      \strng{fullhashraw}{303c29e5e4b0340c30fa166019b123dd}
+      \strng{bibnamehash}{26de20a7e3bb133dd6217801cbeff46f}
+      \strng{authorbibnamehash}{26de20a7e3bb133dd6217801cbeff46f}
+      \strng{authornamehash}{26de20a7e3bb133dd6217801cbeff46f}
+      \strng{authorfullhash}{303c29e5e4b0340c30fa166019b123dd}
+      \strng{authorfullhashraw}{303c29e5e4b0340c30fa166019b123dd}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Earth System Science Data, 14(2), 907--927}
+      \field{title}{LGHAP: The Long-term Gap-free High-resolution Air Pollutant concentration dataset, derived via tensor-flow-based multimodal data fusion}
+      \field{year}{2022}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.5194/essd-14-907-2022
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5194/essd-14-907-2022
+      \endverb
+    \endentry
+    \entry{chen2019}{article}{}{}
+      \name{author}{20}{}{%
+        {{un=1,uniquepart=given,hash=38241eaee18102cab15a125b0654c7da}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=e1fcd07b703a20e5858eb30707d8fa19}{%
+           family={Hoogh},
+           familyi={H\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4409a74592ca94302aac6dce9b3f76de}{%
+           family={Gulliver},
+           familyi={G\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=603da67e916883e9edc280d940491e06}{%
+           family={Hoffmann},
+           familyi={H\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a714ee4e4ed87e9d3c19d1c1e42dc312}{%
+           family={Hertel},
+           familyi={H\bibinitperiod},
+           given={O.},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e43afa5632ff606f4e528719a583946c}{%
+           family={Ketzel},
+           familyi={K\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8e71a1713c210af3a2850524fe8f5ea4}{%
+           family={Bauwelinck},
+           familyi={B\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=757693945ee6907367c007de49a6c26d}{%
+           family={Donkelaar},
+           familyi={D\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e04c7cd4787063784f9e1373112b2ce6}{%
+           family={Hvidtfeldt},
+           familyi={H\bibinitperiod},
+           given={U.\bibnamedelimi A.},
+           giveni={U\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1a47e1ae7c894ed4a129016047e958c5}{%
+           family={Katsouyanni},
+           familyi={K\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd5e72d4a02d4fcde51d022c55444a52}{%
+           family={Janssen},
+           familyi={J\bibinitperiod},
+           given={N.\bibnamedelimi A.\bibnamedelimi H.},
+           giveni={N\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1cedf3f4c598a70d405ddf495d3921c8}{%
+           family={Martin},
+           familyi={M\bibinitperiod},
+           given={R.\bibnamedelimi V.},
+           giveni={R\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5280b995f30fb9ac0866a55ca7144c92}{%
+           family={Samoli},
+           familyi={S\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=97d18fb6a513f6cfa165bfaf5d7a14a7}{%
+           family={Schwartz},
+           familyi={S\bibinitperiod},
+           given={P.\bibnamedelimi E.},
+           giveni={P\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=de8e35d0ac0ad6a4e3407cccac1e42af}{%
+           family={Stafoggia},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cb927629230a1852f1f27737b7ee80a4}{%
+           family={Bellander},
+           familyi={B\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=15f1913264789d8da8fb7444d8683692}{%
+           family={Strak},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e7ea35f3f0c3cf77495520fc0d8fdb22}{%
+           family={Wolf},
+           familyi={W\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=deb894f90584760ea18ab5825a9afc99}{%
+           family={Vienneau},
+           familyi={V\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=160db6367bfd8d845007ae13db123c9d}{%
+           family={Hoek},
+           familyi={H\bibinitperiod},
+           given={G},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{009ae0939de2e2902cbc6c9fa114de64}
+      \strng{fullhash}{5175a64b0684794cf9b56b269d279a23}
+      \strng{fullhashraw}{5175a64b0684794cf9b56b269d279a23}
+      \strng{bibnamehash}{009ae0939de2e2902cbc6c9fa114de64}
+      \strng{authorbibnamehash}{009ae0939de2e2902cbc6c9fa114de64}
+      \strng{authornamehash}{009ae0939de2e2902cbc6c9fa114de64}
+      \strng{authorfullhash}{5175a64b0684794cf9b56b269d279a23}
+      \strng{authorfullhashraw}{5175a64b0684794cf9b56b269d279a23}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Environment International, 130, 104934}
+      \field{title}{A comparison of linear regression, regularization, and machine learning algorithms to develop Europe-wide spatial models of fine particles and nitrogen dioxide}
+      \field{year}{2019}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.envint.2019.104934
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.envint.2019.104934
+      \endverb
+    \endentry
+    \entry{chen2016}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=1,uniquepart=given,hash=17541c65107086b7d7dd596d7ad81405}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=a3be5ea6b470ac63fe702e54e17ed48c}{%
+           family={Guestrin},
+           familyi={G\bibinitperiod},
+           given={C},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{504b0676eab5f1fea28621d004e40d9a}
+      \strng{fullhash}{504b0676eab5f1fea28621d004e40d9a}
+      \strng{fullhashraw}{504b0676eab5f1fea28621d004e40d9a}
+      \strng{bibnamehash}{504b0676eab5f1fea28621d004e40d9a}
+      \strng{authorbibnamehash}{504b0676eab5f1fea28621d004e40d9a}
+      \strng{authornamehash}{504b0676eab5f1fea28621d004e40d9a}
+      \strng{authorfullhash}{504b0676eab5f1fea28621d004e40d9a}
+      \strng{authorfullhashraw}{504b0676eab5f1fea28621d004e40d9a}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{In Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (pp. 785--794)}
+      \field{title}{XGBoost: A Scalable Tree Boosting System}
+      \field{year}{2016}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/2939672.2939785
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/2939672.2939785
+      \endverb
+    \endentry
+    \entry{gbd2020}{misc}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=66a963c985735fce4354125f040fbd28}{%
+           family={Collaborators},
+           familyi={C\bibinitperiod},
+           given={GBD\bibnamedelimb 2019\bibnamedelimb Risk\bibnamedelima Factors},
+           giveni={G\bibinitperiod\bibinitdelim 2\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{66a963c985735fce4354125f040fbd28}
+      \strng{fullhash}{66a963c985735fce4354125f040fbd28}
+      \strng{fullhashraw}{66a963c985735fce4354125f040fbd28}
+      \strng{bibnamehash}{66a963c985735fce4354125f040fbd28}
+      \strng{authorbibnamehash}{66a963c985735fce4354125f040fbd28}
+      \strng{authornamehash}{66a963c985735fce4354125f040fbd28}
+      \strng{authorfullhash}{66a963c985735fce4354125f040fbd28}
+      \strng{authorfullhashraw}{66a963c985735fce4354125f040fbd28}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{The Lancet, 396(10258), 1223--1249}
+      \field{title}{Global burden of 87 risk factors in 204 countries and territories, 1990--2019: A systematic analysis for the Global Burden of Disease Study 2019}
+      \field{year}{2020}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/S0140-6736(20)30752-2
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/S0140-6736(20)30752-2
+      \endverb
+    \endentry
+    \entry{di2019}{article}{}{}
+      \name{author}{13}{}{%
+        {{un=0,uniquepart=base,hash=66005ac60f00823ec030136350a45c5e}{%
+           family={Di},
+           familyi={D\bibinitperiod},
+           given={Q.},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0f0c5839be8920a300c93dd531698236}{%
+           family={Amini},
+           familyi={A\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fcb00412c5b2e47e2e037f73466ba8e8}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fe6d33a4621c81e178060228a8f29a0b}{%
+           family={Kloog},
+           familyi={K\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6d45e355abbb8a1e774bba4cee10518a}{%
+           family={Silvern},
+           familyi={S\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=52ce271eaf95f32dd23df21155d474bd}{%
+           family={Kelly},
+           familyi={K\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f772c65cde01cfb78d1d1d7884da7c4f}{%
+           family={Sabath},
+           familyi={S\bibinitperiod},
+           given={M.\bibnamedelimi B.},
+           giveni={M\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e5d7828f8cf318e1df03041f57895096}{%
+           family={Choirat},
+           familyi={C\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1e413fa9b0d66fab2411e451c25dc6e7}{%
+           family={Koutrakis},
+           familyi={K\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42ee5b36ae5126bb7a8293cab86d8841}{%
+           family={Lyapustin},
+           familyi={L\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=61ad10c626e1d641e0b1d7b5f48d3233}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=31b6505a714c21ca52a1cb701744f8ec}{%
+           family={Mickley},
+           familyi={M\bibinitperiod},
+           given={L.\bibnamedelimi J.},
+           giveni={L\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f88737ec8c51a68d90dbc625575e8292}{%
+           family={Schwartz},
+           familyi={S\bibinitperiod},
+           given={J},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d5030608e672818e6a5e95259077eb65}
+      \strng{fullhash}{45202a01f4145f5286f26619184909ae}
+      \strng{fullhashraw}{45202a01f4145f5286f26619184909ae}
+      \strng{bibnamehash}{d5030608e672818e6a5e95259077eb65}
+      \strng{authorbibnamehash}{d5030608e672818e6a5e95259077eb65}
+      \strng{authornamehash}{d5030608e672818e6a5e95259077eb65}
+      \strng{authorfullhash}{45202a01f4145f5286f26619184909ae}
+      \strng{authorfullhashraw}{45202a01f4145f5286f26619184909ae}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Environment International, 130, 104909}
+      \field{title}{An ensemble-based model of PM2.5 concentration across the contiguous United States with high spatiotemporal resolution}
+      \field{year}{2019}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.envint.2019.104909
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.envint.2019.104909
+      \endverb
+    \endentry
+    \entry{google2023}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=8b36e9207c24c76e6719268e49201d94}{%
+           family={Google},
+           familyi={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{fullhash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{fullhashraw}{8b36e9207c24c76e6719268e49201d94}
+      \strng{bibnamehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authorbibnamehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authornamehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authorfullhash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authorfullhashraw}{8b36e9207c24c76e6719268e49201d94}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Google Research. Retrieved May 30, 2026, from}
+      \field{title}{Open Buildings V3: A dataset of building footprints to support social good applications [Data set]}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://sites.research.google/open-buildings/
+      \endverb
+      \verb{url}
+      \verb https://sites.research.google/open-buildings/
+      \endverb
+    \endentry
+    \entry{gupta2026}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=0cb0f1c1aac47d796dd68fccde0e3775}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={P},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0cb0f1c1aac47d796dd68fccde0e3775}
+      \strng{fullhash}{0cb0f1c1aac47d796dd68fccde0e3775}
+      \strng{fullhashraw}{0cb0f1c1aac47d796dd68fccde0e3775}
+      \strng{bibnamehash}{0cb0f1c1aac47d796dd68fccde0e3775}
+      \strng{authorbibnamehash}{0cb0f1c1aac47d796dd68fccde0e3775}
+      \strng{authornamehash}{0cb0f1c1aac47d796dd68fccde0e3775}
+      \strng{authorfullhash}{0cb0f1c1aac47d796dd68fccde0e3775}
+      \strng{authorfullhashraw}{0cb0f1c1aac47d796dd68fccde0e3775}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Geoscience Data Journal. Advance online publication}
+      \field{title}{MERRA2\_CNN\_HAQAST\_PM25: Hourly bias-corrected PM2.5 datasets for global air quality assessment}
+      \field{year}{2026}
+      \verb{urlraw}
+      \verb https://doi.org/10.1002/gdj3.70070
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1002/gdj3.70070
+      \endverb
+    \endentry
+    \entry{gupta2021}{misc}{}{}
+      \name{author}{7}{}{%
+        {{un=2,uniquepart=given,hash=0cb0f1c1aac47d796dd68fccde0e3775}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=2}}%
+        {{un=0,uniquepart=base,hash=09932bbb8ba685a17cfbf91abce94c01}{%
+           family={Zhan},
+           familyi={Z\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b89fc228af8b9a3fbe3a2f38f90c91a5}{%
+           family={Mishra},
+           familyi={M\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=749d287e69ba6fe820055e958ffbd7c6}{%
+           family={Aekakkararungroj},
+           familyi={A\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=20e5869af35a7e4cd4b5a3cdb21d849f}{%
+           family={Markert},
+           familyi={M\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b0840c21d57af0f42829a38d0f256a26}{%
+           family={Paibong},
+           familyi={P\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f7277580cf5698a84b103e9b8210fc92}{%
+           family={Chishtie},
+           familyi={C\bibinitperiod},
+           given={F},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c753688566e46e16bb6ea5307f7a6862}
+      \strng{fullhash}{063036241fbd8d0163ec93dd0c5c2ac6}
+      \strng{fullhashraw}{063036241fbd8d0163ec93dd0c5c2ac6}
+      \strng{bibnamehash}{c753688566e46e16bb6ea5307f7a6862}
+      \strng{authorbibnamehash}{c753688566e46e16bb6ea5307f7a6862}
+      \strng{authornamehash}{c753688566e46e16bb6ea5307f7a6862}
+      \strng{authorfullhash}{063036241fbd8d0163ec93dd0c5c2ac6}
+      \strng{authorfullhashraw}{063036241fbd8d0163ec93dd0c5c2ac6}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Aerosol and Air Quality Research, 21(5), 210105}
+      \field{title}{Machine learning algorithm for estimating surface PM2.5 in Thailand}
+      \field{year}{2021}
+      \verb{urlraw}
+      \verb https://doi.org/10.4209/aaqr.210105
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.4209/aaqr.210105
+      \endverb
+    \endentry
+    \entry{huffman2019}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=e6cbe1df75f5dea5f3e7120ddfd3296e}{%
+           family={Huffman},
+           familyi={H\bibinitperiod},
+           given={G.\bibnamedelimi J.},
+           giveni={G\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b878c7035f1c1f906675736c4e10bf48}{%
+           family={Stocker},
+           familyi={S\bibinitperiod},
+           given={E.\bibnamedelimi F.},
+           giveni={E\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ee86fd3dfca57e26cc2c0346a389b8b8}{%
+           family={Bolvin},
+           familyi={B\bibinitperiod},
+           given={D.\bibnamedelimi T.},
+           giveni={D\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4116b01dc4781075ba427d38228822f8}{%
+           family={Nelkin},
+           familyi={N\bibinitperiod},
+           given={E.\bibnamedelimi J.},
+           giveni={E\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1308b65e26f5529f555fa9242f540399}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={J},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{8411975a281bd20a32567e912d93ba52}
+      \strng{fullhash}{04b0300c83236c3873abe93bef449610}
+      \strng{fullhashraw}{04b0300c83236c3873abe93bef449610}
+      \strng{bibnamehash}{8411975a281bd20a32567e912d93ba52}
+      \strng{authorbibnamehash}{8411975a281bd20a32567e912d93ba52}
+      \strng{authornamehash}{8411975a281bd20a32567e912d93ba52}
+      \strng{authorfullhash}{04b0300c83236c3873abe93bef449610}
+      \strng{authorfullhashraw}{04b0300c83236c3873abe93bef449610}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Goddard Earth Sciences Data and Information Services Center (GES DISC)}
+      \field{title}{GPM IMERG final precipitation L3 half hourly 0.1 degree × 0.1 degree V06 [Data set]}
+      \field{year}{2019}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.5067/GPM/IMERG/3B-HH/06
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5067/GPM/IMERG/3B-HH/06
+      \endverb
+    \endentry
+    \entry{iqair2025}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=92017c4f757a67982491606f8f1871fc}{%
+           family={IQAir},
+           familyi={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{92017c4f757a67982491606f8f1871fc}
+      \strng{fullhash}{92017c4f757a67982491606f8f1871fc}
+      \strng{fullhashraw}{92017c4f757a67982491606f8f1871fc}
+      \strng{bibnamehash}{92017c4f757a67982491606f8f1871fc}
+      \strng{authorbibnamehash}{92017c4f757a67982491606f8f1871fc}
+      \strng{authornamehash}{92017c4f757a67982491606f8f1871fc}
+      \strng{authorfullhash}{92017c4f757a67982491606f8f1871fc}
+      \strng{authorfullhashraw}{92017c4f757a67982491606f8f1871fc}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IQAir. Retrieved May 30, 2026, from}
+      \field{title}{2024 World Air Quality Report: Region \& city PM2.5 ranking}
+      \field{year}{2025}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://www.iqair.com/world-air-quality-report
+      \endverb
+      \verb{url}
+      \verb https://www.iqair.com/world-air-quality-report
+      \endverb
+    \endentry
+    \entry{kawano2025}{article}{}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=945e94bd7572694e7fcb3d04ee5702d2}{%
+           family={Kawano},
+           familyi={K\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=92333a37f56cd65cd92137992dc65e8f}{%
+           family={Kelp},
+           familyi={K\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=70a854559f3c3215be053d7567b5f90d}{%
+           family={Qiu},
+           familyi={Q\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bb4b0c61f6e0d045f8da34a059a06e70}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d72564b6ed4c32a85afeafe4536eb051}{%
+           family={Chaturvedi},
+           familyi={C\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=222edb350c2b4bc6585c9af64b229ef0}{%
+           family={Dahiya},
+           familyi={D\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5c9814fdfe36a841c88ff95f42b6150e}{%
+           family={Azevedo},
+           familyi={A\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=31d4f92abc49e335bd0880284dee11a2}{%
+           family={Burke},
+           familyi={B\bibinitperiod},
+           given={M},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{28bc13adb14dd7dd3192ea095d8244e1}
+      \strng{fullhash}{e29883458f2a83033f438beccf266d30}
+      \strng{fullhashraw}{e29883458f2a83033f438beccf266d30}
+      \strng{bibnamehash}{28bc13adb14dd7dd3192ea095d8244e1}
+      \strng{authorbibnamehash}{28bc13adb14dd7dd3192ea095d8244e1}
+      \strng{authornamehash}{28bc13adb14dd7dd3192ea095d8244e1}
+      \strng{authorfullhash}{e29883458f2a83033f438beccf266d30}
+      \strng{authorfullhashraw}{e29883458f2a83033f438beccf266d30}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Science Advances, 11(4), eadq1071}
+      \field{title}{Improved daily PM2.5 estimates in India reveal inequalities in recent enhancement of air quality}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://doi.org/10.1126/sciadv.adq1071
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1126/sciadv.adq1071
+      \endverb
+    \endentry
+    \entry{lu2024}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=400f79835333866b70a0bd741c9bb174}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={C},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{400f79835333866b70a0bd741c9bb174}
+      \strng{fullhash}{400f79835333866b70a0bd741c9bb174}
+      \strng{fullhashraw}{400f79835333866b70a0bd741c9bb174}
+      \strng{bibnamehash}{400f79835333866b70a0bd741c9bb174}
+      \strng{authorbibnamehash}{400f79835333866b70a0bd741c9bb174}
+      \strng{authornamehash}{400f79835333866b70a0bd741c9bb174}
+      \strng{authorfullhash}{400f79835333866b70a0bd741c9bb174}
+      \strng{authorfullhashraw}{400f79835333866b70a0bd741c9bb174}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Science of the Total Environment, 914, 169801}
+      \field{title}{Spatiotemporally continuous PM2.5 dataset in the Mekong River Basin from 2015 to 2022 using a stacking model}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.scitotenv.2023.169801
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.scitotenv.2023.169801
+      \endverb
+    \endentry
+    \entry{lyapustin2022}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=42ee5b36ae5126bb7a8293cab86d8841}{%
+           family={Lyapustin},
+           familyi={L\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=61ad10c626e1d641e0b1d7b5f48d3233}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Y},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{8b611b962d37d3e80d60227eb3f97b25}
+      \strng{fullhash}{8b611b962d37d3e80d60227eb3f97b25}
+      \strng{fullhashraw}{8b611b962d37d3e80d60227eb3f97b25}
+      \strng{bibnamehash}{8b611b962d37d3e80d60227eb3f97b25}
+      \strng{authorbibnamehash}{8b611b962d37d3e80d60227eb3f97b25}
+      \strng{authornamehash}{8b611b962d37d3e80d60227eb3f97b25}
+      \strng{authorfullhash}{8b611b962d37d3e80d60227eb3f97b25}
+      \strng{authorfullhashraw}{8b611b962d37d3e80d60227eb3f97b25}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{NASA Land Processes Distributed Active Archive Center (LP DAAC)}
+      \field{title}{MODIS/Terra+Aqua land aerosol optical depth daily L2G global 1 km SIN grid V061 (MCD19A2) [Data set]}
+      \field{year}{2022}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.5067/MODIS/MCD19A2.061
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5067/MODIS/MCD19A2.061
+      \endverb
+    \endentry
+    \entry{lyapustin2018}{article}{}{}
+      \name{author}{4}{ul=2}{%
+        {{un=0,uniquepart=base,hash=42ee5b36ae5126bb7a8293cab86d8841}{%
+           family={Lyapustin},
+           familyi={L\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=2,uniquepart=given,hash=61ad10c626e1d641e0b1d7b5f48d3233}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=2}}%
+        {{un=0,uniquepart=base,hash=c2f33ec2cf4d4e273332e283b2cb8635}{%
+           family={Korkin},
+           familyi={K\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e66383322e6e7236826a89cb3f42d1b0}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={D},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{cf2672e6641b94bb53da50994020e5b4}
+      \strng{fullhash}{8103664c97d3d24437528ce397ec8fe5}
+      \strng{fullhashraw}{8103664c97d3d24437528ce397ec8fe5}
+      \strng{bibnamehash}{cf2672e6641b94bb53da50994020e5b4}
+      \strng{authorbibnamehash}{cf2672e6641b94bb53da50994020e5b4}
+      \strng{authornamehash}{cf2672e6641b94bb53da50994020e5b4}
+      \strng{authorfullhash}{8103664c97d3d24437528ce397ec8fe5}
+      \strng{authorfullhashraw}{8103664c97d3d24437528ce397ec8fe5}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Atmospheric Measurement Techniques, 11(10), 5741--5765}
+      \field{title}{MODIS Collection 6 MAIAC algorithm}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb https://doi.org/10.5194/amt-11-5741-2018
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5194/amt-11-5741-2018
+      \endverb
+    \endentry
+    \entry{meyer2018}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=4b3bf16259801449e569d6fb1f5c3f99}{%
+           family={Meyer},
+           familyi={M\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=748b36d5075be069568969c5dd53099e}{%
+           family={Reudenbach},
+           familyi={R\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=884df4ac8a1f7458e3da07b63d75d957}{%
+           family={Hengl},
+           familyi={H\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b6bda46f02ef12caf1feb0c7232c6750}{%
+           family={Katurji},
+           familyi={K\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c493c06b6009d68dcd010d2d73b8e3cb}{%
+           family={Nauss},
+           familyi={N\bibinitperiod},
+           given={T},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{be0bdc9a306014c3eab1842efe604e8a}
+      \strng{fullhash}{e258b6bfc5291604ce96c85862c248b8}
+      \strng{fullhashraw}{e258b6bfc5291604ce96c85862c248b8}
+      \strng{bibnamehash}{be0bdc9a306014c3eab1842efe604e8a}
+      \strng{authorbibnamehash}{be0bdc9a306014c3eab1842efe604e8a}
+      \strng{authornamehash}{be0bdc9a306014c3eab1842efe604e8a}
+      \strng{authorfullhash}{e258b6bfc5291604ce96c85862c248b8}
+      \strng{authorfullhashraw}{e258b6bfc5291604ce96c85862c248b8}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Environmental Modelling \& Software, 101, 1--9}
+      \field{title}{Improving performance of spatio-temporal machine learning models using forward feature selection and target-oriented validation}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.envsoft.2017.12.001
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.envsoft.2017.12.001
+      \endverb
+    \endentry
+    \entry{global2015}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=b88839a4393627ed5a4618f7c540d600}{%
+           family={Modeling},
+           familyi={M\bibinitperiod},
+           given={Global},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c58135bdcbed3163800e48a26c03731b}{%
+           family={(GMAO)},
+           familyi={(\bibinitperiod},
+           given={Assimilation\bibnamedelima Office},
+           giveni={A\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{fullhash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{fullhashraw}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{bibnamehash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{authorbibnamehash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{authornamehash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{authorfullhash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{authorfullhashraw}{47c8a9db415caa2ae5db783e357b4570}
+      \field{extraname}{1}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Goddard Earth Sciences Data and Information Services Center (GES DISC)}
+      \field{title}{MERRA-2 tavg1\_2d\_aer\_Nx: 2d, 1-hourly, time-averaged, single-level, assimilation, aerosol diagnostics V5.12.4 [Data set]}
+      \field{year}{2015}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://doi.org/10.5067/KLICLTZ8EM9D
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5067/KLICLTZ8EM9D
+      \endverb
+    \endentry
+    \entry{global2020}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=b88839a4393627ed5a4618f7c540d600}{%
+           family={Modeling},
+           familyi={M\bibinitperiod},
+           given={Global},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c58135bdcbed3163800e48a26c03731b}{%
+           family={(GMAO)},
+           familyi={(\bibinitperiod},
+           given={Assimilation\bibnamedelima Office},
+           giveni={A\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{fullhash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{fullhashraw}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{bibnamehash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{authorbibnamehash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{authornamehash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{authorfullhash}{47c8a9db415caa2ae5db783e357b4570}
+      \strng{authorfullhashraw}{47c8a9db415caa2ae5db783e357b4570}
+      \field{extraname}{2}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{NASA Global Modeling and Assimilation Office}
+      \field{title}{GEOS Composition Forecast (GEOS-CF) system, version 1.0 [Data set]}
+      \field{year}{2020}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://gmao.gsfc.nasa.gov/weather_prediction/GEOS-CF/
+      \endverb
+      \verb{url}
+      \verb https://gmao.gsfc.nasa.gov/weather_prediction/GEOS-CF/
+      \endverb
+    \endentry
+    \entry{ministry2013}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=f2d31908a6f1100db3d68d0e71847518}{%
+           family={Natural\bibnamedelima Resources},
+           familyi={N\bibinitperiod\bibinitdelim R\bibinitperiod},
+           given={Ministry},
+           giveni={M\bibinitperiod},
+           givenun=0,
+           prefix={of},
+           prefixi={o\bibinitperiod},
+           prefixun=0}}%
+        {{un=0,uniquepart=base,hash=aaa02052fb0c1a17a6d29ccc62eaabb3}{%
+           family={(Vietnam)},
+           familyi={(\bibinitperiod},
+           given={Environment},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{95a218a83c910101b98c606d638fd46d}
+      \strng{fullhash}{95a218a83c910101b98c606d638fd46d}
+      \strng{fullhashraw}{95a218a83c910101b98c606d638fd46d}
+      \strng{bibnamehash}{95a218a83c910101b98c606d638fd46d}
+      \strng{authorbibnamehash}{95a218a83c910101b98c606d638fd46d}
+      \strng{authornamehash}{95a218a83c910101b98c606d638fd46d}
+      \strng{authorfullhash}{95a218a83c910101b98c606d638fd46d}
+      \strng{authorfullhashraw}{95a218a83c910101b98c606d638fd46d}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Ministry of Natural Resources and Environment of Vietnam}
+      \field{title}{QCVN 05:2013/BTNMT: National technical regulation on ambient air quality [Quy chuẩn kỹ thuật quốc gia về chất lượng không khí xung quanh]}
+      \field{year}{2013}
+      \true{nocite}
+    \endentry
+    \entry{ngo2023}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=b0ffc10480850e98ec65b8b92299eadf}{%
+           family={Ngo},
+           familyi={N\bibinitperiod},
+           given={T.\bibnamedelimi X.},
+           giveni={T\bibinitperiod\bibinitdelim X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c55ce4081da9eeddac170e92ce916841}{%
+           family={Pham},
+           familyi={P\bibinitperiod},
+           given={H.\bibnamedelimi V.},
+           giveni={H\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7a6049605a14752ea8e04708b4de1b87}{%
+           family={Phan},
+           familyi={P\bibinitperiod},
+           given={H.\bibnamedelimi D.\bibnamedelimi T.},
+           giveni={H\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2b29ecd7d8f3ed7f7d482d5776e3e465}{%
+           family={Nguyen},
+           familyi={N\bibinitperiod},
+           given={A.\bibnamedelimi T.\bibnamedelimi N.},
+           giveni={A\bibinitperiod\bibinitdelim T\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ae8fd9418950a1a65ebad9ae303db445}{%
+           family={To},
+           familyi={T\bibinitperiod},
+           given={H.\bibnamedelimi T.},
+           giveni={H\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2aac8cdda0439438e8baf7921dd1f6a4}{%
+           family={Nguyen},
+           familyi={N\bibinitperiod},
+           given={T.\bibnamedelimi T.\bibnamedelimi N},
+           giveni={T\bibinitperiod\bibinitdelim T\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2fb3c0ba53965b45af4e5db48ef3073c}
+      \strng{fullhash}{a1ca913f15968b27275cdf7284baef10}
+      \strng{fullhashraw}{a1ca913f15968b27275cdf7284baef10}
+      \strng{bibnamehash}{2fb3c0ba53965b45af4e5db48ef3073c}
+      \strng{authorbibnamehash}{2fb3c0ba53965b45af4e5db48ef3073c}
+      \strng{authornamehash}{2fb3c0ba53965b45af4e5db48ef3073c}
+      \strng{authorfullhash}{a1ca913f15968b27275cdf7284baef10}
+      \strng{authorfullhashraw}{a1ca913f15968b27275cdf7284baef10}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Science of the Total Environment, 857(Pt 3), 159537}
+      \field{title}{A daily and complete PM2.5 dataset derived from space observations for Vietnam from 2012 to 2020}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.scitotenv.2022.159537
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.scitotenv.2022.159537
+      \endverb
+    \endentry
+    \entry{world2021}{misc}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=8179b1fdebe9235e54501d2878c47e1b}{%
+           family={Organization},
+           familyi={O\bibinitperiod},
+           given={World\bibnamedelima Health},
+           giveni={W\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{fullhash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{fullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{bibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authorbibnamehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authornamehash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authorfullhash}{8179b1fdebe9235e54501d2878c47e1b}
+      \strng{authorfullhashraw}{8179b1fdebe9235e54501d2878c47e1b}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{World Health Organization}
+      \field{title}{WHO global air quality guidelines: Particulate matter (PM2.5 and PM10), ozone, nitrogen dioxide, sulfur dioxide and carbon monoxide}
+      \field{year}{2021}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://www.who.int/publications/i/item/9789240034228
+      \endverb
+      \verb{url}
+      \verb https://www.who.int/publications/i/item/9789240034228
+      \endverb
+    \endentry
+    \entry{ploton2020}{article}{}{}
+      \name{author}{13}{}{%
+        {{un=0,uniquepart=base,hash=b3760247cf5826bd686a57bc8903be6e}{%
+           family={Ploton},
+           familyi={P\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=54072bf0b786287a51efded349b24a20}{%
+           family={Mortier},
+           familyi={M\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cce77538e673e17afa5c194cb41b8c09}{%
+           family={Réjou-Méchain},
+           familyi={R\bibinithyphendelim M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=010e1ccd3640d9a2c612c9f8577fc6e5}{%
+           family={Barbier},
+           familyi={B\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1b3e2d26b8e927f3ce87166ad389bac9}{%
+           family={Picard},
+           familyi={P\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c60b04cf784c2ee697f20e06514e75b8}{%
+           family={Rossi},
+           familyi={R\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0fcf7b9151d3f533ea1ba594da348ca8}{%
+           family={Dormann},
+           familyi={D\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e1cbb8ef5e249542539dcbc7b7e23202}{%
+           family={Cornu},
+           familyi={C\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f5f87afdb5581c8896c6953dd835ac91}{%
+           family={Viennois},
+           familyi={V\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=09838938f9b589833a8a948566ea7aab}{%
+           family={Bayol},
+           familyi={B\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42ee5b36ae5126bb7a8293cab86d8841}{%
+           family={Lyapustin},
+           familyi={L\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=37403cbd317e1ac1af3c11fa52675ddb}{%
+           family={Gourlet-Fleury},
+           familyi={G\bibinithyphendelim F\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd2992dd7e8e003de70bd813d8e3b759}{%
+           family={Pélissier},
+           familyi={P\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{84b90ea29fd1f3da46e33e3a230f9d9e}
+      \strng{fullhash}{9c52431256ba750ab4bedc7cc1374503}
+      \strng{fullhashraw}{9c52431256ba750ab4bedc7cc1374503}
+      \strng{bibnamehash}{84b90ea29fd1f3da46e33e3a230f9d9e}
+      \strng{authorbibnamehash}{84b90ea29fd1f3da46e33e3a230f9d9e}
+      \strng{authornamehash}{84b90ea29fd1f3da46e33e3a230f9d9e}
+      \strng{authorfullhash}{9c52431256ba750ab4bedc7cc1374503}
+      \strng{authorfullhashraw}{9c52431256ba750ab4bedc7cc1374503}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Communications, 11, 4540}
+      \field{title}{Spatial validation reveals poor predictive performance of large-scale ecological mapping models}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://doi.org/10.1038/s41467-020-18321-y
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1038/s41467-020-18321-y
+      \endverb
+    \endentry
+    \entry{vietnamplus2024}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=dc6d1c82340341476c7c37382e4ce02e}{%
+           family={VietnamPlus},
+           familyi={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{dc6d1c82340341476c7c37382e4ce02e}
+      \strng{fullhash}{dc6d1c82340341476c7c37382e4ce02e}
+      \strng{fullhashraw}{dc6d1c82340341476c7c37382e4ce02e}
+      \strng{bibnamehash}{dc6d1c82340341476c7c37382e4ce02e}
+      \strng{authorbibnamehash}{dc6d1c82340341476c7c37382e4ce02e}
+      \strng{authornamehash}{dc6d1c82340341476c7c37382e4ce02e}
+      \strng{authorfullhash}{dc6d1c82340341476c7c37382e4ce02e}
+      \strng{authorfullhashraw}{dc6d1c82340341476c7c37382e4ce02e}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Vietnam News Agency (VietnamPlus). Retrieved May 30, 2026, from}
+      \field{title}{Vietnam to have 98 more automatic air quality monitoring stations by 2030}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://en.vietnamplus.vn/vietnam-to-have-98-more-automatic-air-quality-monitoring-stations-by-2030-post282695.vnp
+      \endverb
+      \verb{url}
+      \verb https://en.vietnamplus.vn/vietnam-to-have-98-more-automatic-air-quality-monitoring-stations-by-2030-post282695.vnp
+      \endverb
+    \endentry
+    \entry{wan2021}{misc}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=cd5d9f01b3f78197de0633810bf9df04}{%
+           family={Wan},
+           familyi={W\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b7676d63909b57ed77a255bfd7daab5a}{%
+           family={Hook},
+           familyi={H\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b7b7879427d38eb85e6e46bcbe9c4a7e}{%
+           family={Hulley},
+           familyi={H\bibinitperiod},
+           given={G},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d2bf1b232013eb93ce8a062d05cf3ba0}
+      \strng{fullhash}{d2bf1b232013eb93ce8a062d05cf3ba0}
+      \strng{fullhashraw}{d2bf1b232013eb93ce8a062d05cf3ba0}
+      \strng{bibnamehash}{d2bf1b232013eb93ce8a062d05cf3ba0}
+      \strng{authorbibnamehash}{d2bf1b232013eb93ce8a062d05cf3ba0}
+      \strng{authornamehash}{d2bf1b232013eb93ce8a062d05cf3ba0}
+      \strng{authorfullhash}{d2bf1b232013eb93ce8a062d05cf3ba0}
+      \strng{authorfullhashraw}{d2bf1b232013eb93ce8a062d05cf3ba0}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{NASA Land Processes Distributed Active Archive Center (LP DAAC)}
+      \field{title}{MODIS/Terra land surface temperature/emissivity daily L3 global 1 km SIN grid V061 (MOD11A1) [Data set]}
+      \field{year}{2021}
+      \verb{urlraw}
+      \verb https://doi.org/10.5067/MODIS/MOD11A1.061
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.5067/MODIS/MOD11A1.061
+      \endverb
+    \endentry
+    \entry{wei2023}{article}{}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=2442e42fe05afb213c8e9887ef46adcf}{%
+           family={Wei},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ae6f64f7b429f6425fbe070323390f1b}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42ee5b36ae5126bb7a8293cab86d8841}{%
+           family={Lyapustin},
+           familyi={L\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3702f1c146e64a6c91fc47b81ea59fc7}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=daaab7a5f3324a31b2e0ea1abef60fea}{%
+           family={Dubovik},
+           familyi={D\bibinitperiod},
+           given={O.},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f88737ec8c51a68d90dbc625575e8292}{%
+           family={Schwartz},
+           familyi={S\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=abe54d71a8749221df19e0ecf976f01c}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d32559a5fc6b9c48ad950f89259bc465}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=92faacc6874983183ce7fb86e39f31ec}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4384032fd4cd9930b51f4647a8b4edb4}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={T},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{335d019725905e3e0a3a81ed6e2df512}
+      \strng{fullhash}{8ef6c0466e71100a0fd2db639477237f}
+      \strng{fullhashraw}{8ef6c0466e71100a0fd2db639477237f}
+      \strng{bibnamehash}{335d019725905e3e0a3a81ed6e2df512}
+      \strng{authorbibnamehash}{335d019725905e3e0a3a81ed6e2df512}
+      \strng{authornamehash}{335d019725905e3e0a3a81ed6e2df512}
+      \strng{authorfullhash}{8ef6c0466e71100a0fd2db639477237f}
+      \strng{authorfullhashraw}{8ef6c0466e71100a0fd2db639477237f}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Communications, 14, 8349}
+      \field{title}{First close insight into global daily gapless 1 km PM2.5 pollution, variability, and health impact}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://doi.org/10.1038/s41467-023-43862-3
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1038/s41467-023-43862-3
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
