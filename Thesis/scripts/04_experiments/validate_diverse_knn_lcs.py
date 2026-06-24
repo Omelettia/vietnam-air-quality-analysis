@@ -60,8 +60,10 @@ THESIS_DATA = ROOT / "data" / "merged" / "unified_thesis_v4.csv"  # v4 = definit
 LCS_PRED = ROOT / "analysis" / "thesis_experiments" / "external_validation_himawari_full_predictions.csv"
 LCS_SELECTION = ROOT / "Thesis" / "results" / "01_stations" / "station_selection_lcs.csv"
 THESIS_META = ROOT / "analysis" / "thesis_audit" / "station_selection_final.csv"
-TIER_SUMMARY = EXP / "true_tier_moe_xgb" / "himawari_tierexperts.csv"
-BASE_OOF = EXP / "true_tier_moe_xgb" / "himawari_fullfeature_oof.csv"
+# v4 definitive: a single MoE run emits no_t4f + true_tier_moe_expert + tierexpert_t0..t3
+# into one OOF/summary, matching exp_diverse_knn_diagnostic.py.
+TIER_SUMMARY = EXP / "true_tier_moe_xgb" / "himawari_v4_definitive.csv"
+BASE_OOF = EXP / "true_tier_moe_xgb" / "himawari_v4_definitive_oof.csv"
 DIVERSE_OOF = EXP / "diverse_streams" / "oof_predictions.csv"
 FEATURES = EXP / "station_feature_table.csv"
 OUT_DIR = EXP / "himawari_safe_selector"

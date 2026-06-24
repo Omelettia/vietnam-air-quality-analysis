@@ -125,12 +125,16 @@ VALID_CONFIGS = {
     "true_tier_moe_expert", "true_tier_moe_40", "true_tier_moe_guarded",
     "true_tier_hard_pred", "tierexpert_t0", "tierexpert_t1", "tierexpert_t2", "tierexpert_t3",
     "sel_ridge", "sel_extra",
+    # geographic-split baseline: route a held-out station to a same-REGION expert.
+    # Region is observable (no estimation/circularity), so this is operationally valid.
+    "region_split",
 }
 CONFIGS = [c.strip() for c in args.configs.split(",") if c.strip()]
 unknown = sorted(set(CONFIGS).difference(VALID_CONFIGS))
 if unknown:
     raise ValueError(f"Unknown configs: {unknown}")
 FOLD_ABBREV = {"oracle_t4f": "ORC", "no_t4f": "ALL", "ghap_t4f": "GHP",
+               "region_split": "RGN",
                "no_t4f_raw": "RAW", "no_t4f_blend": "BLD",
                "no_t4f_gated": "GAT", "twophase_t4f": "2P4",
                "twophase_knn10": "2K10", "twophase_knn15": "2K15",
@@ -1262,6 +1266,20 @@ for fold_i, held_sid in enumerate(station_ids):
                 train_sids = others
             else:
                 train_sids = same_tier
+            train_mask = np.isin(stationId_vals, train_sids) & ~np.isnan(y_all)
+            X_tr = pd.DataFrame(X_all[np.where(train_mask)[0]], columns=FEAT_ALL)
+            y_tr = y_res[train_mask]
+            m = xgb.XGBRegressor(**params_base)
+            m.fit(X_tr, y_tr)
+            pred = np.clip(np.expm1(m.predict(X_te) + bm_global), 0, None)
+
+        elif cname == "region_split":
+            # Geographic-split baseline: train only on same-REGION stations and
+            # predict the held-out one. Region is observable (province), so this is
+            # operationally valid — the natural "group by geography" first idea.
+            held_region = sid_region.get(held_sid)
+            same_region = [s for s in others if sid_region.get(s) == held_region]
+            train_sids = same_region if len(same_region) >= MIN_TIER_STATIONS else others
             train_mask = np.isin(stationId_vals, train_sids) & ~np.isnan(y_all)
             X_tr = pd.DataFrame(X_all[np.where(train_mask)[0]], columns=FEAT_ALL)
             y_tr = y_res[train_mask]
