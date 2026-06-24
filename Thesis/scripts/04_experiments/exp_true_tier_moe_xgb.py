@@ -54,6 +54,19 @@ parser.add_argument("--n-estimators", type=int, default=500)
 parser.add_argument("--device", default="cuda")
 parser.add_argument("--quick-stations", type=int, default=0)
 parser.add_argument(
+    "--eval-mode",
+    choices=["internal", "external"],
+    default="internal",
+    help=(
+        "Validation protocol (two-phase, by station coverage). "
+        "internal: LOSO strictly within the 40 thesis stations (train 39 -> "
+        "predict 1) -- the headline. external: train on all 40 thesis stations, "
+        "predict every OTHER station as an independent test set (no LOSO rotation, "
+        "non-thesis stations never in training/RFSI). The 40 thesis set is "
+        "analysis/thesis_audit/station_selection_final.csv."
+    ),
+)
+parser.add_argument(
     "--source-profile",
     default="full",
     choices=[
@@ -236,7 +249,25 @@ df["date"] = df["ts"].dt.date
 print(f"Loaded: {len(df):,} rows, {df['stationId'].nunique()} stations "
       f"({time.time()-t0:.1f}s)")
 
+# --- Two-phase validation protocol (by station coverage) -------------------
+# The 40 thesis stations have sufficient coverage; the rest are sparse, test-only.
+#   internal: LOSO strictly within the 40 (train 39 -> predict 1). Restrict the
+#             whole dataset to the 40 here so all setup (RFSI neighbours, tiers,
+#             satellite climatology) is built on the 40 alone.
+#   external: keep every station (the non-thesis ones are predicted from a model
+#             trained only on the 40; see TRAIN_SIDS/FOLD_SIDS/RFSI pool below).
 _meta_path = os.path.join(DATA_DIR, "analysis/thesis_audit/station_selection_final.csv")
+THESIS40 = set(pd.read_csv(_meta_path, dtype={"stationId": str})["stationId"]) \
+    if os.path.exists(_meta_path) else set(df["stationId"].unique())
+if args.eval_mode == "internal":
+    df = df[df["stationId"].isin(THESIS40)].copy().reset_index(drop=True)
+    print(f"  eval-mode=internal -> {df['stationId'].nunique()} thesis stations "
+          f"(LOSO within them)")
+else:
+    n_ext = df["stationId"].nunique() - len(THESIS40 & set(df["stationId"]))
+    print(f"  eval-mode=external -> train on {len(THESIS40 & set(df['stationId']))} "
+          f"thesis stations, predict {n_ext} external stations")
+
 if os.path.exists(_meta_path) and "station" not in df.columns:
     meta = pd.read_csv(_meta_path, dtype={"stationId": str})
     sid_name = dict(zip(meta["stationId"], meta["station_name"]))
@@ -256,6 +287,19 @@ if args.quick_stations:
     df = df[df["stationId"].isin(station_ids)].copy().reset_index(drop=True)
     print(f"  QUICK MODE: {len(station_ids)} stations")
 n_stn = len(station_ids)
+
+# TRAIN_SIDS = stations a model may train on; FOLD_SIDS = stations to hold out and
+# predict. internal: both are the 40 (LOSO within). external: train on the 40,
+# predict the rest (held-out station is never in TRAIN_SIDS). station_ids stays the
+# full universe so RFSI can use the 40 as neighbours for external test stations.
+if args.eval_mode == "internal":
+    TRAIN_SIDS = list(station_ids)
+    FOLD_SIDS = list(station_ids)
+else:
+    TRAIN_SIDS = [s for s in station_ids if s in THESIS40]
+    FOLD_SIDS = [s for s in station_ids if s not in THESIS40]
+TRAIN_SIDS_SET = set(TRAIN_SIDS)
+n_fold = len(FOLD_SIDS)
 
 TARGET = "PM2.5"
 y_all = df[TARGET].values
@@ -379,6 +423,10 @@ print("  RFSI setup...")
 
 coords = {s: (sid_lat[s], sid_lon[s]) for s in station_ids}
 sid_to_idx = {s: i for i, s in enumerate(station_ids)}
+# RFSI neighbours may only be drawn from the training pool. internal: all 40.
+# external: the 40 thesis stations (so a held-out external station is anchored on
+# known training stations, never on other untrained external stations).
+RFSI_POOL_IDX = {sid_to_idx[s] for s in TRAIN_SIDS}
 dist_full = np.zeros((n_stn, n_stn))
 for i in range(n_stn):
     for j in range(i + 1, n_stn):
@@ -421,7 +469,7 @@ def compute_rfsi(exclude_sid=None, K=5):
         ri = np.where(mask)[0]
         tr = ts_row_vals[ri]
         cands = [(j, d) for j, d in neighbor_order[si]
-                 if excl is None or j != excl]
+                 if (excl is None or j != excl) and j in RFSI_POOL_IDX]
         if not cands:
             continue
         ccols = np.array([sid_to_col[station_ids[j]] for j, _ in cands])
@@ -459,7 +507,7 @@ def compute_lagged_rfsi(exclude_sid=None):
         ri = np.where(mask)[0]
         tr = ts_row_vals[ri]
         cands = [(j, d) for j, d in neighbor_order[si]
-                 if excl is None or j != excl]
+                 if (excl is None or j != excl) and j in RFSI_POOL_IDX]
         if not cands:
             continue
         nn1_col = sid_to_col[station_ids[cands[0][0]]]
@@ -1060,7 +1108,8 @@ print(f"\n  Global PM2.5 mean: {global_pm_mean:.2f}")
 #  LOSO — TWO-PHASE
 # =============================================================================
 print(f"\n{'='*80}")
-print(f"LOSO: {n_stn} folds, hist booster, {n_feat}f, depth=4")
+print(f"LOSO ({args.eval_mode}): {n_fold} folds (train pool {len(TRAIN_SIDS)}), "
+      f"hist booster, {n_feat}f, depth=4")
 print(f"  Configs: {' / '.join(CONFIGS)}")
 print(f"{'='*80}\n")
 
@@ -1069,7 +1118,7 @@ params_base = {**XGB_BASE, "monotone_constraints": mono_full}
 
 phase1_predicted_means = {}
 
-for fold_i, held_sid in enumerate(station_ids):
+for fold_i, held_sid in enumerate(FOLD_SIDS):
     nm = sid_name.get(held_sid, held_sid)[:35]
     held_tier_true = sid_tier[held_sid]
     held_tier_ghap = sid_ghap_tier[held_sid]
@@ -1101,11 +1150,12 @@ for fold_i, held_sid in enumerate(station_ids):
     valid_y = ~np.isnan(y_all[mask_test])
     X_te = pd.DataFrame(X_all[test_idx], columns=FEAT_ALL)
 
-    others = [s for s in station_ids if s != held_sid]
+    others = [s for s in TRAIN_SIDS if s != held_sid]
     fold_r2s = []
 
-    # --- Phase 1: no_t4f (all stations) — also provides predictions for two-phase ---
-    train_mask_all = (stationId_vals != held_sid) & ~np.isnan(y_all)
+    # --- Phase 1: train on the pool (internal: 39; external: the 40) ---
+    train_mask_all = (np.isin(stationId_vals, TRAIN_SIDS)
+                      & (stationId_vals != held_sid) & ~np.isnan(y_all))
     X_tr_all = pd.DataFrame(X_all[np.where(train_mask_all)[0]], columns=FEAT_ALL)
     y_tr_all = y_res[train_mask_all]
     m_all = xgb.XGBRegressor(**params_base)
@@ -1323,12 +1373,12 @@ for fold_i, held_sid in enumerate(station_ids):
         fold_r2s.append(r2)
 
     fold_time = time.time() - t_fold
-    remaining = fold_time * (n_stn - fold_i - 1)
+    remaining = fold_time * (n_fold - fold_i - 1)
 
     tier_match = "Y" if pred_tier_phase1 == held_tier_true else "N"
     r2_strs = " ".join(f"{FOLD_ABBREV[c]}={fold_r2s[i]:+.3f}"
                        for i, c in enumerate(CONFIGS))
-    print(f"  [{fold_i+1:2d}/{n_stn}] {nm:35s} {held_tier_true} pm={pm_val:5.1f} "
+    print(f"  [{fold_i+1:2d}/{n_fold}] {nm:35s} {held_tier_true} pm={pm_val:5.1f} "
           f"p1={pred_mean_phase1:5.1f}({pred_tier_phase1}{tier_match}) | "
           f"{r2_strs} ({fold_time:.0f}s, ETA {remaining/60:.0f}m)")
 
@@ -1342,15 +1392,15 @@ print(f"\n{'='*80}")
 print("PHASE 1 TIER CONCORDANCE")
 print(f"{'='*80}")
 
-match_p1 = sum(1 for s in station_ids
+match_p1 = sum(1 for s in FOLD_SIDS
                if assign_tier(phase1_predicted_means.get(s, 0)) == sid_tier[s])
-match_ghap = sum(1 for s in station_ids if sid_ghap_tier[s] == sid_tier[s])
-print(f"  Phase 1 prediction: {match_p1}/{n_stn} ({100*match_p1/n_stn:.0f}%)")
-print(f"  GHAP:               {match_ghap}/{n_stn} ({100*match_ghap/n_stn:.0f}%)")
+match_ghap = sum(1 for s in FOLD_SIDS if sid_ghap_tier[s] == sid_tier[s])
+print(f"  Phase 1 prediction: {match_p1}/{n_fold} ({100*match_p1/n_fold:.0f}%)")
+print(f"  GHAP:               {match_ghap}/{n_fold} ({100*match_ghap/n_fold:.0f}%)")
 
 print(f"\n  {'Station':<35s} {'true':>5s} {'p1_pm':>6s} {'p1_t':>4s} {'ghap_t':>6s} {'ok_p1':>5s} {'ok_g':>5s}")
 print("  " + "-" * 70)
-for sid in sorted(station_ids, key=lambda s: station_pm_means[s]):
+for sid in sorted(FOLD_SIDS, key=lambda s: station_pm_means[s]):
     nm = sid_name.get(sid, sid)[:34].encode('ascii', 'replace').decode()
     true_pm = station_pm_means[sid]
     tt = sid_tier[sid]

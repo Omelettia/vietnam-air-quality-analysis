@@ -37,14 +37,32 @@ python Thesis/scripts/03_features/build_station_feature_table.py
 ```
 Produces `station_feature_table.csv` (40 stations, cleaned v4 means + coords). Fast.
 
-### Step 1 — the design-arc MoE run (ONE run, all configs) · ~3–4h
+### Step 1a — INTERNAL design-arc MoE run (ONE run, all configs) · ~3–4h
+LOSO **strictly within the 40 thesis stations** (train 39 → predict 1). This is the
+headline internal result and the OOF the diverse-kNN headline consumes.
 ```
 python Thesis/scripts/04_experiments/exp_true_tier_moe_xgb.py \
+  --eval-mode internal \
   --configs oracle_t4f,no_t4f,region_split,true_tier_moe_expert,tierexpert_t0,tierexpert_t1,tierexpert_t2,tierexpert_t3 \
   --aod-mode himawari --out-prefix himawari_v4_definitive --save-oof
 ```
 Gives §5.3 (global), §5.4 (global→region→tier arc), §5.5 (oracle ceiling), and the
-base/MoE/tier OOF that the diverse-kNN headline consumes.
+base/MoE/tier OOF for the diverse-kNN headline.
+
+### Step 1b — EXTERNAL MoE validation (train 40 → predict the rest) · optional
+Trains on all 40 thesis stations and predicts every non-thesis station as an
+independent test set (no LOSO rotation; RFSI neighbours = the 40). §5.6 MoE-side.
+```
+python Thesis/scripts/04_experiments/exp_true_tier_moe_xgb.py \
+  --eval-mode external \
+  --configs no_t4f,region_split,true_tier_moe_expert \
+  --aod-mode himawari --out-prefix himawari_v4_external --save-oof
+```
+
+> **Why two runs:** the 40 thesis stations have a full year+ of coverage; the rest are
+> sparse and must never enter LOSO training/rotation. A single LOSO over all 121 stations
+> is biased — it both holds out poorly-covered stations and trains the held-out thesis
+> stations on them. `--eval-mode` enforces the split (RFSI neighbour pool included).
 
 ### Step 2 — diverse feature streams · long
 ```
