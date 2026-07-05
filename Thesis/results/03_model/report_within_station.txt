@@ -1,0 +1,31 @@
+﻿================================================================================
+WITHIN-STATION PREDICTABILITY
+Train on each station's own data; no RFSI or neighbouring PM2.5.
+Shared PM2.5 QC: Thesis/scripts/02_processing/pm25_qc.py
+Scope: thesis
+Source CSV: Thesis/results/03_model/within_station_predictability.csv
+================================================================================
+
+Metric: 5-fold shuffled KFold R2 using exogenous features.
+This is a temporal-signal diagnostic, not spatial extrapolation.
+
+40 KK thesis stations: n=40
+  mean KFold R2    = 0.700
+  median KFold R2  = 0.746
+  min KFold R2     = 0.277
+  max KFold R2     = 0.848
+  positive stations= 40/40
+  mean temporal 70/30 R2 = -1.019
+
+Per-tier median KFold R2 for 40 KK stations:
+  t0: n= 8, median=0.687, mean=0.674, pm_mean=7.8
+  t1: n=12, median=0.666, mean=0.656, pm_mean=13.7
+  t2: n=11, median=0.692, mean=0.685, pm_mean=24.0
+  t3: n= 9, median=0.804, mean=0.802, pm_mean=44.1
+
+Summary comparison:
+  Group                   n   kfold_mean   kfold_median  temporal_mean
+  ----------------------------------------------------------------------
+  Thesis (KK)            40       +0.700         +0.746         -1.019
+
+Elapsed seconds: 692.4

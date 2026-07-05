@@ -1,0 +1,72 @@
+﻿feature,type,source,description,coverage_pct
+elevation_m,static,DEM,Elevation at station location (meters),100.0
+slope_deg,static,DEM,Terrain slope at station (degrees),100.0
+aspect_sin,static,DEM,Sin of terrain aspect (cyclical N-S encoding),100.0
+aspect_cos,static,DEM,Cos of terrain aspect (cyclical E-W encoding),100.0
+latitude,static,metadata,Station latitude,100.0
+longitude,static,metadata,Station longitude,100.0
+PM2.5,dynamic,Envisoft,Target variable — hourly PM2.5 concentration (µg/m³),86.7
+PM10,dynamic,Envisoft,Hourly PM10 concentration (µg/m³),85.8
+Temperature_final,dynamic,Envisoft+OpenMeteo,"Temperature — Envisoft first, OpenMeteo fill (°C)",100.0
+Humidity_final,dynamic,Envisoft+OpenMeteo,"Relative humidity — Envisoft first, OpenMeteo fill (%)",100.0
+Pressure_final,dynamic,Envisoft+OpenMeteo,"Atmospheric pressure — Envisoft first, OpenMeteo fill (hPa)",100.0
+WS_om,dynamic,OpenMeteo,ERA5 10m wind speed (m/s),100.0
+WD_om,dynamic,OpenMeteo,ERA5 10m wind direction (degrees),100.0
+WS_local,dynamic,Envisoft,Station-local sheltered wind speed (m/s),88.6
+WD_local,dynamic,Envisoft,Station-local wind direction (degrees),87.6
+PBLH,dynamic,OpenMeteo,"Planetary boundary layer height (m), climatology-filled",100.0
+AOT,dynamic,Himawari,Center pixel aerosol optical thickness,14.9
+AOT_mean,dynamic,Himawari,5×5 grid mean AOT,50.9
+AOT_spatial_std,dynamic,Himawari,5×5 grid AOT standard deviation,46.4
+AOT_inner_mean,dynamic,Himawari,Inner 3×3 mean AOT,41.0
+AOT_outer_mean,dynamic,Himawari,Outer ring mean AOT,50.3
+Uncertainty,dynamic,Himawari,AOT retrieval uncertainty,14.9
+AE,dynamic,Himawari,Angstrom Exponent,16.2
+SSA,dynamic,Himawari,Single scattering albedo,16.2
+RF,dynamic,Himawari,Radiative forcing,14.9
+precip_mm,dynamic,GPM,Hourly precipitation accumulation (mm),99.2
+precip_rate,dynamic,GPM,Mean precipitation rate (mm/h),80.7
+NO2,dynamic,Envisoft,Nitrogen dioxide (µg/m³),74.4
+O3,dynamic,Envisoft,Ozone (µg/m³),77.5
+SO2,dynamic,Envisoft,Sulfur dioxide (µg/m³),85.2
+CO,dynamic,Envisoft,Carbon monoxide (mg/m³),9.5
+AOT_grad_ns,derived,derived-spatial,N-S AOT gradient from 5×5 grid,31.3
+AOT_grad_ew,derived,derived-spatial,E-W AOT gradient from 5×5 grid,34.2
+AOT_grad_mag,derived,derived-spatial,Magnitude of AOT spatial gradient,23.7
+AOT_grad_dir,derived,derived-spatial,Direction of steepest AOT increase (radians),23.7
+AOT_local_vs_regional,derived,derived-spatial,Inner - outer mean AOT (local hotspot indicator),40.4
+AOT_lag_1h,derived,derived-temporal,AOT lagged by 1 hour,14.9
+AOT_lag_3h,derived,derived-temporal,AOT lagged by 3 hours,14.9
+AOT_lag_6h,derived,derived-temporal,AOT lagged by 6 hours,14.9
+AOT_rolling_mean_6h,derived,derived-temporal,6-hour rolling mean AOT,29.5
+AOT_rolling_mean_24h,derived,derived-temporal,24-hour rolling mean AOT,62.1
+hours_since_valid_AOT,derived,derived-temporal,Hours since last non-NaN AOT reading,99.7
+AOT_ffill_48h,derived,derived-temporal,Forward-filled AOT (max 48h gap),75.3
+RH_factor,derived,derived-physics,(1 - RH/100)^0.6 hygroscopic correction,100.0
+AOD_physics,derived,derived-physics,AOT × RH_factor / PBLH — physics-corrected AOD,14.9
+hrs_since_rain,derived,derived-precip,Hours since precipitation >0.1mm,99.6
+rain_sum_24h,derived,derived-precip,Rolling 24h precipitation sum (mm),100.0
+rain_sum_48h,derived,derived-precip,Rolling 48h precipitation sum (mm),100.0
+rain_days_7d,derived,derived-precip,Days with >0.1mm rain in past 7 days,100.0
+consecutive_dry_days,derived,derived-precip,Consecutive days without rain,100.0
+wind_u,derived,derived-met,East-west wind component (WS×sin(WD)),100.0
+wind_v,derived,derived-met,North-south wind component (WS×cos(WD)),100.0
+wind_dir_sin,derived,derived-met,Sin of wind direction (cyclical),100.0
+wind_dir_cos,derived,derived-met,Cos of wind direction (cyclical),100.0
+wind_u_local,derived,derived-met,Local east-west wind component,85.6
+wind_v_local,derived,derived-met,Local north-south wind component,85.6
+wind_dir_sin_local,derived,derived-met,Sin of local wind direction,87.6
+wind_dir_cos_local,derived,derived-met,Cos of local wind direction,87.6
+VC,derived,derived-met,Ventilation coefficient (PBLH × WS),100.0
+dT_6h,derived,derived-met,6-hour temperature change,100.0
+dRH_6h,derived,derived-met,6-hour humidity change,100.0
+dWS_6h,derived,derived-met,6-hour wind speed change,100.0
+dP_6h,derived,derived-met,6-hour pressure change,100.0
+hour_sin,derived,derived-temporal,Sin cyclical hour encoding,100.0
+hour_cos,derived,derived-temporal,Cos cyclical hour encoding,100.0
+month_sin,derived,derived-temporal,Sin cyclical month encoding,100.0
+month_cos,derived,derived-temporal,Cos cyclical month encoding,100.0
+day_of_year_sin,derived,derived-temporal,Sin cyclical day-of-year encoding,100.0
+day_of_year_cos,derived,derived-temporal,Cos cyclical day-of-year encoding,100.0
+elev_x_PBLH,derived,derived-interaction,Elevation × PBLH (trapping potential),100.0
+elev_x_hour_sin,derived,derived-interaction,Elevation × hour_sin (nocturnal inversion),100.0

@@ -1,0 +1,46 @@
+# Secrets
+.env
+*.key
+config_local.py
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Heavy / generated data (reproducible from the pipeline scripts)
+data/merged/
+data/satellite/
+data/era5/
+data/gpm/
+data/himawari/
+data/modis/
+data/viirs/
+data/dem/*.tif
+outputs/
+models/*.json
+*_oof.csv
+*_predictions.csv
+*_train_predictions.csv
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.toc
+*.run.xml
+*.synctex.gz
+*.log
+
+# Editor / tooling / OS
+.claude/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

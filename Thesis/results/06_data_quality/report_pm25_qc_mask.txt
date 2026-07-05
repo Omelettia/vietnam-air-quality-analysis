@@ -1,0 +1,91 @@
+================================================================================
+PM2.5 QC MASK SUMMARY
+================================================================================
+
+Mask definition:
+  - PM2.5 <= 0 is removed.
+  - PM2.5 > 500 is removed.
+  - Flatline runs are removed when rounded PM2.5 is unchanged
+    to 0.1 ug/m3 for >=5 consecutive hourly records.
+  - Stuck-low runs are removed when 0 < PM2.5 <= 2 ug/m3
+    for >=48 consecutive hourly records.
+
+Totals:
+  qc_any: 25,093
+  qc_zero_or_negative: 2,448
+  qc_too_high: 0
+  qc_flatline: 16,209
+  qc_stuck_low: 14,683
+
+Top stations by removed rows:
+                    stationId                                                                  station  region  n_rows  raw_mean  qc_any  qc_zero_or_negative  qc_flatline  qc_stuck_low   qc_pct
+28602897318711027016899843809               Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)   North   25259  6.617099    6347                  100         6145          5253 0.251277
+29996239538320865599553202177                                          Tây Ninh Thị xã Trảng Bàng (KK)   South   24614 10.918250    2286                    0          270          2274 0.092874
+29203727697074312726675247132                              Thái Bình xã Thái Thọ, huyện Thái Thụy (KK)   North   23087 15.481663    2089                    0          581          2058 0.090484
+29544533341424688633522251105                                      Gia Lai KCN Trà Đa - Tp Pleiku (KK) Central   21849 10.921696    1713                    0          896          1657 0.078402
+28599103930259709512833128161                               Quảng Ninh Phường Cẩm Thịnh - Cẩm Phả (KK)   North    9030  6.853018    1055                    0          447          1040 0.116833
+29518872592252585279589451187                                        Quảng Ninh Km11 - Minh Thành (KK)   North   23874  9.491028    1505                    0          927           836 0.063039
+30991938797551443885460120607               Sóc Trăng Sở TNMT - 16 Hùng Vương, P.6, Tp. Sóc Trăng (KK)   South   23642  6.707131    2385                  472         1739           500 0.100880
+29518839738601389925132404147 Quảng Ninh Trung tâm văn hóa thể thao Cẩm Phả, đường Trần Phú, phường...   North   25373  6.955010    1147                    0          731           476 0.045206
+29518885338952740244749551027                                     Quảng Ninh Nhuệ Hổ - Đông Triều (KK)   North   25245  9.239286     285                    6          103           216 0.011289
+31616865099255512061948816121                                                Đà Nẵng Phạm Hùng (KK) Unknown   16221  6.241135    1842                 1602          201           210 0.113557
+29518852005686198968139908531                                          Quảng Ninh Gần KCN Cái Lân (KK)   North   24630  7.618143     729                    0          727           163 0.029598
+29098314940209976158571475636                                 Trà Vinh xã Dân Thành, TX Duyên Hải (KK)   South   27872  9.128567    3171                    0         3171             0 0.113770
+29098319146067624969113973428                               Trà Vinh xã Đông Hải, huyện Duyên Hải (KK)   South   22466  5.720113     229                    0          229             0 0.010193
+28602837126985114455002404577                                          Quảng Ninh UBND TP Uông Bí (KK)   North   25118 10.639742      26                    0           26             0 0.001035
+31390912357075263208060500522 HCM Khu Liên cơ quan Bộ Tài Nguyên và Môi Trường - số 20 Đ. Lý Chính ...   South   19971 21.341815       8                    2            6             0 0.000401
+29196010501691076420299004774               Bắc Ninh TT Quan trắc - phường Suối Hoa - TP Bắc Ninh (KK)   North   13092 23.440529       5                    0            5             0 0.000382
+31570631866920915749872483233                                           Bình Định huyện Tuy Phước (KK) Central   13157 12.070565       5                    0            5             0 0.000380
+31390944251495766704153049642            Quảng Nam Tiếp giáp Đ. Hùng Vương - KDC Đ. Hồ Xuân Hương (KK) Central   20624 19.865996     191                  191            0             0 0.009261
+31390916083317566102523755051 HCM Đ. Lê Hữu Kiều - P. Bình Trưng Tây - Quận 2 (Ngã ba Lê Hữu Kiểu v...   South   19274 22.571518      23                   23            0             0 0.001193
+31390908889087377344742439468                        Hà Nội Công viên Nhân Chính - Khuất Duy Tiến (KK)   North   19538 36.936362      22                   22            0             0 0.001126
+
+Longest detected flatline runs:
+                    stationId                                                    station region               start                 end  hours  value_rounded
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2023-01-17 12:00:00 2023-02-15 10:00:00    695            0.4
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2023-01-01 01:00:00 2023-01-17 10:00:00    394            0.4
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2023-12-20 11:00:00 2024-01-03 11:00:00    337            0.6
+29518872592252585279589451187                          Quảng Ninh Km11 - Minh Thành (KK)  North 2025-03-26 20:00:00 2025-04-08 11:00:00    304            3.8
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2024-11-23 16:00:00 2024-12-05 12:00:00    285            0.0
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2025-03-27 16:00:00 2025-04-08 10:00:00    283            0.0
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2023-02-15 13:00:00 2023-02-24 09:00:00    213            0.4
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2023-08-14 13:00:00 2023-08-23 00:00:00    204            0.1
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2023-11-26 22:00:00 2023-12-05 08:00:00    203            0.1
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2024-08-30 03:00:00 2024-09-06 10:00:00    176            0.1
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2023-12-06 07:00:00 2023-12-13 07:00:00    169            0.1
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2023-12-13 09:00:00 2023-12-20 09:00:00    169            0.6
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2024-12-24 06:00:00 2024-12-31 03:00:00    166            0.0
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2024-08-15 03:00:00 2024-08-21 12:00:00    154            0.1
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2024-12-05 14:00:00 2024-12-11 18:00:00    149            0.0
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2024-01-03 13:00:00 2024-01-09 09:00:00    141            0.6
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2024-08-22 20:00:00 2024-08-28 09:00:00    134            0.1
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2023-02-24 12:00:00 2023-03-01 16:00:00    125            0.4
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2025-03-22 12:00:00 2025-03-27 14:00:00    123            0.0
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)  North 2024-12-12 21:00:00 2024-12-17 06:00:00    106            0.0
+
+Longest detected stuck-low runs:
+                    stationId                                                    station  region               start                 end  hours  threshold  raw_min  raw_max
+29996239538320865599553202177                            Tây Ninh Thị xã Trảng Bàng (KK)   South 2023-04-17 17:00:00 2023-06-22 19:00:00   1587        2.0   0.0408   1.2883
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)   North 2023-01-01 01:00:00 2023-02-15 11:00:00   1091        2.0   0.2513   1.1330
+28599103930259709512833128161                 Quảng Ninh Phường Cẩm Thịnh - Cẩm Phả (KK)   North 2025-04-16 15:00:00 2025-05-21 15:00:00    841        2.0   0.0683   1.4708
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)   North 2023-12-06 07:00:00 2024-01-03 11:00:00    677        2.0   0.0611   0.6357
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)   North 2023-02-15 13:00:00 2023-03-03 09:00:00    381        2.0   0.1017   0.3984
+29203727697074312726675247132                Thái Bình xã Thái Thọ, huyện Thái Thụy (KK)   North 2023-04-19 18:00:00 2023-05-05 09:00:00    376        2.0   0.0592   1.8858
+29996239538320865599553202177                            Tây Ninh Thị xã Trảng Bàng (KK)   South 2023-07-19 00:00:00 2023-08-03 13:00:00    374        2.0   0.1725   1.1763
+29544533341424688633522251105                        Gia Lai KCN Trà Đa - Tp Pleiku (KK) Central 2024-03-08 12:00:00 2024-03-23 12:00:00    361        2.0   0.0053   1.2465
+29203727697074312726675247132                Thái Bình xã Thái Thọ, huyện Thái Thụy (KK)   North 2023-12-30 00:00:00 2024-01-13 02:00:00    339        2.0   0.1518   1.6508
+29544533341424688633522251105                        Gia Lai KCN Trà Đa - Tp Pleiku (KK) Central 2024-05-03 10:00:00 2024-05-17 07:00:00    334        2.0   0.0044   0.8741
+29544533341424688633522251105                        Gia Lai KCN Trà Đa - Tp Pleiku (KK) Central 2024-04-19 22:00:00 2024-05-03 08:00:00    323        2.0   0.0223   1.8088
+29996239538320865599553202177                            Tây Ninh Thị xã Trảng Bàng (KK)   South 2023-07-03 22:00:00 2023-07-16 22:00:00    313        2.0   0.0742   0.6260
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)   North 2024-11-23 16:00:00 2024-12-05 12:00:00    285        2.0   0.0357   0.0364
+28602897318711027016899843809 Quảng Ninh Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)   North 2025-03-27 16:00:00 2025-04-08 10:00:00    283        2.0   0.0358   0.0364
+30991938797551443885460120607 Sóc Trăng Sở TNMT - 16 Hùng Vương, P.6, Tp. Sóc Trăng (KK)   South 2023-06-20 06:00:00 2023-07-01 22:00:00    281        2.0   0.0008   0.6450
+29544533341424688633522251105                        Gia Lai KCN Trà Đa - Tp Pleiku (KK) Central 2024-04-08 06:00:00 2024-04-19 20:00:00    279        2.0   0.0368   1.9415
+29203727697074312726675247132                Thái Bình xã Thái Thọ, huyện Thái Thụy (KK)   North 2023-12-12 00:00:00 2023-12-22 19:00:00    260        2.0   0.2146   1.8183
+29203727697074312726675247132                Thái Bình xã Thái Thọ, huyện Thái Thụy (KK)   North 2023-04-09 00:00:00 2023-04-19 15:00:00    256        2.0   0.1658   0.7633
+29203727697074312726675247132                Thái Bình xã Thái Thọ, huyện Thái Thụy (KK)   North 2024-02-10 07:00:00 2024-02-19 11:00:00    221        2.0   0.1008   1.1742
+29203727697074312726675247132                Thái Bình xã Thái Thọ, huyện Thái Thụy (KK)   North 2024-01-15 16:00:00 2024-01-24 15:00:00    216        2.0   0.1083   0.9192
+
+Wrote: Thesis\results\06_data_quality\pm25_qc_mask_summary.csv
+Wrote: Thesis\results\06_data_quality\pm25_flatline_runs.csv
+Wrote: Thesis\results\06_data_quality\pm25_stuck_low_runs.csv

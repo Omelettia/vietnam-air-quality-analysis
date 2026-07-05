@@ -1,0 +1,13 @@
+filter,count
+BASE: PM2.5 == 0,2448
+BASE: Flat-line 4+h,1885
+BASE total (→ NaN PM),2610
+---,0
+NEW PM: PM2.5 > 300,80
+NEW FEAT: |AE| > 3,18541
+NEW FEAT: AOT_outer > 5,0
+NEW FEAT: RH > 100%,0
+NEW FEAT: PBLH < 0,0
+---,0
+ENHANCED PM total,2690
+FEATURE rows to fix,18541

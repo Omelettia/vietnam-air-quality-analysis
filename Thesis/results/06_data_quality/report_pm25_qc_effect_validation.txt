@@ -1,0 +1,47 @@
+================================================================================
+PM2.5 QC EFFECT VALIDATION
+================================================================================
+
+Totals:
+  old_mask_rows: 85
+  new_mask_rows: 0
+  additional_rows_masked: -85
+  new_zero_or_negative_rows: 0
+  new_flatline_rows: 0
+  new_stuck_low_rows: 0
+  new_too_high_rows: 0
+  remaining_flatline_runs_after_new_mask: 0
+  remaining_stuck_low_runs_after_new_mask: 0
+
+Previously excluded stations after new mask:
+                    stationId                                                     station  region  n_rows  raw_mean  clean_mean  new_mask_rows  clean_coverage raw_tier clean_tier           recommendation
+29098319146067624969113973428                 Trà Vinh: xã Đông Hải, huyện Duyên Hải (KK)   South   22466  5.781249    5.781249              0        0.724072       t0         t0 readd_candidate_after_qc
+31616865099255512061948816121                                  Đà Nẵng: Phạm Hùng (KK) Central   16221  7.246146    7.246146              0        0.703656       t0         t0 readd_candidate_after_qc
+30991938797551443885460120607 Sóc Trăng: Sở TNMT - 16 Hùng Vương, P.6, Tp. Sóc Trăng (KK)   South   23642  8.244858    8.244858              0        0.432620       t0         t0 readd_candidate_after_qc
+
+Top stations affected by new mask:
+                    stationId                                                                  station  region  n_rows  raw_mean  clean_mean  old_mask_rows  new_mask_rows  new_stuck_low_rows  additional_rows_masked  clean_coverage raw_tier clean_tier           recommendation
+28505268571336961948594948504                             Phú Thọ: đường Hùng Vương - Tp Việt Trì (KK)   North   28030 27.099125   27.099125              0              0                   0                       0        0.938138       t2         t2                  include
+28505272740301122608933325208                                           Đà Nẵng: 41 đường Lê Duẩn (KK) Central   24334 13.191629   13.191629              0              0                   0                       0        0.908729       t1         t1                  include
+28560877461938780203765592307                                           Hà Nội: 556 Nguyễn Văn Cừ (KK)   North   28008 48.537469   48.537469              0              0                   0                       0        0.969687       t3         t3                  include
+28599103930259709512833128161                              Quảng Ninh: Phường Cẩm Thịnh - Cẩm Phả (KK)   North    9030  7.697066    7.697066              0              0                   0                       0        0.882281       t0         t0                  include
+28601309072493024807602706145                              Quảng Ninh: phường Cao Xanh  - Hạ Long (KK)   North    8738  1.662918    1.662918              0              0                   0                       0        0.560197       t0         t0                  include
+28602553176253587650986727137                        Quảng Ninh: UBND phường Mạo Khê - Đông Triều (KK)   North   23757 13.029860   13.029860              0              0                   0                       0        0.274235       t1         t1                  include
+28602837126985114455002404577                                         Quảng Ninh: UBND TP Uông Bí (KK)   North   25118 10.652526   10.652526              0              0                   0                       0        0.657417       t1         t1                  include
+28602897318711027016899843809              Quảng Ninh: Nhà máy tuyển than Nam Cầu Trắng - Hạ Long (KK)   North   25259 10.073093   10.073093              0              0                   0                       0        0.457104       t1         t1                  include
+28916504310234840885489983032                     Bắc Ninh: Khu liên cơ Thuận Thành - thị trấn Hồ (KK)   North   19848 27.949562   27.949562              0              0                   0                       0        0.997632       t2         t2                  include
+28916745851901742294496599608            Bắc Ninh: KCN Tiên Sơn (Trạm cấp nước sạch KCN) - Từ Sơn (KK)   North   19093  9.800534    9.800534              0              0                   0                       0        0.466192       t0         t0                  include
+28916774462801800655608897080                            Bắc Ninh: UBND xã Xuân Lâm - Thuận Thành (KK)   North   18994 52.191402   52.191402              0              0                   0                       0        0.716489       t3         t3                  include
+29098314940209976158571475636                                Trà Vinh: xã Dân Thành, TX Duyên Hải (KK)   South   27872  9.342666    9.342666              0              0                   0                       0        0.885728       t0         t0                  include
+29098319146067624969113973428                              Trà Vinh: xã Đông Hải, huyện Duyên Hải (KK)   South   22466  5.781249    5.781249              0              0                   0                       0        0.724072       t0         t0 readd_candidate_after_qc
+29196010501691076420299004774              Bắc Ninh: TT Quan trắc - phường Suối Hoa - TP Bắc Ninh (KK)   North   13092 23.449020   23.449020              0              0                   0                       0        0.955393       t2         t2                  include
+29196021237696127337075448678                                Bắc Ninh: UBND xã Cao Đức - Gia Bình (KK)   North   17578 25.404040   25.404040              0              0                   0                       0        0.998236       t2         t2                  include
+29203727697074312726675247132                             Thái Bình: xã Thái Thọ, huyện Thái Thụy (KK)   North   23087 17.122698   17.122698              0              0                   0                       0        0.823147       t1         t1                  include
+29518839738601389925132404147 Quảng Ninh: Trung tâm văn hóa thể thao Cẩm Phả, đường Trần Phú, phườn...   North   25373  7.224429    7.224429              0              0                   0                       0        0.636503       t0         t0                  include
+29518852005686198968139908531                                         Quảng Ninh: Gần KCN Cái Lân (KK)   North   24630  7.661958    7.661958              0              0                   0                       0        0.562322       t0         t0                  include
+29518862280522648049760863667                                       Quảng Ninh: UBND huyện Hải Hà (KK)   North   24938  7.032555    7.032555              0              0                   0                       0        0.377657       t0         t0                  include
+29518872592252585279589451187                                       Quảng Ninh: Km11 - Minh Thành (KK)   North   23874 10.231306   10.231306              0              0                   0                       0        0.623649       t1         t1                  include
+
+PASS: no >=5-hour one-decimal flatline runs or >=48-hour stuck-low runs remain after the new mask.
+
+Wrote: Thesis\results\06_data_quality\pm25_qc_effect_validation.csv

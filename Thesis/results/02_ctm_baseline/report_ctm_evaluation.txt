@@ -1,0 +1,22 @@
+﻿========================================================================
+CTM PRODUCT EVALUATION (GEOS-CF, MERRA-2 vs ground truth)
+Source: 02_ctm_baseline/{geoscf,merra2}_station_metrics.csv | backs Chapter 4 §4.3
+========================================================================
+
+GEOS-CF — 40 stations
+  r (per-station):   median=0.193  mean=0.212
+  bias (ug/m3):      median=+36.10  mean=+36.30
+  bias_pct (%):      median=135.6  mean=221.2  min=-6.4  max=766.1
+  rmse (ug/m3):      median=55.62  mean=58.58
+  bias_pct by tier:  t1=+136% t2=+75% t3=+365%
+
+MERRA-2 — 40 stations
+  r (per-station):   median=0.165  mean=0.187
+  bias (ug/m3):      median=-2.36  mean=-1.77
+  bias_pct (%):      median=-13.7  mean=29.4  min=-49.9  max=269.4
+  rmse (ug/m3):      median=23.69  mean=23.58
+  bias_pct by tier:  t1=-25% t2=-1% t3=+105%
+
+VERDICT: GEOS-CF grossly over-predicts (mean bias +221%, RMSE 58.6, r 0.19) — unusable as
+absolute prior. MERRA-2 ~mass-balanced (bias -1.8 ug) but temporally inert (r 0.17). Neither
+is a usable hourly prior for Vietnam without local bias correction. (Ch.4 §4.3)

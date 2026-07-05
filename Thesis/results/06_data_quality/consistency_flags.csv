@@ -1,0 +1,15 @@
+check,count,note
+PBLH < 0,0,Impossible
+PBLH < 10,0,Near-surface BL
+VC < 1,297,Zero ventilation
+Temp < 0°C,0,Sub-zero VN
+Temp < 5°C (South),4,Impossible south VN
+Humidity > 100%,0,Impossible RH
+Humidity == 0,7501,Suspicious
+WS_local == 0.0,31833,Exact zero wind
+|AE| > 3,18541,Corrupt AOD param
+|AE| > 1000,18541,Wildly corrupt AE
+AOT_outer > 5,0,Unrealistic AOD
+PM2.5 > 300,80,Sensor spike
+PM2.5 > 500,0,Sensor error
+PM>100 & WS>10,0,High PM + strong wind

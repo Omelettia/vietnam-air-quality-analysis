@@ -1,0 +1,181 @@
+﻿RED RIVER DELTA v5h FINAL PIVOT RUN
+Date: 2026-06-26
+
+Purpose
+-------
+This is the final clean regional test after the national diverse-stream/kNN
+selector was removed from the thesis headline. The goal is not to claim a
+Vietnam-wide zero-observation PM2.5 map. The goal is to test whether a focused
+Red River Delta model can estimate PM2.5 at a held-out regional station when
+simultaneous PM2.5 observations from nearby regional anchor stations are
+available.
+
+Data and scope
+--------------
+- Source table: data/merged/unified_thesis.csv
+- Thesis station scope: 40 KK stations with row-level PM2.5 QC
+- Regional focus: 12 Red River Delta KK stations
+- Rows after regional filter: 227,075 hourly observations
+- PM2.5 QC mask removed 0 additional rows after dataset construction
+- Regional station classes: 1 t1, 3 t2, 8 t3
+
+Empirical regional context
+--------------------------
+These numbers should be used instead of vague claims about regional coherence.
+
+| Scope | Stations | Median nearest anchor | Median mean distance to 3 nearest anchors | Median station PM2.5 | Station PM2.5 IQR | Median target hours with >=3 concurrent anchors |
+|---|---:|---:|---:|---:|---:|---:|
+| National 40 KK stations | 40 | 13.8 km | 27.2 km | 19.3 ug/m3 | 10.5 to 27.5 ug/m3 | 100.0% |
+| Red River Delta | 12 | 17.1 km | 21.6 km | 37.4 ug/m3 | 27.3 to 44.1 ug/m3 | 99.9% |
+
+Interpretation: the Red River Delta does not win because it has more stations.
+It is a better final scope because nearby anchors are tighter when considering
+the three closest stations, pollution levels are generally higher, and the
+regional task is closer to the polluted regime that the model is meant to map.
+
+Internal LOSO result, 12 Red River Delta KK stations
+----------------------------------------------------
+Config                    pooled_R2   RMSE    MAE    bias    mean_station_R2   median_R2   pct_positive
+delta_bm                  0.2899      27.16   17.08  -5.723  0.1806            0.2635      75%
+delta_rfsi                0.4161      24.63   15.26  -3.356  0.2635            0.4153      83%
+delta_rfsi_wind           0.4233      24.48   15.19  -3.235  0.2709            0.3928      83%
+delta_rfsi_regime         0.3752      25.48   16.11  -4.623  0.2178            0.3097      67%
+delta_rfsi_regime_wind    0.3799      25.38   16.04  -4.695  0.2253            0.3101      67%
+oracle_bm                 0.5907      20.62   12.88  -3.117  0.4989            0.5178     100%
+
+Best deployable internal model
+------------------------------
+delta_rfsi_wind is the strongest clean deployable regional model:
+- pooled hourly R2 = 0.4233
+- mean station R2 = 0.2709
+- median station R2 = 0.3928
+- RMSE = 24.48 ug/m3
+- MAE = 15.19 ug/m3
+- bias = -3.235 ug/m3
+- positive stations = 83%
+
+The oracle_bm row is a diagnostic upper bound only. It uses station-month
+baseline information from the held-out target and must not be ranked as a
+deployable model. It is now a matched-control diagnostic: the feature set and
+RFSI definition match delta_rfsi_wind, while the base margin is oracle.
+
+Daily internal LOSO result, >=18 hourly observations per station-day
+--------------------------------------------------------------------
+Config                    daily_pooled_R2   daily_RMSE   daily_mean_station_R2   daily_median_R2   pct_positive
+delta_bm                  0.3650            21.91        0.2158                  0.3597            75%
+delta_rfsi                0.4750            19.93        0.2619                  0.4973            75%
+delta_rfsi_wind           0.4911            19.62        0.2835                  0.4778            83%
+delta_rfsi_regime         0.4121            21.09        0.1825                  0.3513            67%
+delta_rfsi_regime_wind    0.4191            20.96        0.1944                  0.3517            67%
+oracle_bm                 0.6928            15.24        0.5752                  0.6390           100%
+
+By tier, delta_rfsi_wind
+------------------------
+- t3 high-pollution stations: mean R2 = 0.4736
+- t2 moderate stations: mean R2 = 0.1761
+- t1 single station: R2 = -1.0664
+
+Interpretation: the regional model works best for the polluted urban and
+industrial regime that motivates the Red River Delta focus. Low-regime stations
+inside the same region remain difficult.
+
+Grouped feature gain, final all-station models
+----------------------------------------------
+Feature gain is shown by group so the thesis can explain the final models
+without over-reading single-feature ranks. These values are computed from the
+models refit on all 12 Red River Delta KK stations before external validation,
+not from a single LOSO fold.
+
+| Group | delta_bm share | delta_rfsi share | delta_rfsi_wind share |
+|---|---:|---:|---:|
+| Nearby PM2.5 / RFSI | 0.0% | 56.0% | 69.5% |
+| AOD satellite | 28.2% | 19.2% | 15.1% |
+| TROPOMI gas indicators | 14.9% | 5.9% | 4.1% |
+| Meteorology | 15.1% | 6.2% | 3.7% |
+| Wind and dispersion | 13.3% | 3.5% | 1.5% |
+| AOD physics interactions | 8.9% | 2.6% | 1.2% |
+| Gas physics interactions | 6.4% | 1.3% | 1.2% |
+| Rain and dry-spell features | 4.2% | 2.9% | 1.9% |
+| Time cycle | 9.1% | 2.4% | 1.8% |
+
+Interpretation: the Red River Delta model does use satellite inputs. In the
+final wind-aware model, nearby-anchor PM2.5 is the main information source.
+AOD and gas indicators still provide useful context, but they are secondary
+once concurrent regional anchors are available.
+
+External validation
+-------------------
+The final external validation uses the same delta_rfsi_wind model selected
+from internal LOSO. Each external target uses satellite, meteorological and
+temporal features extracted at its OWN coordinates (from the unified merged
+table), plus RFSI computed at that location from the concurrent KK anchor
+network. The target's PM2.5 is used only as the reference, never as input.
+External targets are filtered with the same PM2.5 range, flatline, and
+stuck-low quality mask used for the KK station rows. A target hour is scored
+when it has both its own valid PM2.5 and its own meteorology.
+
+Validation candidates: 42 stations (41 LCS + US Embassy Hanoi)
+Processed: 42 stations (41 LCS + US Embassy Hanoi)
+
+LCS hourly summary:
+- n = 41
+- mean R2 = -0.005
+- median R2 = 0.189
+- percent positive R2 = 63%
+
+LCS daily summary:
+- n = 41
+- mean R2 = -0.228
+- median R2 = 0.155
+- percent positive R2 = 59%
+
+US Embassy Hanoi:
+- hourly R2 = 0.629
+- hourly RMSE = 18.2 ug/m3
+- n = 17,995 hours
+- daily R2 = 0.749
+- daily RMSE = 11.9 ug/m3
+- n = 751 days
+
+External validation caveat
+--------------------------
+LCS and Embassy validation uses features at each target's own coordinates and
+RFSI from the KK anchor network, so it directly measures regional transfer to a
+new location with nearby active anchors. It is not yet a full operational grid
+map: extending the same feature extraction to a dense grid of points (not only
+the validation-station coordinates) should be listed as future work.
+
+The LCS mean R2 is pulled down by a small number of sites with local baselines
+that differ strongly from nearby anchors. The Hai Phong Bach Dang site has
+PM2.5 mean 9.3 ug/m3 and hourly R2 = -4.452 because the model predicts it too
+high. The Hung Yen Hong Cau site has PM2.5 mean 76.0 ug/m3 and hourly R2 =
+-0.266 because the model predicts it too low. Do not call either site a data
+outlier unless later evidence proves a data problem. Treat them as real
+limitations of applying a regional anchor-based model to low-regime, high-regime,
+or highly local sites that differ from nearby anchors.
+
+National selector decision
+--------------------------
+The final clean national regime-routed stream test did not pass the agreed
+threshold. Best clean national route:
+- mean station R2 = 0.0786
+- pooled R2 = 0.4215
+- median station R2 = 0.0907
+- positive stations = 25/40
+- high-to-nonhigh flips = 3
+- nonhigh-to-high flips = 3
+- daily pooled R2 = 0.5291
+- daily mean station R2 = 0.0358
+- daily median station R2 = 0.0942
+- daily positive stations = 25/40
+
+This is below the target mean station R2 of 0.10. Therefore the thesis should
+pivot away from a deployable national diverse-stream selector and focus on the
+Red River Delta regional model as the clean, defensible main result.
+
+Reproducibility note
+--------------------
+The canonical script writes internal LOSO metrics, external station metrics,
+external skip logs, and external hourly prediction rows under
+analysis/thesis_experiments. The thesis copies the locked result tables into
+Thesis/results/04_validation for committee review.
