@@ -1,0 +1,15 @@
+requests
+openmeteo-requests
+requests-cache
+retry-requests
+pandas
+numpy
+scikit-learn
+xgboost
+scipy
+matplotlib
+rasterio
+xarray
+netCDF4
+geopandas
+urllib3
