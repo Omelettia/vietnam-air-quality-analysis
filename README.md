@@ -32,9 +32,22 @@ cross-validation (leave-one-station-out).
 The central finding: a single national model does not extrapolate reliably to new
 locations — the binding constraint is how well the sparse monitoring network
 represents the country's diverse pollution regimes, not the algorithm or the
-satellite input. The deployable result is a **Red River Delta regional model**
-(`delta_rfsi_wind`): leave-one-station-out R² of 0.42 pooled / 0.27 mean-station /
-0.39 median, and R² = 0.67 at the independent US Embassy Hanoi reference station.
+satellite input. Hourly PM2.5 records are quality-controlled first (zero runs,
+flatlines, long stuck-low periods are removed).
+
+The deployable result is a **Red River Delta regional model** (`delta_rfsi_wind`):
+an XGBoost `gbtree` model on satellite and meteorological features, plus RFSI
+features computed from concurrent PM2.5 at nearby anchor stations.
+
+| Evaluation | Hourly R² | Daily R² |
+|---|---|---|
+| Leave-one-station-out, 12 KK stations (pooled) | 0.422 | 0.489 |
+| Leave-one-station-out, mean across stations | 0.267 | 0.277 |
+| Independent US Embassy Hanoi monitor | **0.627** | **0.744** |
+| 41 regional low-cost sensors (median) | 0.182 | 0.158 |
+
+The model is also applied on a 0.02° grid to produce hourly PM2.5 maps for the
+region. Figures above are from the submitted thesis.
 
 - 📄 **Thesis:** [Thesis/DoAn.pdf](./Thesis/DoAn.pdf)
 - `Thesis/scripts/` — the final pipeline (collection → quality control → features → model → evaluation).
